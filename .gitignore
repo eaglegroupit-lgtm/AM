@@ -3,13 +3,6 @@ dist/
 backend/data/
 backend/uploads/*
 !backend/uploads/.gitkeep
-# Pre-generated dish photos (kind-level + per-item) are static deployed
-# assets, not runtime admin uploads — they must be tracked so Vercel
-# actually has them to serve.
-!backend/uploads/kinds/
-!backend/uploads/kinds/**
-!backend/uploads/items/
-!backend/uploads/items/**
 backend/.env
 .DS_Store
 *.log
