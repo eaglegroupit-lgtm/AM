@@ -4,8 +4,7 @@
 // placeholder prices (INR) have been set and should be corrected from the Admin Dashboard.
 import "dotenv/config";
 import bcrypt from "bcryptjs";
-import db from "./db.js";
-import { assignAllKindImages } from "./assignKindImages.js";
+import { initDb, query, transaction } from "./db.js";
 
 const slugify = (s) =>
   s

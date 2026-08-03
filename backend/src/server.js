@@ -4,7 +4,7 @@ import cors from "cors";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import "./db/db.js";
+import { seedDefaults } from "./db/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import categoriesRoutes from "./routes/categories.routes.js";
 import itemsRoutes from "./routes/items.routes.js";
@@ -14,6 +14,8 @@ import statsRoutes from "./routes/stats.routes.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+await seedDefaults();
 
 app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
 app.use(express.json());
