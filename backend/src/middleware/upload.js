@@ -4,8 +4,20 @@ import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const uploadsDir = path.resolve(__dirname, "../../uploads");
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+// Vercel's serverless filesystem is read-only outside of /tmp. Writing to
+// (or even statting/creating) a project-relative directory at module load
+// time throws there and crashes every route that imports this file — so
+// this must never be allowed to throw during import.
+const isServerless = Boolean(process.env.VERCEL);
+const uploadsDir = isServerless
+  ? path.join("/tmp", "uploads")
+  : path.resolve(__dirname, "../../uploads");
+
+try {
+  if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+} catch (err) {
+  console.error("Could not create uploads directory:", err.message);
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadsDir),

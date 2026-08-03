@@ -5,19 +5,27 @@ import { defaultCategories, defaultItems, defaultSettings } from "./defaultData.
 
 const { Pool } = pg;
 
-const connectionString =
+const rawConnectionString =
   process.env.DATABASE_URL ||
   process.env.POSTGRES_URL ||
   process.env.POSTGRES_PRISMA_URL ||
   process.env.POSTGRES_URL_NON_POOLING;
 
-if (!connectionString) {
+if (!rawConnectionString) {
   throw new Error("Missing DATABASE_URL or POSTGRES_URL for Postgres connection");
 }
 
+// Newer pg-connection-string versions treat a `sslmode=require` query param
+// on the URL as an instruction to do full certificate-chain verification
+// (equivalent to `verify-full`), which overrides any `ssl` option passed to
+// `new Pool()` and fails against Supabase's pooler certificate with
+// "self-signed certificate in certificate chain". Strip sslmode from the
+// URL and control TLS purely via the explicit `ssl` option below instead.
+const connectionString = rawConnectionString.replace(/([?&])sslmode=[^&]*&?/i, "$1").replace(/[?&]$/, "");
+
 export const pool = new Pool({
   connectionString,
-  ssl: connectionString.includes("sslmode=require") ? { rejectUnauthorized: false } : undefined,
+  ssl: { rejectUnauthorized: false },
 });
 
 export async function query(text, params = []) {
