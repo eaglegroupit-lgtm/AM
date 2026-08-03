@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+/* Light luxury palette: ivory/cream surfaces with deep-espresso text and
+   antique-gold accents. Token names (ink/cream) are kept for continuity —
+   "ink" is now the light page background, "cream" is now the dark
+   foreground text color. */
+@theme {
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-body: "Poppins", "Inter", system-ui, sans-serif;
+
+  --color-ink: #faf6ec;
+  --color-surface: #fffdf8;
+  --color-surface-2: #f3ead4;
+  --color-gold: #b8860b;
+  --color-gold-light: #d4af37;
+  --color-gold-dark: #8b6914;
+  --color-cream: #2b2013;
+}
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #b8860b #f3ead4;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface-2);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--color-gold-light), var(--color-gold-dark));
+    border-radius: 999px;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .glass-card {
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.45));
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(184, 134, 11, 0.22);
+    box-shadow: 0 4px 24px rgba(139, 105, 20, 0.06);
+  }
+
+  .gold-text {
+    background: linear-gradient(135deg, #8b6914 0%, #b8860b 50%, #c9a227 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gold-border {
+    border: 1px solid rgba(184, 134, 11, 0.35);
+  }
+
+  .gold-glow {
+    box-shadow: 0 0 0 1px rgba(184, 134, 11, 0.2), 0 8px 30px rgba(184, 134, 11, 0.1);
+  }
+
+  .tamil-menu-bg {
+    position: relative;
+    isolation: isolate;
+    background:
+      linear-gradient(90deg, rgba(166, 41, 26, 0.09) 0 1px, transparent 1px 56px),
+      linear-gradient(0deg, rgba(166, 41, 26, 0.06) 0 1px, transparent 1px 56px),
+      radial-gradient(circle at 12% 10%, rgba(212, 175, 55, 0.18), transparent 26%),
+      radial-gradient(circle at 86% 28%, rgba(166, 41, 26, 0.12), transparent 24%),
+      linear-gradient(180deg, #fffaf0 0%, #faf2df 48%, #fff8ea 100%);
+  }
+
+  .tamil-menu-bg::before,
+  .tamil-menu-bg::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .tamil-menu-bg::before {
+    opacity: 0.24;
+    background-image:
+      radial-gradient(circle, transparent 46%, rgba(184, 134, 11, 0.6) 47% 49%, transparent 50%),
+      radial-gradient(circle, rgba(166, 41, 26, 0.42) 0 2px, transparent 3px),
+      linear-gradient(45deg, transparent 47%, rgba(184, 134, 11, 0.32) 48% 52%, transparent 53%),
+      linear-gradient(-45deg, transparent 47%, rgba(184, 134, 11, 0.24) 48% 52%, transparent 53%);
+    background-position: 0 0, 28px 28px, 0 0, 0 0;
+    background-size: 112px 112px, 56px 56px, 56px 56px, 56px 56px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.18));
+  }
+
+  .tamil-menu-bg::after {
+    opacity: 0.32;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(166, 41, 26, 0.42) 0 18px,
+        rgba(212, 175, 55, 0.34) 18px 30px,
+        transparent 30px 48px
+      )
+      top / 100% 8px no-repeat,
+      repeating-linear-gradient(
+        90deg,
+        rgba(166, 41, 26, 0.32) 0 18px,
+        rgba(212, 175, 55, 0.28) 18px 30px,
+        transparent 30px 48px
+      )
+      bottom / 100% 8px no-repeat;
+  }
+
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+backend/data/
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/.env
+.DS_Store
+*.log
+.claude/
+frontend/menu*.png
