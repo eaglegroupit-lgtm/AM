@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { LuLeaf } from "react-icons/lu";
 import { GiChefToque } from "react-icons/gi";
 import { HiSparkles } from "react-icons/hi2";
+import { useLanguage } from "../../context/LanguageContext";
+import { t, translateItemName, translateItemDescription } from "../../lib/translations";
 
 const PLACEHOLDER =
   "data:image/svg+xml;utf8," +
@@ -14,6 +16,9 @@ const PLACEHOLDER =
 
 export default function ItemCard({ item, index = 0 }) {
   const available = item.is_available;
+  const { language } = useLanguage();
+  const name = translateItemName(item.name, language);
+  const description = translateItemDescription(item.name, item.description, language);
 
   return (
     <motion.div
@@ -29,7 +34,7 @@ export default function ItemCard({ item, index = 0 }) {
       <div className="relative h-36 sm:h-40 w-full overflow-hidden">
         <img
           src={item.image || PLACEHOLDER}
-          alt={item.name}
+          alt={name}
           loading="lazy"
           className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
             !available ? "grayscale" : ""
@@ -43,17 +48,17 @@ export default function ItemCard({ item, index = 0 }) {
         <div className="absolute top-2 left-2 z-10 flex flex-wrap gap-1.5 max-w-[75%]">
           {item.is_popular && (
             <span className="flex items-center gap-1 rounded-full bg-white/85 backdrop-blur px-2 py-0.5 text-[10px] font-semibold text-gold-dark gold-border shadow-sm">
-              <LuLeaf className="text-emerald-600" /> Popular
+              <LuLeaf className="text-emerald-600" /> {t("popular", language)}
             </span>
           )}
           {item.is_chef_recommended && (
             <span className="flex items-center gap-1 rounded-full bg-white/85 backdrop-blur px-2 py-0.5 text-[10px] font-semibold text-gold-dark gold-border shadow-sm">
-              <GiChefToque /> Chef's Pick
+              <GiChefToque /> {t("chefsPick", language)}
             </span>
           )}
           {item.is_new && (
             <span className="flex items-center gap-1 rounded-full bg-gold-light/90 px-2 py-0.5 text-[10px] font-bold text-cream shadow-sm">
-              <HiSparkles /> New
+              <HiSparkles /> {t("newBadge", language)}
             </span>
           )}
         </div>
@@ -61,11 +66,11 @@ export default function ItemCard({ item, index = 0 }) {
         <div className="absolute bottom-2 right-2 z-10">
           {available ? (
             <span className="flex items-center gap-1 rounded-full bg-white/88 backdrop-blur px-2.5 py-1 text-[11px] font-medium text-emerald-700 border border-emerald-500/25 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Available
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> {t("available", language)}
             </span>
           ) : (
             <span className="flex items-center gap-1 rounded-full bg-white/88 backdrop-blur px-2.5 py-1 text-[11px] font-medium text-red-700 border border-red-500/25 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-red-500" /> Not Available
+              <span className="h-1.5 w-1.5 rounded-full bg-red-500" /> {t("notAvailable", language)}
             </span>
           )}
         </div>
@@ -74,14 +79,16 @@ export default function ItemCard({ item, index = 0 }) {
       <div className="p-4 flex flex-col flex-1">
         <div className="flex-1">
           <h3 className="font-display text-base sm:text-lg font-semibold text-cream leading-tight">
-            {item.name}
+            {name}
           </h3>
-          {item.description && (
-            <p className="mt-1 text-xs sm:text-sm text-cream/55 line-clamp-2">{item.description}</p>
+          {description && (
+            <p className="mt-1 text-xs sm:text-sm text-cream/55 line-clamp-2">{description}</p>
           )}
         </div>
         <div className="mt-3 flex items-center justify-between">
-          <span className="font-display text-lg font-bold gold-text">Rs. {Number(item.price).toFixed(0)}</span>
+          <span className="font-display text-lg font-bold gold-text">
+            {t("currency", language)} {Number(item.price).toFixed(0)}
+          </span>
         </div>
       </div>
     </motion.div>

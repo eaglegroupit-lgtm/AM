@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
+import { useLanguage } from "../../context/LanguageContext";
+import { t } from "../../lib/translations";
+import LanguageToggle from "./LanguageToggle";
 
 export default function Header({ settings }) {
+  const { language } = useLanguage();
   const name = settings?.restaurant_name || "Amutha Surabi Restaurant";
   const tagline = settings?.tagline || "Experience Authentic Taste";
 
@@ -16,7 +20,11 @@ export default function Header({ settings }) {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/80 to-ink" />
 
-      <div className="relative z-10 px-6 pt-14 pb-10 text-center max-w-3xl mx-auto">
+      <div className="relative z-20 flex justify-end px-4 pt-4">
+        <LanguageToggle />
+      </div>
+
+      <div className="relative z-10 px-6 pt-4 pb-10 text-center max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.7, rotate: -8 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -36,9 +44,11 @@ export default function Header({ settings }) {
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="uppercase tracking-[0.35em] text-xs sm:text-sm text-gold-light/80 font-medium"
+          className={`text-xs sm:text-sm text-gold-light/80 font-medium ${
+            language === "ta" ? "tracking-normal" : "uppercase tracking-[0.35em]"
+          }`}
         >
-          Welcome to
+          {t("welcomeTo", language)}
         </motion.p>
 
         <motion.h1

@@ -1,18 +1,21 @@
 import { motion } from "framer-motion";
 import { CategoryIcon } from "../../lib/categoryIcons";
 import { LuLayoutGrid } from "react-icons/lu";
+import { useLanguage } from "../../context/LanguageContext";
+import { t, translateCategory } from "../../lib/translations";
 
 export default function CategoryTabs({ categories, activeId, onSelect }) {
+  const { language } = useLanguage();
   return (
     <div className="flex gap-2 overflow-x-auto no-scrollbar py-1 px-1">
       <TabButton active={activeId === null} onClick={() => onSelect(null)}>
         <LuLayoutGrid size={15} />
-        All
+        {t("all", language)}
       </TabButton>
       {categories.map((cat) => (
         <TabButton key={cat.id} active={activeId === cat.id} onClick={() => onSelect(cat.id)}>
           <CategoryIcon icon={cat.icon} className="shrink-0" />
-          <span className="whitespace-nowrap">{cat.name}</span>
+          <span className="whitespace-nowrap">{translateCategory(cat.name, language)}</span>
         </TabButton>
       ))}
     </div>

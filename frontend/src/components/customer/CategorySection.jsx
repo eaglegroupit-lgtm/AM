@@ -1,9 +1,12 @@
 import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import { CategoryIcon } from "../../lib/categoryIcons";
+import { useLanguage } from "../../context/LanguageContext";
+import { translateCategory } from "../../lib/translations";
 import ItemCard from "./ItemCard";
 
 const CategorySection = forwardRef(function CategorySection({ category, items }, ref) {
+  const { language } = useLanguage();
   if (!items || items.length === 0) return null;
 
   return (
@@ -17,7 +20,9 @@ const CategorySection = forwardRef(function CategorySection({ category, items },
         <span className="flex h-9 w-9 items-center justify-center rounded-full gold-border bg-surface/60 text-gold-light">
           <CategoryIcon icon={category.icon} size={17} />
         </span>
-        <h2 className="font-display text-xl sm:text-2xl font-semibold text-cream">{category.name}</h2>
+        <h2 className="font-display text-xl sm:text-2xl font-semibold text-cream">
+          {translateCategory(category.name, language)}
+        </h2>
         <span className="text-xs text-cream/40">({items.length})</span>
         <div className="h-px flex-1 bg-gradient-to-r from-gold/30 to-transparent ml-2" />
       </motion.div>

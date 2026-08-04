@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 import { GiChefToque, GiStarFormation } from "react-icons/gi";
 import { HiSparkles } from "react-icons/hi2";
 import { api } from "../lib/api";
+import { useLanguage } from "../context/LanguageContext";
+import { t, translateItemName, translateItemDescription } from "../lib/translations";
 import Header from "../components/customer/Header";
 import SearchBar from "../components/customer/SearchBar";
 import CategoryTabs from "../components/customer/CategoryTabs";
+import LanguageToggle from "../components/customer/LanguageToggle";
 import FeaturedRow from "../components/customer/FeaturedRow";
 import CategorySection from "../components/customer/CategorySection";
 import ItemCard from "../components/customer/ItemCard";
@@ -14,6 +17,7 @@ import BottomNav from "../components/customer/BottomNav";
 import InfoSheet from "../components/customer/InfoSheet";
 
 export default function Menu() {
+  const { language } = useLanguage();
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [settings, setSettings] = useState(null);
@@ -58,15 +62,20 @@ export default function Menu() {
     let list = items;
     if (activeCategory !== null) list = list.filter((i) => i.category_id === activeCategory);
     if (query) {
-      list = list.filter(
-        (i) =>
+      list = list.filter((i) => {
+        const translatedName = translateItemName(i.name, language).toLowerCase();
+        const translatedDesc = translateItemDescription(i.name, i.description || "", language).toLowerCase();
+        return (
           i.name.toLowerCase().includes(query) ||
           (i.description || "").toLowerCase().includes(query) ||
-          (i.category_name || "").toLowerCase().includes(query)
-      );
+          (i.category_name || "").toLowerCase().includes(query) ||
+          translatedName.includes(query) ||
+          translatedDesc.includes(query)
+        );
+      });
     }
     return list;
-  }, [items, activeCategory, query]);
+  }, [items, activeCategory, query, language]);
 
   const popularItems = useMemo(() => items.filter((i) => i.is_popular && i.is_available), [items]);
   const chefItems = useMemo(() => items.filter((i) => i.is_chef_recommended && i.is_available), [items]);
@@ -82,7 +91,12 @@ export default function Menu() {
 
       <div className="sticky top-0 z-30 -mt-1 bg-ink/85 backdrop-blur-xl border-b border-gold/10">
         <div className="max-w-5xl mx-auto px-4 py-3 space-y-3">
-          <SearchBar value={search} onChange={setSearch} inputRef={searchRef} />
+          <div className="flex items-center gap-2">
+            <div className="flex-1 min-w-0">
+              <SearchBar value={search} onChange={setSearch} inputRef={searchRef} />
+            </div>
+            <LanguageToggle />
+          </div>
           <div ref={categoriesRef}>
             <CategoryTabs categories={categories} activeId={activeCategory} onSelect={setActiveCategory} />
           </div>
@@ -107,17 +121,17 @@ export default function Menu() {
         {!loading && !error && !isSearching && (
           <>
             <FeaturedRow
-              title="Today's Specials & Chef Recommended"
+              title={t("todaysSpecials", language)}
               icon={<GiChefToque className="text-gold-light" size={22} />}
               items={chefItems}
             />
             <FeaturedRow
-              title="Most Popular"
+              title={t("mostPopular", language)}
               icon={<GiStarFormation className="text-gold-light" size={22} />}
               items={popularItems}
             />
             <FeaturedRow
-              title="Newly Added"
+              title={t("newlyAdded", language)}
               icon={<HiSparkles className="text-gold-light" size={22} />}
               items={newItems}
             />
@@ -136,14 +150,16 @@ export default function Menu() {
           <section className="mt-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display text-xl font-semibold text-cream">
-                {query ? `Results for "${search}"` : "Filtered items"}
+                {query ? t("resultsFor", language, search) : t("filteredItems", language)}
               </h2>
-              <span className="text-xs text-cream/40">{filteredItems.length} found</span>
+              <span className="text-xs text-cream/40">
+                {filteredItems.length} {t("found", language)}
+              </span>
             </div>
             {filteredItems.length === 0 ? (
               <div className="text-center py-16 text-cream/50">
-                <p className="font-display text-lg">No dishes found</p>
-                <p className="text-sm mt-1">Try a different search term or category.</p>
+                <p className="font-display text-lg">{t("noDishesFound", language)}</p>
+                <p className="text-sm mt-1">{t("tryDifferent", language)}</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -166,7 +182,7 @@ export default function Menu() {
           </p>
           {settings?.address && <p className="text-xs text-cream/40 mt-2 max-w-sm mx-auto">{settings.address}</p>}
           {settings?.opening_hours && <p className="text-xs text-cream/40 mt-1">{settings.opening_hours}</p>}
-          <p className="text-[11px] text-cream/25 mt-4">Crafted with love, served with tradition.</p>
+          <p className="text-[11px] text-cream/25 mt-4">{t("craftedWithLove", language)}</p>
         </motion.footer>
       </main>
 
