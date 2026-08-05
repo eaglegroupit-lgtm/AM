@@ -172,52 +172,6 @@ export async function seedDefaults() {
     const hash = bcrypt.hashSync(password, 10);
     await query("INSERT INTO admins (username, password_hash) VALUES ($1, $2)", [username, hash]);
   }
-
-  // Update item images based on dish kind classification for live database items
-  await query(`
-    UPDATE items i
-    SET image = '/images/kinds/' || 
-      CASE 
-        WHEN c.name ILIKE '%soup%' THEN 'soup'
-        WHEN c.name ILIKE '%north indian curry%' THEN 'curry'
-        WHEN c.name ILIKE '%roast specials%' THEN 'roastDry'
-        WHEN c.name ILIKE '%bread%' AND i.name ILIKE '%poori%' THEN 'poori'
-        WHEN c.name ILIKE '%bread%' THEN 'bread'
-        WHEN c.name ILIKE '%breakfast%' AND i.name ~* 'idl[iy]' THEN 'idly'
-        WHEN c.name ILIKE '%breakfast%' AND i.name ~* 'vad[ae]i' THEN 'vada'
-        WHEN c.name ILIKE '%breakfast%' AND i.name ~* 'pongal|kichadi' THEN 'pongalKichadi'
-        WHEN c.name ILIKE '%breakfast%' AND i.name ~* 'poori' THEN 'poori'
-        WHEN c.name ILIKE '%breakfast%' AND i.name ~* 'sevai' THEN 'sevai'
-        WHEN c.name ILIKE '%breakfast%' THEN 'idly'
-        WHEN c.name ILIKE '%tiffin%' AND i.name ~* 'uthappam' THEN 'uthappam'
-        WHEN c.name ILIKE '%tiffin%' AND i.name ~* 'chappathi|parotta' THEN 'bread'
-        WHEN c.name ILIKE '%tiffin%' THEN 'dosa'
-        WHEN c.name ILIKE '%veg starters%' AND i.name ~* 'paniyaram|idiyappam|appam' THEN 'paniyaram'
-        WHEN c.name ILIKE '%veg starters%' THEN 'starter'
-        WHEN c.name ILIKE '%chinese%' AND i.name ~* 'noodles' THEN 'noodles'
-        WHEN c.name ILIKE '%chinese%' AND i.name ~* 'briyani|biryani' THEN 'biryani'
-        WHEN c.name ILIKE '%chinese%' THEN 'manchurian'
-        WHEN (c.name ILIKE '%biryani%' OR c.name ILIKE '%rice%') AND i.name ~* 'curd rice' THEN 'curdRice'
-        WHEN (c.name ILIKE '%biryani%' OR c.name ILIKE '%rice%') AND i.name ~* 'semia' THEN 'sevai'
-        WHEN (c.name ILIKE '%biryani%' OR c.name ILIKE '%rice%') AND i.name ~* 'briyani|biryani' THEN 'biryani'
-        WHEN (c.name ILIKE '%biryani%' OR c.name ILIKE '%rice%') THEN 'rice'
-        WHEN c.name ILIKE '%weekly specials%' AND i.name ~* 'uthappam|adai|omelette' THEN 'uthappam'
-        WHEN c.name ILIKE '%weekly specials%' THEN 'dosa'
-        WHEN c.name ILIKE '%house specials%' AND i.name ~* 'chilly' THEN 'manchurian'
-        WHEN c.name ILIKE '%house specials%' AND i.name ~* 'parotta' THEN 'bread'
-        WHEN c.name ILIKE '%house specials%' THEN 'starter'
-        WHEN c.name ILIKE '%health beverages%' AND i.name ~* 'badam|kalkandu' THEN 'coldDrink'
-        WHEN c.name ILIKE '%health beverages%' THEN 'hotDrink'
-        WHEN c.name ILIKE '%ice cream novelties%' AND i.name ~* 'kulfi' THEN 'iceCreamStick'
-        WHEN c.name ILIKE '%ice cream novelties%' AND i.name ~* 'cone' THEN 'iceCreamCone'
-        WHEN c.name ILIKE '%ice cream novelties%' THEN 'iceCreamScoop'
-        WHEN c.name ILIKE '%ice cream sticks%' THEN 'iceCreamStick'
-        WHEN c.name ILIKE '%ice cream flavour%' THEN 'iceCreamScoop'
-        ELSE 'dosa'
-      END || '.jpg'
-    FROM categories c
-    WHERE i.category_id = c.id AND (i.image IS NULL OR i.image = '' OR i.image LIKE '/images/items/%');
-  `);
 }
 
 export default { query, transaction, initDb, seedDefaults, pool };
