@@ -61,7 +61,7 @@ const itemsByCategory = {
     ["Onion Chappathi", "Chappathi stuffed with onions", 70],
     ["Parotta", "Layered, flaky Kerala-style parotta (2 pcs)", 60],
     ["Kal Dosai", "Thick, soft, slightly fermented dosa", 70],
-    ["Elai Dosai", "Traditional thick dosa cooked on banana leaf aroma", 70],
+    ["Elan Dosai", "Traditional soft, fragrant tender coconut infused dosa", 70],
   ],
   "Soups": [
     ["Veg. Clear Soup", "Light and clear mixed vegetable soup", 70],

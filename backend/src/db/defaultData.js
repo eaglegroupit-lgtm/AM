@@ -683,8 +683,8 @@ export const defaultItems = [
   {
     "id": 51,
     "category_id": 1,
-    "name": "Elai Dosai",
-    "description": "Traditional thick dosa cooked on banana leaf aroma",
+    "name": "Elan Dosai",
+    "description": "Traditional soft, fragrant tender coconut infused dosa",
     "price": 70,
     "image": "/images/kinds/dosaElai.jpg",
     "is_available": true,
@@ -696,8 +696,8 @@ export const defaultItems = [
   {
     "id": 52,
     "category_id": 4,
-    "name": "Elai Dosai",
-    "description": "Traditional thick dosa cooked on banana leaf aroma",
+    "name": "Elan Dosai",
+    "description": "Traditional soft, fragrant tender coconut infused dosa",
     "price": 70,
     "image": "/images/kinds/dosaElai.jpg",
     "is_available": true,
