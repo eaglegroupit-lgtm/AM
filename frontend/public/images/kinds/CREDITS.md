@@ -52,10 +52,9 @@ flavors, or a wet gravy dish and a dry stir-fry) were showing the identical
 photo. The 17 photos below were sourced to give the most visually distinct
 items — specific curries, Indo-Chinese "chilly" dry-tossed dishes, snacks,
 and ice cream flavors — their own accurate, freely-licensed photo, still
-from Wikimedia Commons. (Two additional candidates — a "chilli idly" and a
-"black currant ice cream" photo — were sourced but rejected as unclear/
-unsuitable after visual review; those items still use the shared
-`manchurian.jpg` / `iceCreamScoop.jpg` photos above.)
+from Wikimedia Commons. (An earlier "chilli idly" and "black currant ice
+cream" candidate were rejected as unclear/unsuitable on first pass; better
+replacements for both were found and are included in the next batch below.)
 
 | Kind | File | Source |
 |---|---|---|
@@ -80,3 +79,55 @@ unsuitable after visual review; those items still use the shared
 Note on an approximate match: `iceCreamButterscotch` is shown as salted
 caramel ice cream (very similar caramel color/tone; no dedicated
 butterscotch-flavor photo was found on Commons).
+
+## Third batch — remaining biggest duplicate groups
+
+Further round targeting the next-largest shared-photo groups (idly/vada/
+pongal-vs-kichadi splits, dosa sub-varieties, breads, rice, starters, ice
+cream sticks, and two better "chilli idly" / "black currant" replacements).
+Two additional candidates sourced in this round — an "adai with aviyal" and
+a "thick dosa" photo — were rejected as too weak/inconsistent after visual
+review; those items (Adai - Aviyal, Kal Dosai, Elai Dosai, Vanilla Roast)
+still use the shared `uthappam.jpg` / `dosa.jpg` photos above.
+
+| Kind | File | Source |
+|---|---|---|
+| sambarIdly | sambarIdly.jpg | https://commons.wikimedia.org/wiki/File:Mini_Idlis_in_Sambar.JPG |
+| sambarVada | sambarVada.jpg | https://commons.wikimedia.org/wiki/File:SunKissed_Sambar_Vada.jpg |
+| kichadi | kichadi.jpg | https://commons.wikimedia.org/wiki/File:Rava_Upma_(Suji_or_Semolina_Upma).JPG |
+| cholaPoori | cholaPoori.jpg | https://commons.wikimedia.org/wiki/File:Black_Channa_Gravy_and_Poori.jpg |
+| curdSemia | curdSemia.jpg | https://commons.wikimedia.org/wiki/File:Semiya_Upma_1.jpg |
+| idiyappamAppam | idiyappamAppam.jpg | https://commons.wikimedia.org/wiki/File:Idiyappam_and_curry_in_Green_leaf_plate.jpg |
+| dosaStuffed | dosaStuffed.jpg | https://commons.wikimedia.org/wiki/File:Masale_dose_with_potato_stuffing_coconut_chatni.jpg |
+| dosaRava | dosaRava.jpg | https://commons.wikimedia.org/wiki/File:Rava_Dosa_of_Salem.jpg |
+| dosaSet | dosaSet.jpg | https://commons.wikimedia.org/wiki/File:Thattu_dosa_03.jpg |
+| vegOmelette | vegOmelette.jpg | https://commons.wikimedia.org/wiki/File:Chickpea_Omelette_Complete.jpg |
+| parotta | parotta.jpg | https://commons.wikimedia.org/wiki/File:Plain_Parotta.jpg |
+| friedRice | friedRice.jpg | https://commons.wikimedia.org/wiki/File:Kerala_vegetable_fried_rice.jpg |
+| varietyRice | varietyRice.jpg | https://commons.wikimedia.org/wiki/File:Pulihara.JPG |
+| lemonTea | lemonTea.jpg | https://commons.wikimedia.org/wiki/File:Iced_lemon_tea.jpg |
+| paneerRoast | paneerRoast.jpg | https://commons.wikimedia.org/wiki/File:Paneer_tikka_with_onion_and_capsicum.jpg |
+| fingerChips | fingerChips.jpg | https://commons.wikimedia.org/wiki/File:French_fries_3.jpg |
+| gobi65 | gobi65.jpg | https://commons.wikimedia.org/wiki/File:Gobi_65_(cauliflower_fry).jpg |
+| tomatoFry | tomatoFry.jpg | https://commons.wikimedia.org/wiki/File:An_image_of_tomato_fry_making.jpg |
+| idlyFry | idlyFry.jpg | https://commons.wikimedia.org/wiki/File:Ghee_Podi_Idli_-_Murugan_Idli_Shop,_Chennai_-_TamilNadu_-_PXL0246.jpg |
+| chocobar | chocobar.jpg | https://commons.wikimedia.org/wiki/File:Chocolate_vanilla_ice_cream_bar.jpg |
+| fruitStick | fruitStick.jpg | https://commons.wikimedia.org/wiki/File:Orange_flavour_ice_lollipop.jpg |
+| sundae | sundae.jpg | https://commons.wikimedia.org/wiki/File:Ice_Cream_Sundae.jpg |
+| iceCreamBlackCurrant | iceCreamBlackCurrant.jpg | https://commons.wikimedia.org/wiki/File:Nieve_de_garambullo_de_Dolores_Hidalgo,_Guanajuato.jpg |
+| biryaniChinese | biryaniChinese.jpg | https://commons.wikimedia.org/wiki/File:Fried_rice_schezwan_style.jpg |
+| chillyIdly | chillyIdly.jpg | https://commons.wikimedia.org/wiki/File:Idli_Manchurian.jpg |
+
+Notes on approximate matches:
+- `curdSemia` — no curd/yogurt-mixed-vermicelli photo exists on Commons;
+  shown as tempered semiya upma instead (still visually distinct — yellow
+  and tempered vs. the plain white `sevai.jpg`).
+- `idiyappamAppam` — shows idiyappam with a coconut-milk curry; no photo
+  combining idiyappam and appam together was found on Commons.
+- `friedRice` — a lighter, less soy-browned style of vegetable fried rice
+  than a Chinese-restaurant style; closest available on Commons.
+- `iceCreamBlackCurrant` — shown as garambullo (cactus-berry) sorbet, the
+  closest dark purple/berry-toned, people-free food photo found; no true
+  black currant ice cream photo exists on Commons.
+- `biryaniChinese` — shown as Schezwan-style fried rice rather than a dish
+  specifically labeled "Chinese biryani"; closest real match found.
