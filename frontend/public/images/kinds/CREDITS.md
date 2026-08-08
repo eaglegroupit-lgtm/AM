@@ -43,3 +43,40 @@ photography of each specific preparation available. This is a common
 approach for menu sites without dedicated food photography, but real,
 dish-specific photos will always look more accurate — swap them in anytime
 from the Admin Dashboard.
+
+## Additional finer-grained photos (added later)
+
+The 23 photos above are shared across broad dish "kinds," which meant
+visually very different dishes (e.g. 10 different curries, ~19 ice cream
+flavors, or a wet gravy dish and a dry stir-fry) were showing the identical
+photo. The 17 photos below were sourced to give the most visually distinct
+items — specific curries, Indo-Chinese "chilly" dry-tossed dishes, snacks,
+and ice cream flavors — their own accurate, freely-licensed photo, still
+from Wikimedia Commons. (Two additional candidates — a "chilli idly" and a
+"black currant ice cream" photo — were sourced but rejected as unclear/
+unsuitable after visual review; those items still use the shared
+`manchurian.jpg` / `iceCreamScoop.jpg` photos above.)
+
+| Kind | File | Source |
+|---|---|---|
+| curryPaneerButter | curryPaneerButter.jpg | https://commons.wikimedia.org/wiki/File:Popular_Indian_dish,_Paneer_Butter_Masala.jpg |
+| curryVeg | curryVeg.jpg | https://commons.wikimedia.org/wiki/File:Mixed_Vegetable_Curry.JPG |
+| curryMushroom | curryMushroom.jpg | https://commons.wikimedia.org/wiki/File:Mushroom_Butter_Masala_(15914329462).jpg |
+| curryMalaiKofta | curryMalaiKofta.jpg | https://commons.wikimedia.org/wiki/File:Malai_Kofta_Curry.jpg |
+| chillyPaneer | chillyPaneer.jpg | https://commons.wikimedia.org/wiki/File:Paneer_Chilli.jpg |
+| chillyMushroom | chillyMushroom.jpg | https://commons.wikimedia.org/wiki/File:Mushroom_Manchurian_dry.jpg |
+| chillyParotta | chillyParotta.jpg | https://commons.wikimedia.org/wiki/File:Veg_Kothu_Parotta_served_in_Tamil_Nadu.JPG |
+| cutlet | cutlet.jpg | https://commons.wikimedia.org/wiki/File:Vegetable_Cutlet_From_India.jpg |
+| pakoda | pakoda.jpg | https://commons.wikimedia.org/wiki/File:Paneer_Pakoda_(Cheese_Pakoda).JPG |
+| papad | papad.jpg | https://commons.wikimedia.org/wiki/File:Onion_Masala_Papad.jpg |
+| iceCreamVanilla | iceCreamVanilla.jpg | https://commons.wikimedia.org/wiki/File:Vanilla_ice_cream.jpg |
+| iceCreamStrawberry | iceCreamStrawberry.jpg | https://commons.wikimedia.org/wiki/File:Strawberry_ice_cream.jpg |
+| iceCreamPistachio | iceCreamPistachio.jpg | https://commons.wikimedia.org/wiki/File:Gelato_al_Pistacchio.jpg |
+| iceCreamMango | iceCreamMango.jpg | https://commons.wikimedia.org/wiki/File:Mango_ice_cream.jpg |
+| iceCreamChocolate | iceCreamChocolate.jpg | https://commons.wikimedia.org/wiki/File:Chocolate_ice_cream.jpg |
+| iceCreamButterscotch | iceCreamButterscotch.jpg | https://commons.wikimedia.org/wiki/File:Salted_caramel_ice_cream_(26314112816).jpg |
+| iceCreamCassata | iceCreamCassata.jpg | https://commons.wikimedia.org/wiki/File:Cassata_Icecream.jpg |
+
+Note on an approximate match: `iceCreamButterscotch` is shown as salted
+caramel ice cream (very similar caramel color/tone; no dedicated
+butterscotch-flavor photo was found on Commons).

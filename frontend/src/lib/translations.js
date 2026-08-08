@@ -4,20 +4,9 @@
 // English text rather than showing nothing.
 export const categoryTranslations = {
   "Breakfast": "காலை உணவு",
-  "Tiffin & Dosa Varieties": "சிற்றுண்டி & தோசை வகைகள்",
-  "Soups": "சூப்கள்",
-  "Veg Starters": "காய்கறி ஸ்டார்ட்டர்கள்",
-  "Chinese": "சைனீஸ்",
-  "North Indian Curry": "வட இந்திய கறி",
-  "Breads": "ரொட்டி வகைகள்",
-  "Biryani & Rice": "பிரியாணி & சாதம்",
-  "Roast Specials": "ரோஸ்ட் சிறப்புகள்",
-  "Weekly Specials": "வார சிறப்பு உணவுகள்",
-  "House Specials": "ஹவுஸ் சிறப்புகள்",
-  "Health Beverages": "ஆரோக்கிய பானங்கள்",
-  "Ice Cream Novelties": "ஐஸ்கிரீம் நாவெல்டீஸ்",
-  "Ice Cream Sticks": "ஐஸ்கிரீம் ஸ்டிக்குகள்",
-  "Ice Cream Flavours": "ஐஸ்கிரீம் ருசிகள்",
+  "Lunch": "மதிய உணவு",
+  "Evening Snacks": "மாலை சிற்றுண்டி",
+  "Dinner": "இரவு உணவு",
 };
 
 export const itemTranslations = {

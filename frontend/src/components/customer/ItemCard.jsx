@@ -85,11 +85,6 @@ export default function ItemCard({ item, index = 0 }) {
             <p className="mt-1 text-xs sm:text-sm text-cream/55 line-clamp-2">{description}</p>
           )}
         </div>
-        <div className="mt-3 flex items-center justify-between">
-          <span className="font-display text-lg font-bold gold-text">
-            {t("currency", language)} {Number(item.price).toFixed(0)}
-          </span>
-        </div>
       </div>
     </motion.div>
   );

@@ -8,101 +8,24 @@ export const defaultCategories = [
   },
   {
     "id": 2,
-    "name": "Tiffin & Dosa Varieties",
-    "slug": "tiffin-dosa-varieties",
-    "icon": "dosa",
+    "name": "Lunch",
+    "slug": "lunch",
+    "icon": "curry",
     "sort_order": 1
   },
   {
     "id": 3,
-    "name": "Soups",
-    "slug": "soups",
-    "icon": "soup",
+    "name": "Evening Snacks",
+    "slug": "evening-snacks",
+    "icon": "starter",
     "sort_order": 2
   },
   {
     "id": 4,
-    "name": "Veg Starters",
-    "slug": "veg-starters",
-    "icon": "starter",
+    "name": "Dinner",
+    "slug": "dinner",
+    "icon": "dosa",
     "sort_order": 3
-  },
-  {
-    "id": 5,
-    "name": "Chinese",
-    "slug": "chinese",
-    "icon": "chinese",
-    "sort_order": 4
-  },
-  {
-    "id": 6,
-    "name": "North Indian Curry",
-    "slug": "north-indian-curry",
-    "icon": "curry",
-    "sort_order": 5
-  },
-  {
-    "id": 7,
-    "name": "Breads",
-    "slug": "breads",
-    "icon": "bread",
-    "sort_order": 6
-  },
-  {
-    "id": 8,
-    "name": "Biryani & Rice",
-    "slug": "biryani-rice",
-    "icon": "biryani",
-    "sort_order": 7
-  },
-  {
-    "id": 9,
-    "name": "Roast Specials",
-    "slug": "roast-specials",
-    "icon": "roast",
-    "sort_order": 8
-  },
-  {
-    "id": 10,
-    "name": "Weekly Specials",
-    "slug": "weekly-specials",
-    "icon": "calendar",
-    "sort_order": 9
-  },
-  {
-    "id": 11,
-    "name": "House Specials",
-    "slug": "house-specials",
-    "icon": "star",
-    "sort_order": 10
-  },
-  {
-    "id": 12,
-    "name": "Health Beverages",
-    "slug": "health-beverages",
-    "icon": "cup",
-    "sort_order": 11
-  },
-  {
-    "id": 13,
-    "name": "Ice Cream Novelties",
-    "slug": "ice-cream-novelties",
-    "icon": "icecream",
-    "sort_order": 12
-  },
-  {
-    "id": 14,
-    "name": "Ice Cream Sticks",
-    "slug": "ice-cream-sticks",
-    "icon": "stick",
-    "sort_order": 13
-  },
-  {
-    "id": 15,
-    "name": "Ice Cream Flavours",
-    "slug": "ice-cream-flavours",
-    "icon": "scoop",
-    "sort_order": 14
   }
 ];
 
@@ -122,6 +45,19 @@ export const defaultItems = [
   },
   {
     "id": 2,
+    "category_id": 4,
+    "name": "Idly",
+    "description": "Steamed rice cakes, soft and fluffy, served with sambar & chutney",
+    "price": 40,
+    "image": "/images/kinds/idly.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 0
+  },
+  {
+    "id": 3,
     "category_id": 1,
     "name": "Sambar Idly",
     "description": "Idly soaked in piping hot sambar",
@@ -134,7 +70,20 @@ export const defaultItems = [
     "sort_order": 1
   },
   {
-    "id": 3,
+    "id": 4,
+    "category_id": 4,
+    "name": "Sambar Idly",
+    "description": "Idly soaked in piping hot sambar",
+    "price": 50,
+    "image": "/images/kinds/idly.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 1
+  },
+  {
+    "id": 5,
     "category_id": 1,
     "name": "Vadai",
     "description": "Crispy golden lentil doughnuts",
@@ -147,7 +96,20 @@ export const defaultItems = [
     "sort_order": 2
   },
   {
-    "id": 4,
+    "id": 6,
+    "category_id": 4,
+    "name": "Vadai",
+    "description": "Crispy golden lentil doughnuts",
+    "price": 40,
+    "image": "/images/kinds/vada.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 2
+  },
+  {
+    "id": 7,
     "category_id": 1,
     "name": "Sambar Vadai",
     "description": "Crispy vadai dunked in sambar",
@@ -160,7 +122,20 @@ export const defaultItems = [
     "sort_order": 3
   },
   {
-    "id": 5,
+    "id": 8,
+    "category_id": 4,
+    "name": "Sambar Vadai",
+    "description": "Crispy vadai dunked in sambar",
+    "price": 50,
+    "image": "/images/kinds/vada.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 3
+  },
+  {
+    "id": 9,
     "category_id": 1,
     "name": "Pongal",
     "description": "Comforting rice & moong dal porridge tempered with pepper and cumin",
@@ -173,7 +148,20 @@ export const defaultItems = [
     "sort_order": 4
   },
   {
-    "id": 6,
+    "id": 10,
+    "category_id": 4,
+    "name": "Pongal",
+    "description": "Comforting rice & moong dal porridge tempered with pepper and cumin",
+    "price": 60,
+    "image": "/images/kinds/pongalKichadi.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 4
+  },
+  {
+    "id": 11,
     "category_id": 1,
     "name": "Poori Masal",
     "description": "Puffed fried bread served with spiced potato masal",
@@ -186,7 +174,20 @@ export const defaultItems = [
     "sort_order": 5
   },
   {
-    "id": 7,
+    "id": 12,
+    "category_id": 4,
+    "name": "Poori Masal",
+    "description": "Puffed fried bread served with spiced potato masal",
+    "price": 70,
+    "image": "/images/kinds/poori.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 5
+  },
+  {
+    "id": 13,
     "category_id": 1,
     "name": "Kichadi",
     "description": "Semolina & vegetable kichadi",
@@ -199,7 +200,20 @@ export const defaultItems = [
     "sort_order": 6
   },
   {
-    "id": 8,
+    "id": 14,
+    "category_id": 4,
+    "name": "Kichadi",
+    "description": "Semolina & vegetable kichadi",
+    "price": 50,
+    "image": "/images/kinds/pongalKichadi.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 6
+  },
+  {
+    "id": 15,
     "category_id": 1,
     "name": "Sevai",
     "description": "Steamed rice noodles, lightly tempered",
@@ -212,103 +226,12 @@ export const defaultItems = [
     "sort_order": 7
   },
   {
-    "id": 9,
-    "category_id": 2,
-    "name": "Roast",
-    "description": "Classic crisp roasted dosa",
-    "price": 60,
-    "image": "/images/kinds/dosa.jpg",
-    "is_available": true,
-    "is_popular": false,
-    "is_chef_recommended": false,
-    "is_new": false,
-    "sort_order": 0
-  },
-  {
-    "id": 10,
-    "category_id": 2,
-    "name": "Onion Roast",
-    "description": "Roasted dosa topped with fresh onions",
-    "price": 70,
-    "image": "/images/kinds/dosa.jpg",
-    "is_available": true,
-    "is_popular": true,
-    "is_chef_recommended": false,
-    "is_new": false,
-    "sort_order": 1
-  },
-  {
-    "id": 11,
-    "category_id": 2,
-    "name": "Masal Roast",
-    "description": "Roast dosa filled with spiced potato masala",
-    "price": 80,
-    "image": "/images/kinds/dosa.jpg",
-    "is_available": true,
-    "is_popular": true,
-    "is_chef_recommended": false,
-    "is_new": false,
-    "sort_order": 2
-  },
-  {
-    "id": 12,
-    "category_id": 2,
-    "name": "Ghee Roast",
-    "description": "Roast dosa finished with pure ghee",
-    "price": 80,
-    "image": "/images/kinds/dosa.jpg",
-    "is_available": true,
-    "is_popular": false,
-    "is_chef_recommended": false,
-    "is_new": false,
-    "sort_order": 3
-  },
-  {
-    "id": 13,
-    "category_id": 2,
-    "name": "Onion Rava Roast",
-    "description": "Crispy semolina roast loaded with onions",
-    "price": 90,
-    "image": "/images/kinds/dosa.jpg",
-    "is_available": true,
-    "is_popular": false,
-    "is_chef_recommended": false,
-    "is_new": false,
-    "sort_order": 4
-  },
-  {
-    "id": 14,
-    "category_id": 2,
-    "name": "Ghee Masal Roast",
-    "description": "Ghee roast filled with potato masala",
-    "price": 100,
-    "image": "/images/kinds/dosa.jpg",
-    "is_available": true,
-    "is_popular": false,
-    "is_chef_recommended": false,
-    "is_new": false,
-    "sort_order": 5
-  },
-  {
-    "id": 15,
-    "category_id": 2,
-    "name": "Cashewnut Rava Roast",
-    "description": "Semolina roast topped with roasted cashews",
-    "price": 110,
-    "image": "/images/kinds/dosa.jpg",
-    "is_available": true,
-    "is_popular": false,
-    "is_chef_recommended": true,
-    "is_new": false,
-    "sort_order": 6
-  },
-  {
     "id": 16,
-    "category_id": 2,
-    "name": "Uthappam",
-    "description": "Thick savoury rice pancake",
-    "price": 70,
-    "image": "/images/kinds/uthappam.jpg",
+    "category_id": 4,
+    "name": "Sevai",
+    "description": "Steamed rice noodles, lightly tempered",
+    "price": 50,
+    "image": "/images/kinds/sevai.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -317,11 +240,11 @@ export const defaultItems = [
   },
   {
     "id": 17,
-    "category_id": 2,
-    "name": "Onion Uthappam",
-    "description": "Uthappam topped with onions",
-    "price": 80,
-    "image": "/images/kinds/uthappam.jpg",
+    "category_id": 1,
+    "name": "Roast",
+    "description": "Classic crisp roasted dosa",
+    "price": 60,
+    "image": "/images/kinds/dosa.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -330,7 +253,228 @@ export const defaultItems = [
   },
   {
     "id": 18,
-    "category_id": 2,
+    "category_id": 4,
+    "name": "Roast",
+    "description": "Classic crisp roasted dosa",
+    "price": 60,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 8
+  },
+  {
+    "id": 19,
+    "category_id": 1,
+    "name": "Onion Roast",
+    "description": "Roasted dosa topped with fresh onions",
+    "price": 70,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 9
+  },
+  {
+    "id": 20,
+    "category_id": 4,
+    "name": "Onion Roast",
+    "description": "Roasted dosa topped with fresh onions",
+    "price": 70,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 9
+  },
+  {
+    "id": 21,
+    "category_id": 1,
+    "name": "Masal Roast",
+    "description": "Roast dosa filled with spiced potato masala",
+    "price": 80,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 10
+  },
+  {
+    "id": 22,
+    "category_id": 4,
+    "name": "Masal Roast",
+    "description": "Roast dosa filled with spiced potato masala",
+    "price": 80,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 10
+  },
+  {
+    "id": 23,
+    "category_id": 1,
+    "name": "Ghee Roast",
+    "description": "Roast dosa finished with pure ghee",
+    "price": 80,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 11
+  },
+  {
+    "id": 24,
+    "category_id": 4,
+    "name": "Ghee Roast",
+    "description": "Roast dosa finished with pure ghee",
+    "price": 80,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 11
+  },
+  {
+    "id": 25,
+    "category_id": 1,
+    "name": "Onion Rava Roast",
+    "description": "Crispy semolina roast loaded with onions",
+    "price": 90,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 12
+  },
+  {
+    "id": 26,
+    "category_id": 4,
+    "name": "Onion Rava Roast",
+    "description": "Crispy semolina roast loaded with onions",
+    "price": 90,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 12
+  },
+  {
+    "id": 27,
+    "category_id": 1,
+    "name": "Ghee Masal Roast",
+    "description": "Ghee roast filled with potato masala",
+    "price": 100,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 13
+  },
+  {
+    "id": 28,
+    "category_id": 4,
+    "name": "Ghee Masal Roast",
+    "description": "Ghee roast filled with potato masala",
+    "price": 100,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 13
+  },
+  {
+    "id": 29,
+    "category_id": 1,
+    "name": "Cashewnut Rava Roast",
+    "description": "Semolina roast topped with roasted cashews",
+    "price": 110,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": true,
+    "is_new": false,
+    "sort_order": 14
+  },
+  {
+    "id": 30,
+    "category_id": 4,
+    "name": "Cashewnut Rava Roast",
+    "description": "Semolina roast topped with roasted cashews",
+    "price": 110,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": true,
+    "is_new": false,
+    "sort_order": 14
+  },
+  {
+    "id": 31,
+    "category_id": 1,
+    "name": "Uthappam",
+    "description": "Thick savoury rice pancake",
+    "price": 70,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 15
+  },
+  {
+    "id": 32,
+    "category_id": 4,
+    "name": "Uthappam",
+    "description": "Thick savoury rice pancake",
+    "price": 70,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 15
+  },
+  {
+    "id": 33,
+    "category_id": 1,
+    "name": "Onion Uthappam",
+    "description": "Uthappam topped with onions",
+    "price": 80,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 16
+  },
+  {
+    "id": 34,
+    "category_id": 4,
+    "name": "Onion Uthappam",
+    "description": "Uthappam topped with onions",
+    "price": 80,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 16
+  },
+  {
+    "id": 35,
+    "category_id": 1,
     "name": "Tomato Uthappam",
     "description": "Uthappam topped with tomatoes",
     "price": 80,
@@ -339,11 +483,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 9
+    "sort_order": 17
   },
   {
-    "id": 19,
-    "category_id": 2,
+    "id": 36,
+    "category_id": 4,
+    "name": "Tomato Uthappam",
+    "description": "Uthappam topped with tomatoes",
+    "price": 80,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 17
+  },
+  {
+    "id": 37,
+    "category_id": 1,
     "name": "Podi Uthappam",
     "description": "Uthappam with spiced gunpowder podi",
     "price": 80,
@@ -352,11 +509,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 10
+    "sort_order": 18
   },
   {
-    "id": 20,
-    "category_id": 2,
+    "id": 38,
+    "category_id": 4,
+    "name": "Podi Uthappam",
+    "description": "Uthappam with spiced gunpowder podi",
+    "price": 80,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 18
+  },
+  {
+    "id": 39,
+    "category_id": 1,
     "name": "Ghee Uthappam",
     "description": "Uthappam finished with ghee",
     "price": 90,
@@ -365,11 +535,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 11
+    "sort_order": 19
   },
   {
-    "id": 21,
-    "category_id": 2,
+    "id": 40,
+    "category_id": 4,
+    "name": "Ghee Uthappam",
+    "description": "Uthappam finished with ghee",
+    "price": 90,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 19
+  },
+  {
+    "id": 41,
+    "category_id": 1,
     "name": "Veg. Uthappam",
     "description": "Mixed vegetable topped uthappam",
     "price": 90,
@@ -378,11 +561,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 12
+    "sort_order": 20
   },
   {
-    "id": 22,
-    "category_id": 2,
+    "id": 42,
+    "category_id": 4,
+    "name": "Veg. Uthappam",
+    "description": "Mixed vegetable topped uthappam",
+    "price": 90,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 20
+  },
+  {
+    "id": 43,
+    "category_id": 1,
     "name": "Chappathi",
     "description": "Soft whole-wheat flatbread (2 pcs) with kurma",
     "price": 60,
@@ -391,11 +587,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 13
+    "sort_order": 21
   },
   {
-    "id": 23,
-    "category_id": 2,
+    "id": 44,
+    "category_id": 4,
+    "name": "Chappathi",
+    "description": "Soft whole-wheat flatbread (2 pcs) with kurma",
+    "price": 60,
+    "image": "/images/kinds/bread.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 21
+  },
+  {
+    "id": 45,
+    "category_id": 1,
     "name": "Onion Chappathi",
     "description": "Chappathi stuffed with onions",
     "price": 70,
@@ -404,11 +613,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 14
+    "sort_order": 22
   },
   {
-    "id": 24,
-    "category_id": 2,
+    "id": 46,
+    "category_id": 4,
+    "name": "Onion Chappathi",
+    "description": "Chappathi stuffed with onions",
+    "price": 70,
+    "image": "/images/kinds/bread.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 22
+  },
+  {
+    "id": 47,
+    "category_id": 1,
     "name": "Parotta",
     "description": "Layered, flaky Kerala-style parotta (2 pcs)",
     "price": 60,
@@ -417,11 +639,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 15
+    "sort_order": 23
   },
   {
-    "id": 25,
-    "category_id": 2,
+    "id": 48,
+    "category_id": 4,
+    "name": "Parotta",
+    "description": "Layered, flaky Kerala-style parotta (2 pcs)",
+    "price": 60,
+    "image": "/images/kinds/bread.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 23
+  },
+  {
+    "id": 49,
+    "category_id": 1,
     "name": "Kal Dosai",
     "description": "Thick, soft, slightly fermented dosa",
     "price": 70,
@@ -430,11 +665,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 16
+    "sort_order": 24
   },
   {
-    "id": 26,
-    "category_id": 2,
+    "id": 50,
+    "category_id": 4,
+    "name": "Kal Dosai",
+    "description": "Thick, soft, slightly fermented dosa",
+    "price": 70,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 24
+  },
+  {
+    "id": 51,
+    "category_id": 1,
     "name": "Elai Dosai",
     "description": "Traditional thick dosa cooked on banana leaf aroma",
     "price": 70,
@@ -443,10 +691,23 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 17
+    "sort_order": 25
   },
   {
-    "id": 27,
+    "id": 52,
+    "category_id": 4,
+    "name": "Elai Dosai",
+    "description": "Traditional thick dosa cooked on banana leaf aroma",
+    "price": 70,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 25
+  },
+  {
+    "id": 53,
     "category_id": 3,
     "name": "Veg. Clear Soup",
     "description": "Light and clear mixed vegetable soup",
@@ -459,7 +720,7 @@ export const defaultItems = [
     "sort_order": 0
   },
   {
-    "id": 28,
+    "id": 54,
     "category_id": 3,
     "name": "Tomato Soup",
     "description": "Classic creamy tomato soup",
@@ -472,7 +733,7 @@ export const defaultItems = [
     "sort_order": 1
   },
   {
-    "id": 29,
+    "id": 55,
     "category_id": 3,
     "name": "Sweet Corn Soup",
     "description": "Sweet corn kernels in a mild veg broth",
@@ -485,7 +746,7 @@ export const defaultItems = [
     "sort_order": 2
   },
   {
-    "id": 30,
+    "id": 56,
     "category_id": 3,
     "name": "Mushroom Soup",
     "description": "Earthy mushroom soup, velvety texture",
@@ -498,21 +759,21 @@ export const defaultItems = [
     "sort_order": 3
   },
   {
-    "id": 31,
-    "category_id": 4,
+    "id": 57,
+    "category_id": 3,
     "name": "Veg. Cutlet",
     "description": "Crumb-fried mixed vegetable cutlets",
     "price": 100,
-    "image": "/images/kinds/starter.jpg",
+    "image": "/images/kinds/cutlet.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 4
   },
   {
-    "id": 32,
-    "category_id": 4,
+    "id": 58,
+    "category_id": 3,
     "name": "Finger Chips",
     "description": "Crispy golden potato fingers",
     "price": 90,
@@ -521,24 +782,24 @@ export const defaultItems = [
     "is_popular": true,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 5
   },
   {
-    "id": 33,
-    "category_id": 4,
+    "id": 59,
+    "category_id": 3,
     "name": "Paneer Pakoda",
     "description": "Deep fried gram-flour battered paneer fritters",
     "price": 130,
-    "image": "/images/kinds/starter.jpg",
+    "image": "/images/kinds/pakoda.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 6
   },
   {
-    "id": 34,
-    "category_id": 4,
+    "id": 60,
+    "category_id": 3,
     "name": "Gobi 65",
     "description": "Spicy, tangy deep fried cauliflower florets",
     "price": 110,
@@ -547,11 +808,11 @@ export const defaultItems = [
     "is_popular": true,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 7
   },
   {
-    "id": 35,
-    "category_id": 4,
+    "id": 61,
+    "category_id": 3,
     "name": "Mushroom 65",
     "description": "Crispy spiced deep fried mushrooms",
     "price": 130,
@@ -560,11 +821,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 8
   },
   {
-    "id": 36,
-    "category_id": 4,
+    "id": 62,
+    "category_id": 3,
     "name": "Tomato Fry",
     "description": "Pan tossed spiced tomato fry",
     "price": 90,
@@ -573,23 +834,36 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 9
   },
   {
-    "id": 37,
-    "category_id": 4,
+    "id": 63,
+    "category_id": 3,
     "name": "Masala Papad",
     "description": "Crisp papad topped with onion-tomato masala",
     "price": 60,
-    "image": "/images/kinds/starter.jpg",
+    "image": "/images/kinds/papad.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 6
+    "sort_order": 10
   },
   {
-    "id": 38,
+    "id": 64,
+    "category_id": 1,
+    "name": "Kuzhi Paniyaram",
+    "description": "Steamed-fried savoury rice & lentil dumplings",
+    "price": 90,
+    "image": "/images/kinds/paniyaram.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 26
+  },
+  {
+    "id": 65,
     "category_id": 4,
     "name": "Kuzhi Paniyaram",
     "description": "Steamed-fried savoury rice & lentil dumplings",
@@ -599,10 +873,23 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 7
+    "sort_order": 26
   },
   {
-    "id": 39,
+    "id": 66,
+    "category_id": 1,
+    "name": "Idiyappam & Appam",
+    "description": "String hoppers and appam served together",
+    "price": 90,
+    "image": "/images/kinds/paniyaram.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 27
+  },
+  {
+    "id": 67,
     "category_id": 4,
     "name": "Idiyappam & Appam",
     "description": "String hoppers and appam served together",
@@ -612,11 +899,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 8
+    "sort_order": 27
   },
   {
-    "id": 40,
-    "category_id": 5,
+    "id": 68,
+    "category_id": 3,
     "name": "Gobi Manchurian",
     "description": "Cauliflower florets tossed in tangy manchurian sauce",
     "price": 120,
@@ -625,11 +912,11 @@ export const defaultItems = [
     "is_popular": true,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 11
   },
   {
-    "id": 41,
-    "category_id": 5,
+    "id": 69,
+    "category_id": 3,
     "name": "Chilly Gobi",
     "description": "Cauliflower tossed with chilli, capsicum & onion",
     "price": 120,
@@ -638,37 +925,37 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 12
   },
   {
-    "id": 42,
-    "category_id": 5,
+    "id": 70,
+    "category_id": 3,
     "name": "Chilly Paneer",
     "description": "Paneer cubes tossed in spicy Indo-Chinese sauce",
     "price": 150,
-    "image": "/images/kinds/manchurian.jpg",
+    "image": "/images/kinds/chillyPaneer.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": true,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 13
   },
   {
-    "id": 43,
-    "category_id": 5,
+    "id": 71,
+    "category_id": 3,
     "name": "Chilly Mushroom",
     "description": "Mushrooms tossed in spicy chilli-garlic sauce",
     "price": 140,
-    "image": "/images/kinds/manchurian.jpg",
+    "image": "/images/kinds/chillyMushroom.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 14
   },
   {
-    "id": 44,
-    "category_id": 5,
+    "id": 72,
+    "category_id": 3,
     "name": "Soft Noodles",
     "description": "Wok tossed veg noodles",
     "price": 120,
@@ -677,11 +964,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 15
   },
   {
-    "id": 45,
-    "category_id": 5,
+    "id": 73,
+    "category_id": 3,
     "name": "Veg. Spl. Briyani (Chinese style)",
     "description": "Indo-Chinese style spiced veg biryani",
     "price": 150,
@@ -690,11 +977,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 16
   },
   {
-    "id": 46,
-    "category_id": 5,
+    "id": 74,
+    "category_id": 3,
     "name": "Chinees Briyani",
     "description": "Fragrant rice tossed with Chinese-style vegetables",
     "price": 150,
@@ -703,15 +990,15 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 6
+    "sort_order": 17
   },
   {
-    "id": 47,
-    "category_id": 6,
+    "id": 75,
+    "category_id": 2,
     "name": "Paneer Butter Masala",
     "description": "Paneer cubes in a rich buttery tomato gravy",
     "price": 170,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryPaneerButter.jpg",
     "is_available": true,
     "is_popular": true,
     "is_chef_recommended": true,
@@ -719,12 +1006,12 @@ export const defaultItems = [
     "sort_order": 0
   },
   {
-    "id": 48,
-    "category_id": 6,
+    "id": 76,
+    "category_id": 2,
     "name": "Green Peas Masala",
     "description": "Green peas simmered in a spiced onion-tomato gravy",
     "price": 130,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryVeg.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -732,12 +1019,12 @@ export const defaultItems = [
     "sort_order": 1
   },
   {
-    "id": 49,
-    "category_id": 6,
+    "id": 77,
+    "category_id": 2,
     "name": "Gobi Masala",
     "description": "Cauliflower cooked in a mildly spiced curry",
     "price": 130,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryVeg.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -745,12 +1032,12 @@ export const defaultItems = [
     "sort_order": 2
   },
   {
-    "id": 50,
-    "category_id": 6,
+    "id": 78,
+    "category_id": 2,
     "name": "Aloo Gobi Masala",
     "description": "Potato & cauliflower cooked with aromatic spices",
     "price": 130,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryVeg.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -758,12 +1045,12 @@ export const defaultItems = [
     "sort_order": 3
   },
   {
-    "id": 51,
-    "category_id": 6,
+    "id": 79,
+    "category_id": 2,
     "name": "Mushroom Masala",
     "description": "Mushrooms in a spiced curry gravy",
     "price": 140,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryMushroom.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -771,12 +1058,12 @@ export const defaultItems = [
     "sort_order": 4
   },
   {
-    "id": 52,
-    "category_id": 6,
+    "id": 80,
+    "category_id": 2,
     "name": "Cheese Masala",
     "description": "Cottage cheese cubes in a creamy masala gravy",
     "price": 160,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryPaneerButter.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -784,12 +1071,12 @@ export const defaultItems = [
     "sort_order": 5
   },
   {
-    "id": 53,
-    "category_id": 6,
+    "id": 81,
+    "category_id": 2,
     "name": "Malai Kofta",
     "description": "Fried vegetable & paneer dumplings in a creamy gravy",
     "price": 170,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryMalaiKofta.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": true,
@@ -797,12 +1084,12 @@ export const defaultItems = [
     "sort_order": 6
   },
   {
-    "id": 54,
-    "category_id": 6,
+    "id": 82,
+    "category_id": 2,
     "name": "Mix. Veg Curry",
     "description": "Seasonal vegetables cooked in a mild curry",
     "price": 130,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryVeg.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -810,12 +1097,12 @@ export const defaultItems = [
     "sort_order": 7
   },
   {
-    "id": 55,
-    "category_id": 6,
+    "id": 83,
+    "category_id": 2,
     "name": "Butter Paneer Masala",
     "description": "Paneer in a velvety butter-tomato gravy",
     "price": 180,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryPaneerButter.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -823,12 +1110,12 @@ export const defaultItems = [
     "sort_order": 8
   },
   {
-    "id": 56,
-    "category_id": 6,
+    "id": 84,
+    "category_id": 2,
     "name": "Aloo Butter Masala",
     "description": "Potatoes cooked in a rich buttery gravy",
     "price": 140,
-    "image": "/images/kinds/curry.jpg",
+    "image": "/images/kinds/curryVeg.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
@@ -836,8 +1123,8 @@ export const defaultItems = [
     "sort_order": 9
   },
   {
-    "id": 57,
-    "category_id": 7,
+    "id": 85,
+    "category_id": 2,
     "name": "Naan",
     "description": "Soft, pillowy tandoor-baked leavened bread",
     "price": 50,
@@ -846,11 +1133,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 10
   },
   {
-    "id": 58,
-    "category_id": 7,
+    "id": 86,
+    "category_id": 2,
     "name": "Butter Naan",
     "description": "Naan brushed with butter",
     "price": 60,
@@ -859,11 +1146,11 @@ export const defaultItems = [
     "is_popular": true,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 11
   },
   {
-    "id": 59,
-    "category_id": 7,
+    "id": 87,
+    "category_id": 2,
     "name": "Roti",
     "description": "Whole wheat tandoor bread",
     "price": 40,
@@ -872,11 +1159,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 12
   },
   {
-    "id": 60,
-    "category_id": 7,
+    "id": 88,
+    "category_id": 2,
     "name": "Romali Roti",
     "description": "Ultra-thin soft handkerchief bread",
     "price": 50,
@@ -885,11 +1172,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 13
   },
   {
-    "id": 61,
-    "category_id": 7,
+    "id": 89,
+    "category_id": 2,
     "name": "Chola Poori",
     "description": "Fluffy fried poori served with chickpea masala",
     "price": 90,
@@ -898,11 +1185,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 14
   },
   {
-    "id": 62,
-    "category_id": 8,
+    "id": 90,
+    "category_id": 2,
     "name": "Veg. Fried Rice",
     "description": "Wok tossed rice with fresh vegetables",
     "price": 110,
@@ -911,11 +1198,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 15
   },
   {
-    "id": 63,
-    "category_id": 8,
+    "id": 91,
+    "category_id": 2,
     "name": "Veg. Pulao",
     "description": "Fragrant basmati rice cooked with mixed vegetables",
     "price": 120,
@@ -924,11 +1211,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 16
   },
   {
-    "id": 64,
-    "category_id": 8,
+    "id": 92,
+    "category_id": 2,
     "name": "Peas Pulao",
     "description": "Basmati rice cooked with green peas",
     "price": 120,
@@ -937,11 +1224,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 17
   },
   {
-    "id": 65,
-    "category_id": 8,
+    "id": 93,
+    "category_id": 2,
     "name": "Jeera Pulao",
     "description": "Basmati rice tempered with cumin",
     "price": 110,
@@ -950,11 +1237,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 18
   },
   {
-    "id": 66,
-    "category_id": 8,
+    "id": 94,
+    "category_id": 2,
     "name": "Mushroom Pulao",
     "description": "Basmati rice cooked with mushrooms",
     "price": 140,
@@ -963,11 +1250,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 19
   },
   {
-    "id": 67,
-    "category_id": 8,
+    "id": 95,
+    "category_id": 2,
     "name": "Kashmir Pulao",
     "description": "Mildly sweet pulao with fruits & nuts",
     "price": 150,
@@ -976,11 +1263,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 20
   },
   {
-    "id": 68,
-    "category_id": 8,
+    "id": 96,
+    "category_id": 2,
     "name": "Veg. Briyani",
     "description": "Classic spiced vegetable dum biryani",
     "price": 150,
@@ -989,11 +1276,11 @@ export const defaultItems = [
     "is_popular": true,
     "is_chef_recommended": true,
     "is_new": false,
-    "sort_order": 6
+    "sort_order": 21
   },
   {
-    "id": 69,
-    "category_id": 8,
+    "id": 97,
+    "category_id": 2,
     "name": "Mushroom Briyani",
     "description": "Aromatic dum biryani with mushrooms",
     "price": 160,
@@ -1002,11 +1289,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 7
+    "sort_order": 22
   },
   {
-    "id": 70,
-    "category_id": 8,
+    "id": 98,
+    "category_id": 2,
     "name": "Curd Rice",
     "description": "Comforting curd rice tempered with mustard & curry leaves",
     "price": 80,
@@ -1015,11 +1302,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 8
+    "sort_order": 23
   },
   {
-    "id": 71,
-    "category_id": 8,
+    "id": 99,
+    "category_id": 2,
     "name": "Curd Semia",
     "description": "Vermicelli tossed in seasoned curd",
     "price": 80,
@@ -1028,11 +1315,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 9
+    "sort_order": 24
   },
   {
-    "id": 72,
-    "category_id": 8,
+    "id": 100,
+    "category_id": 2,
     "name": "Variety Rices",
     "description": "Assorted South Indian tamarind / lemon / coconut rice",
     "price": 90,
@@ -1041,11 +1328,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 10
+    "sort_order": 25
   },
   {
-    "id": 73,
-    "category_id": 9,
+    "id": 101,
+    "category_id": 3,
     "name": "Cauliflower Roast",
     "description": "Whole roasted cauliflower in spiced masala",
     "price": 140,
@@ -1054,11 +1341,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 18
   },
   {
-    "id": 74,
-    "category_id": 9,
+    "id": 102,
+    "category_id": 3,
     "name": "Mushroom Roast",
     "description": "Pan roasted mushrooms in dry masala",
     "price": 150,
@@ -1067,11 +1354,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 19
   },
   {
-    "id": 75,
-    "category_id": 9,
+    "id": 103,
+    "category_id": 3,
     "name": "Paneer Masal Roast",
     "description": "Paneer roasted in a dry spiced masala",
     "price": 170,
@@ -1080,11 +1367,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 20
   },
   {
-    "id": 76,
-    "category_id": 9,
+    "id": 104,
+    "category_id": 3,
     "name": "Green Peas Masal Roast",
     "description": "Green peas roasted in a dry spiced masala",
     "price": 130,
@@ -1093,11 +1380,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 21
   },
   {
-    "id": 77,
-    "category_id": 10,
+    "id": 105,
+    "category_id": 1,
     "name": "Set Dosa (Monday Special)",
     "description": "Soft mini dosas served in a stack of three",
     "price": 80,
@@ -1106,11 +1393,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 28
   },
   {
-    "id": 78,
-    "category_id": 10,
+    "id": 106,
+    "category_id": 4,
+    "name": "Set Dosa (Monday Special)",
+    "description": "Soft mini dosas served in a stack of three",
+    "price": 80,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 28
+  },
+  {
+    "id": 107,
+    "category_id": 1,
     "name": "Peas Uthappam (Tuesday Special)",
     "description": "Uthappam topped with green peas",
     "price": 90,
@@ -1119,11 +1419,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 29
   },
   {
-    "id": 79,
-    "category_id": 10,
+    "id": 108,
+    "category_id": 4,
+    "name": "Peas Uthappam (Tuesday Special)",
+    "description": "Uthappam topped with green peas",
+    "price": 90,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 29
+  },
+  {
+    "id": 109,
+    "category_id": 1,
     "name": "Five Taste Uthappam (Wednesday Special)",
     "description": "Uthappam topped with five signature toppings",
     "price": 100,
@@ -1132,11 +1445,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 30
   },
   {
-    "id": 80,
-    "category_id": 10,
+    "id": 110,
+    "category_id": 4,
+    "name": "Five Taste Uthappam (Wednesday Special)",
+    "description": "Uthappam topped with five signature toppings",
+    "price": 100,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 30
+  },
+  {
+    "id": 111,
+    "category_id": 1,
     "name": "Vanilla Roast (Thursday Special)",
     "description": "Signature house roast dosa",
     "price": 90,
@@ -1145,11 +1471,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 31
   },
   {
-    "id": 81,
-    "category_id": 10,
+    "id": 112,
+    "category_id": 4,
+    "name": "Vanilla Roast (Thursday Special)",
+    "description": "Signature house roast dosa",
+    "price": 90,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 31
+  },
+  {
+    "id": 113,
+    "category_id": 1,
     "name": "Adai - Aviyal (Friday Special)",
     "description": "Multi-lentil adai served with mixed vegetable aviyal",
     "price": 100,
@@ -1158,11 +1497,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": true,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 32
   },
   {
-    "id": 82,
-    "category_id": 10,
+    "id": 114,
+    "category_id": 4,
+    "name": "Adai - Aviyal (Friday Special)",
+    "description": "Multi-lentil adai served with mixed vegetable aviyal",
+    "price": 100,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": true,
+    "is_new": false,
+    "sort_order": 32
+  },
+  {
+    "id": 115,
+    "category_id": 1,
     "name": "Chenna Masal Roast (Saturday Special)",
     "description": "Roast dosa filled with spiced chenna masala",
     "price": 100,
@@ -1171,11 +1523,24 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 33
   },
   {
-    "id": 83,
-    "category_id": 10,
+    "id": 116,
+    "category_id": 4,
+    "name": "Chenna Masal Roast (Saturday Special)",
+    "description": "Roast dosa filled with spiced chenna masala",
+    "price": 100,
+    "image": "/images/kinds/dosa.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 33
+  },
+  {
+    "id": 117,
+    "category_id": 1,
     "name": "Veg Omelette (Sunday Special)",
     "description": "Besan-based vegetarian omelette",
     "price": 90,
@@ -1184,24 +1549,37 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 6
+    "sort_order": 34
   },
   {
-    "id": 84,
-    "category_id": 11,
+    "id": 118,
+    "category_id": 4,
+    "name": "Veg Omelette (Sunday Special)",
+    "description": "Besan-based vegetarian omelette",
+    "price": 90,
+    "image": "/images/kinds/uthappam.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 34
+  },
+  {
+    "id": 119,
+    "category_id": 3,
     "name": "Chilly Parotta",
     "description": "Shredded parotta tossed with chilli & spices",
     "price": 130,
-    "image": "/images/kinds/manchurian.jpg",
+    "image": "/images/kinds/chillyParotta.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": true,
-    "sort_order": 0
+    "sort_order": 22
   },
   {
-    "id": 85,
-    "category_id": 11,
+    "id": 120,
+    "category_id": 3,
     "name": "Chilly Idly",
     "description": "Cubed idly tossed in spicy chilli sauce",
     "price": 100,
@@ -1210,11 +1588,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": true,
-    "sort_order": 1
+    "sort_order": 23
   },
   {
-    "id": 86,
-    "category_id": 11,
+    "id": 121,
+    "category_id": 3,
     "name": "Kaima Parotta",
     "description": "Parotta tossed with a rich, minced-vegetable style kaima masala",
     "price": 140,
@@ -1223,11 +1601,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 24
   },
   {
-    "id": 87,
-    "category_id": 11,
+    "id": 122,
+    "category_id": 3,
     "name": "Peas Parotta",
     "description": "Shredded parotta tossed with green peas masala",
     "price": 130,
@@ -1236,11 +1614,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 25
   },
   {
-    "id": 88,
-    "category_id": 11,
+    "id": 123,
+    "category_id": 3,
     "name": "Idly Fry",
     "description": "Pan fried idly tossed with spices",
     "price": 90,
@@ -1249,11 +1627,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 26
   },
   {
-    "id": 89,
-    "category_id": 11,
+    "id": 124,
+    "category_id": 3,
     "name": "Gobi Fry",
     "description": "Dry roasted spiced cauliflower fry",
     "price": 110,
@@ -1262,11 +1640,11 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 27
   },
   {
-    "id": 90,
-    "category_id": 12,
+    "id": 125,
+    "category_id": 1,
     "name": "Bournvita",
     "description": "Hot malted chocolate drink",
     "price": 50,
@@ -1275,11 +1653,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 35
   },
   {
-    "id": 91,
-    "category_id": 12,
+    "id": 126,
+    "category_id": 2,
+    "name": "Bournvita",
+    "description": "Hot malted chocolate drink",
+    "price": 50,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 26
+  },
+  {
+    "id": 127,
+    "category_id": 3,
+    "name": "Bournvita",
+    "description": "Hot malted chocolate drink",
+    "price": 50,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 28
+  },
+  {
+    "id": 128,
+    "category_id": 4,
+    "name": "Bournvita",
+    "description": "Hot malted chocolate drink",
+    "price": 50,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 35
+  },
+  {
+    "id": 129,
+    "category_id": 1,
     "name": "Ragimalt",
     "description": "Traditional finger-millet health drink",
     "price": 60,
@@ -1288,11 +1705,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 36
   },
   {
-    "id": 92,
-    "category_id": 12,
+    "id": 130,
+    "category_id": 2,
+    "name": "Ragimalt",
+    "description": "Traditional finger-millet health drink",
+    "price": 60,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 27
+  },
+  {
+    "id": 131,
+    "category_id": 3,
+    "name": "Ragimalt",
+    "description": "Traditional finger-millet health drink",
+    "price": 60,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 29
+  },
+  {
+    "id": 132,
+    "category_id": 4,
+    "name": "Ragimalt",
+    "description": "Traditional finger-millet health drink",
+    "price": 60,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 36
+  },
+  {
+    "id": 133,
+    "category_id": 1,
     "name": "Lemon Tea",
     "description": "Refreshing hot lemon tea",
     "price": 40,
@@ -1301,11 +1757,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 37
   },
   {
-    "id": 93,
-    "category_id": 12,
+    "id": 134,
+    "category_id": 2,
+    "name": "Lemon Tea",
+    "description": "Refreshing hot lemon tea",
+    "price": 40,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 28
+  },
+  {
+    "id": 135,
+    "category_id": 3,
+    "name": "Lemon Tea",
+    "description": "Refreshing hot lemon tea",
+    "price": 40,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 30
+  },
+  {
+    "id": 136,
+    "category_id": 4,
+    "name": "Lemon Tea",
+    "description": "Refreshing hot lemon tea",
+    "price": 40,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 37
+  },
+  {
+    "id": 137,
+    "category_id": 1,
     "name": "Sukku Coffee",
     "description": "Traditional dry ginger coffee",
     "price": 50,
@@ -1314,11 +1809,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 38
   },
   {
-    "id": 94,
-    "category_id": 12,
+    "id": 138,
+    "category_id": 2,
+    "name": "Sukku Coffee",
+    "description": "Traditional dry ginger coffee",
+    "price": 50,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 29
+  },
+  {
+    "id": 139,
+    "category_id": 3,
+    "name": "Sukku Coffee",
+    "description": "Traditional dry ginger coffee",
+    "price": 50,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 31
+  },
+  {
+    "id": 140,
+    "category_id": 4,
+    "name": "Sukku Coffee",
+    "description": "Traditional dry ginger coffee",
+    "price": 50,
+    "image": "/images/kinds/hotDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 38
+  },
+  {
+    "id": 141,
+    "category_id": 1,
     "name": "Kalkandu Milk",
     "description": "Milk sweetened with rock candy",
     "price": 60,
@@ -1327,11 +1861,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 39
   },
   {
-    "id": 95,
-    "category_id": 12,
+    "id": 142,
+    "category_id": 2,
+    "name": "Kalkandu Milk",
+    "description": "Milk sweetened with rock candy",
+    "price": 60,
+    "image": "/images/kinds/coldDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 30
+  },
+  {
+    "id": 143,
+    "category_id": 3,
+    "name": "Kalkandu Milk",
+    "description": "Milk sweetened with rock candy",
+    "price": 60,
+    "image": "/images/kinds/coldDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 32
+  },
+  {
+    "id": 144,
+    "category_id": 4,
+    "name": "Kalkandu Milk",
+    "description": "Milk sweetened with rock candy",
+    "price": 60,
+    "image": "/images/kinds/coldDrink.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 39
+  },
+  {
+    "id": 145,
+    "category_id": 1,
     "name": "Badam Milk",
     "description": "Chilled milk infused with almonds & saffron",
     "price": 80,
@@ -1340,11 +1913,50 @@ export const defaultItems = [
     "is_popular": true,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 40
   },
   {
-    "id": 96,
-    "category_id": 13,
+    "id": 146,
+    "category_id": 2,
+    "name": "Badam Milk",
+    "description": "Chilled milk infused with almonds & saffron",
+    "price": 80,
+    "image": "/images/kinds/coldDrink.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 31
+  },
+  {
+    "id": 147,
+    "category_id": 3,
+    "name": "Badam Milk",
+    "description": "Chilled milk infused with almonds & saffron",
+    "price": 80,
+    "image": "/images/kinds/coldDrink.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 33
+  },
+  {
+    "id": 148,
+    "category_id": 4,
+    "name": "Badam Milk",
+    "description": "Chilled milk infused with almonds & saffron",
+    "price": 80,
+    "image": "/images/kinds/coldDrink.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 40
+  },
+  {
+    "id": 149,
+    "category_id": 1,
     "name": "Mini Cone",
     "description": "Bite sized crunchy cone",
     "price": 30,
@@ -1353,11 +1965,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 41
   },
   {
-    "id": 97,
-    "category_id": 13,
+    "id": 150,
+    "category_id": 2,
+    "name": "Mini Cone",
+    "description": "Bite sized crunchy cone",
+    "price": 30,
+    "image": "/images/kinds/iceCreamCone.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 32
+  },
+  {
+    "id": 151,
+    "category_id": 3,
+    "name": "Mini Cone",
+    "description": "Bite sized crunchy cone",
+    "price": 30,
+    "image": "/images/kinds/iceCreamCone.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 34
+  },
+  {
+    "id": 152,
+    "category_id": 4,
+    "name": "Mini Cone",
+    "description": "Bite sized crunchy cone",
+    "price": 30,
+    "image": "/images/kinds/iceCreamCone.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 41
+  },
+  {
+    "id": 153,
+    "category_id": 1,
     "name": "Suvai Ball",
     "description": "Classic ice cream ball",
     "price": 40,
@@ -1366,11 +2017,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 42
   },
   {
-    "id": 98,
-    "category_id": 13,
+    "id": 154,
+    "category_id": 2,
+    "name": "Suvai Ball",
+    "description": "Classic ice cream ball",
+    "price": 40,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 33
+  },
+  {
+    "id": 155,
+    "category_id": 3,
+    "name": "Suvai Ball",
+    "description": "Classic ice cream ball",
+    "price": 40,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 35
+  },
+  {
+    "id": 156,
+    "category_id": 4,
+    "name": "Suvai Ball",
+    "description": "Classic ice cream ball",
+    "price": 40,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 42
+  },
+  {
+    "id": 157,
+    "category_id": 1,
     "name": "Sunday Sundae",
     "description": "Layered sundae with toppings",
     "price": 90,
@@ -1379,24 +2069,102 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 43
   },
   {
-    "id": 99,
-    "category_id": 13,
-    "name": "Cassata Slice",
-    "description": "Tri-colour cassata ice cream slice",
-    "price": 60,
+    "id": 158,
+    "category_id": 2,
+    "name": "Sunday Sundae",
+    "description": "Layered sundae with toppings",
+    "price": 90,
     "image": "/images/kinds/iceCreamScoop.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 34
   },
   {
-    "id": 100,
-    "category_id": 13,
+    "id": 159,
+    "category_id": 3,
+    "name": "Sunday Sundae",
+    "description": "Layered sundae with toppings",
+    "price": 90,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 36
+  },
+  {
+    "id": 160,
+    "category_id": 4,
+    "name": "Sunday Sundae",
+    "description": "Layered sundae with toppings",
+    "price": 90,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 43
+  },
+  {
+    "id": 161,
+    "category_id": 1,
+    "name": "Cassata Slice",
+    "description": "Tri-colour cassata ice cream slice",
+    "price": 60,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 44
+  },
+  {
+    "id": 162,
+    "category_id": 2,
+    "name": "Cassata Slice",
+    "description": "Tri-colour cassata ice cream slice",
+    "price": 60,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 35
+  },
+  {
+    "id": 163,
+    "category_id": 3,
+    "name": "Cassata Slice",
+    "description": "Tri-colour cassata ice cream slice",
+    "price": 60,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 37
+  },
+  {
+    "id": 164,
+    "category_id": 4,
+    "name": "Cassata Slice",
+    "description": "Tri-colour cassata ice cream slice",
+    "price": 60,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 44
+  },
+  {
+    "id": 165,
+    "category_id": 1,
     "name": "Malai Kulfi",
     "description": "Traditional creamy malai kulfi",
     "price": 60,
@@ -1405,11 +2173,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 45
   },
   {
-    "id": 101,
-    "category_id": 13,
+    "id": 166,
+    "category_id": 2,
+    "name": "Malai Kulfi",
+    "description": "Traditional creamy malai kulfi",
+    "price": 60,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 36
+  },
+  {
+    "id": 167,
+    "category_id": 3,
+    "name": "Malai Kulfi",
+    "description": "Traditional creamy malai kulfi",
+    "price": 60,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 38
+  },
+  {
+    "id": 168,
+    "category_id": 4,
+    "name": "Malai Kulfi",
+    "description": "Traditional creamy malai kulfi",
+    "price": 60,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 45
+  },
+  {
+    "id": 169,
+    "category_id": 1,
     "name": "Super Cone",
     "description": "Large classic ice cream cone",
     "price": 50,
@@ -1418,24 +2225,102 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 46
   },
   {
-    "id": 102,
-    "category_id": 13,
-    "name": "Premium Cassata",
-    "description": "Rich premium cassata ice cream",
-    "price": 80,
-    "image": "/images/kinds/iceCreamScoop.jpg",
+    "id": 170,
+    "category_id": 2,
+    "name": "Super Cone",
+    "description": "Large classic ice cream cone",
+    "price": 50,
+    "image": "/images/kinds/iceCreamCone.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 6
+    "sort_order": 37
   },
   {
-    "id": 103,
-    "category_id": 13,
+    "id": 171,
+    "category_id": 3,
+    "name": "Super Cone",
+    "description": "Large classic ice cream cone",
+    "price": 50,
+    "image": "/images/kinds/iceCreamCone.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 39
+  },
+  {
+    "id": 172,
+    "category_id": 4,
+    "name": "Super Cone",
+    "description": "Large classic ice cream cone",
+    "price": 50,
+    "image": "/images/kinds/iceCreamCone.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 46
+  },
+  {
+    "id": 173,
+    "category_id": 1,
+    "name": "Premium Cassata",
+    "description": "Rich premium cassata ice cream",
+    "price": 80,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 47
+  },
+  {
+    "id": 174,
+    "category_id": 2,
+    "name": "Premium Cassata",
+    "description": "Rich premium cassata ice cream",
+    "price": 80,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 38
+  },
+  {
+    "id": 175,
+    "category_id": 3,
+    "name": "Premium Cassata",
+    "description": "Rich premium cassata ice cream",
+    "price": 80,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 40
+  },
+  {
+    "id": 176,
+    "category_id": 4,
+    "name": "Premium Cassata",
+    "description": "Rich premium cassata ice cream",
+    "price": 80,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 47
+  },
+  {
+    "id": 177,
+    "category_id": 1,
     "name": "Amrit Kalash Kulfi",
     "description": "Signature rich dry-fruit kulfi",
     "price": 90,
@@ -1444,11 +2329,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": true,
     "is_new": false,
-    "sort_order": 7
+    "sort_order": 48
   },
   {
-    "id": 104,
-    "category_id": 13,
+    "id": 178,
+    "category_id": 2,
+    "name": "Amrit Kalash Kulfi",
+    "description": "Signature rich dry-fruit kulfi",
+    "price": 90,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": true,
+    "is_new": false,
+    "sort_order": 39
+  },
+  {
+    "id": 179,
+    "category_id": 3,
+    "name": "Amrit Kalash Kulfi",
+    "description": "Signature rich dry-fruit kulfi",
+    "price": 90,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": true,
+    "is_new": false,
+    "sort_order": 41
+  },
+  {
+    "id": 180,
+    "category_id": 4,
+    "name": "Amrit Kalash Kulfi",
+    "description": "Signature rich dry-fruit kulfi",
+    "price": 90,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": true,
+    "is_new": false,
+    "sort_order": 48
+  },
+  {
+    "id": 181,
+    "category_id": 1,
     "name": "Italian's Touch",
     "description": "Italian style gourmet ice cream",
     "price": 100,
@@ -1457,11 +2381,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 8
+    "sort_order": 49
   },
   {
-    "id": 105,
-    "category_id": 13,
+    "id": 182,
+    "category_id": 2,
+    "name": "Italian's Touch",
+    "description": "Italian style gourmet ice cream",
+    "price": 100,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 40
+  },
+  {
+    "id": 183,
+    "category_id": 3,
+    "name": "Italian's Touch",
+    "description": "Italian style gourmet ice cream",
+    "price": 100,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 42
+  },
+  {
+    "id": 184,
+    "category_id": 4,
+    "name": "Italian's Touch",
+    "description": "Italian style gourmet ice cream",
+    "price": 100,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 49
+  },
+  {
+    "id": 185,
+    "category_id": 1,
     "name": "Melting Moments",
     "description": "Soft melt-in-mouth ice cream treat",
     "price": 80,
@@ -1470,11 +2433,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 9
+    "sort_order": 50
   },
   {
-    "id": 106,
-    "category_id": 13,
+    "id": 186,
+    "category_id": 2,
+    "name": "Melting Moments",
+    "description": "Soft melt-in-mouth ice cream treat",
+    "price": 80,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 41
+  },
+  {
+    "id": 187,
+    "category_id": 3,
+    "name": "Melting Moments",
+    "description": "Soft melt-in-mouth ice cream treat",
+    "price": 80,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 43
+  },
+  {
+    "id": 188,
+    "category_id": 4,
+    "name": "Melting Moments",
+    "description": "Soft melt-in-mouth ice cream treat",
+    "price": 80,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 50
+  },
+  {
+    "id": 189,
+    "category_id": 1,
     "name": "Phata Phat",
     "description": "Fun crackling-topped ice cream novelty",
     "price": 70,
@@ -1483,11 +2485,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 10
+    "sort_order": 51
   },
   {
-    "id": 107,
-    "category_id": 14,
+    "id": 190,
+    "category_id": 2,
+    "name": "Phata Phat",
+    "description": "Fun crackling-topped ice cream novelty",
+    "price": 70,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 42
+  },
+  {
+    "id": 191,
+    "category_id": 3,
+    "name": "Phata Phat",
+    "description": "Fun crackling-topped ice cream novelty",
+    "price": 70,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 44
+  },
+  {
+    "id": 192,
+    "category_id": 4,
+    "name": "Phata Phat",
+    "description": "Fun crackling-topped ice cream novelty",
+    "price": 70,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 51
+  },
+  {
+    "id": 193,
+    "category_id": 1,
     "name": "Choc-O-Bar",
     "description": "Classic chocolate coated vanilla stick",
     "price": 40,
@@ -1496,11 +2537,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 52
   },
   {
-    "id": 108,
-    "category_id": 14,
+    "id": 194,
+    "category_id": 2,
+    "name": "Choc-O-Bar",
+    "description": "Classic chocolate coated vanilla stick",
+    "price": 40,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 43
+  },
+  {
+    "id": 195,
+    "category_id": 3,
+    "name": "Choc-O-Bar",
+    "description": "Classic chocolate coated vanilla stick",
+    "price": 40,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 45
+  },
+  {
+    "id": 196,
+    "category_id": 4,
+    "name": "Choc-O-Bar",
+    "description": "Classic chocolate coated vanilla stick",
+    "price": 40,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 52
+  },
+  {
+    "id": 197,
+    "category_id": 1,
     "name": "Mini Chocobar",
     "description": "Bite sized chocolate coated stick",
     "price": 25,
@@ -1509,11 +2589,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 53
   },
   {
-    "id": 109,
-    "category_id": 14,
+    "id": 198,
+    "category_id": 2,
+    "name": "Mini Chocobar",
+    "description": "Bite sized chocolate coated stick",
+    "price": 25,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 44
+  },
+  {
+    "id": 199,
+    "category_id": 3,
+    "name": "Mini Chocobar",
+    "description": "Bite sized chocolate coated stick",
+    "price": 25,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 46
+  },
+  {
+    "id": 200,
+    "category_id": 4,
+    "name": "Mini Chocobar",
+    "description": "Bite sized chocolate coated stick",
+    "price": 25,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 53
+  },
+  {
+    "id": 201,
+    "category_id": 1,
     "name": "Nutty Chocobar",
     "description": "Chocolate coated stick with crunchy nuts",
     "price": 50,
@@ -1522,11 +2641,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 54
   },
   {
-    "id": 110,
-    "category_id": 14,
+    "id": 202,
+    "category_id": 2,
+    "name": "Nutty Chocobar",
+    "description": "Chocolate coated stick with crunchy nuts",
+    "price": 50,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 45
+  },
+  {
+    "id": 203,
+    "category_id": 3,
+    "name": "Nutty Chocobar",
+    "description": "Chocolate coated stick with crunchy nuts",
+    "price": 50,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 47
+  },
+  {
+    "id": 204,
+    "category_id": 4,
+    "name": "Nutty Chocobar",
+    "description": "Chocolate coated stick with crunchy nuts",
+    "price": 50,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 54
+  },
+  {
+    "id": 205,
+    "category_id": 1,
     "name": "Mango Duo",
     "description": "Two layered mango ice cream stick",
     "price": 45,
@@ -1535,11 +2693,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 55
   },
   {
-    "id": 111,
-    "category_id": 14,
+    "id": 206,
+    "category_id": 2,
+    "name": "Mango Duo",
+    "description": "Two layered mango ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 46
+  },
+  {
+    "id": 207,
+    "category_id": 3,
+    "name": "Mango Duo",
+    "description": "Two layered mango ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 48
+  },
+  {
+    "id": 208,
+    "category_id": 4,
+    "name": "Mango Duo",
+    "description": "Two layered mango ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 55
+  },
+  {
+    "id": 209,
+    "category_id": 1,
     "name": "Raspberry Duo",
     "description": "Two layered raspberry ice cream stick",
     "price": 45,
@@ -1548,11 +2745,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 56
   },
   {
-    "id": 112,
-    "category_id": 14,
+    "id": 210,
+    "category_id": 2,
+    "name": "Raspberry Duo",
+    "description": "Two layered raspberry ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 47
+  },
+  {
+    "id": 211,
+    "category_id": 3,
+    "name": "Raspberry Duo",
+    "description": "Two layered raspberry ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 49
+  },
+  {
+    "id": 212,
+    "category_id": 4,
+    "name": "Raspberry Duo",
+    "description": "Two layered raspberry ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 56
+  },
+  {
+    "id": 213,
+    "category_id": 1,
     "name": "Orange Duo",
     "description": "Two layered orange ice cream stick",
     "price": 45,
@@ -1561,11 +2797,50 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 57
   },
   {
-    "id": 113,
-    "category_id": 14,
+    "id": 214,
+    "category_id": 2,
+    "name": "Orange Duo",
+    "description": "Two layered orange ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 48
+  },
+  {
+    "id": 215,
+    "category_id": 3,
+    "name": "Orange Duo",
+    "description": "Two layered orange ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 50
+  },
+  {
+    "id": 216,
+    "category_id": 4,
+    "name": "Orange Duo",
+    "description": "Two layered orange ice cream stick",
+    "price": 45,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 57
+  },
+  {
+    "id": 217,
+    "category_id": 1,
     "name": "Fiesta",
     "description": "Colourful fruit-flavoured ice cream stick",
     "price": 50,
@@ -1574,102 +2849,414 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 6
+    "sort_order": 58
   },
   {
-    "id": 114,
-    "category_id": 15,
+    "id": 218,
+    "category_id": 2,
+    "name": "Fiesta",
+    "description": "Colourful fruit-flavoured ice cream stick",
+    "price": 50,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 49
+  },
+  {
+    "id": 219,
+    "category_id": 3,
+    "name": "Fiesta",
+    "description": "Colourful fruit-flavoured ice cream stick",
+    "price": 50,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 51
+  },
+  {
+    "id": 220,
+    "category_id": 4,
+    "name": "Fiesta",
+    "description": "Colourful fruit-flavoured ice cream stick",
+    "price": 50,
+    "image": "/images/kinds/iceCreamStick.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 58
+  },
+  {
+    "id": 221,
+    "category_id": 1,
     "name": "Cassatta",
     "description": "Classic tri-flavour ice cream",
     "price": 60,
-    "image": "/images/kinds/iceCreamScoop.jpg",
+    "image": "/images/kinds/iceCreamCassata.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 0
+    "sort_order": 59
   },
   {
-    "id": 115,
-    "category_id": 15,
+    "id": 222,
+    "category_id": 2,
+    "name": "Cassatta",
+    "description": "Classic tri-flavour ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 50
+  },
+  {
+    "id": 223,
+    "category_id": 3,
+    "name": "Cassatta",
+    "description": "Classic tri-flavour ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 52
+  },
+  {
+    "id": 224,
+    "category_id": 4,
+    "name": "Cassatta",
+    "description": "Classic tri-flavour ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamCassata.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 59
+  },
+  {
+    "id": 225,
+    "category_id": 1,
     "name": "Vanilla",
     "description": "Rich and creamy vanilla ice cream",
     "price": 50,
-    "image": "/images/kinds/iceCreamScoop.jpg",
+    "image": "/images/kinds/iceCreamVanilla.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 1
+    "sort_order": 60
   },
   {
-    "id": 116,
-    "category_id": 15,
+    "id": 226,
+    "category_id": 2,
+    "name": "Vanilla",
+    "description": "Rich and creamy vanilla ice cream",
+    "price": 50,
+    "image": "/images/kinds/iceCreamVanilla.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 51
+  },
+  {
+    "id": 227,
+    "category_id": 3,
+    "name": "Vanilla",
+    "description": "Rich and creamy vanilla ice cream",
+    "price": 50,
+    "image": "/images/kinds/iceCreamVanilla.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 53
+  },
+  {
+    "id": 228,
+    "category_id": 4,
+    "name": "Vanilla",
+    "description": "Rich and creamy vanilla ice cream",
+    "price": 50,
+    "image": "/images/kinds/iceCreamVanilla.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 60
+  },
+  {
+    "id": 229,
+    "category_id": 1,
     "name": "Strawberry",
     "description": "Fresh strawberry ice cream",
     "price": 55,
-    "image": "/images/kinds/iceCreamScoop.jpg",
+    "image": "/images/kinds/iceCreamStrawberry.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 2
+    "sort_order": 61
   },
   {
-    "id": 117,
-    "category_id": 15,
+    "id": 230,
+    "category_id": 2,
+    "name": "Strawberry",
+    "description": "Fresh strawberry ice cream",
+    "price": 55,
+    "image": "/images/kinds/iceCreamStrawberry.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 52
+  },
+  {
+    "id": 231,
+    "category_id": 3,
+    "name": "Strawberry",
+    "description": "Fresh strawberry ice cream",
+    "price": 55,
+    "image": "/images/kinds/iceCreamStrawberry.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 54
+  },
+  {
+    "id": 232,
+    "category_id": 4,
+    "name": "Strawberry",
+    "description": "Fresh strawberry ice cream",
+    "price": 55,
+    "image": "/images/kinds/iceCreamStrawberry.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 61
+  },
+  {
+    "id": 233,
+    "category_id": 1,
     "name": "Pista Green",
     "description": "Roasted pistachio ice cream",
     "price": 60,
-    "image": "/images/kinds/iceCreamScoop.jpg",
+    "image": "/images/kinds/iceCreamPistachio.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 3
+    "sort_order": 62
   },
   {
-    "id": 118,
-    "category_id": 15,
+    "id": 234,
+    "category_id": 2,
+    "name": "Pista Green",
+    "description": "Roasted pistachio ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamPistachio.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 53
+  },
+  {
+    "id": 235,
+    "category_id": 3,
+    "name": "Pista Green",
+    "description": "Roasted pistachio ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamPistachio.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 55
+  },
+  {
+    "id": 236,
+    "category_id": 4,
+    "name": "Pista Green",
+    "description": "Roasted pistachio ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamPistachio.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 62
+  },
+  {
+    "id": 237,
+    "category_id": 1,
     "name": "Mango",
     "description": "Seasonal mango ice cream",
     "price": 60,
-    "image": "/images/kinds/iceCreamScoop.jpg",
+    "image": "/images/kinds/iceCreamMango.jpg",
     "is_available": true,
     "is_popular": true,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 4
+    "sort_order": 63
   },
   {
-    "id": 119,
-    "category_id": 15,
+    "id": 238,
+    "category_id": 2,
+    "name": "Mango",
+    "description": "Seasonal mango ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamMango.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 54
+  },
+  {
+    "id": 239,
+    "category_id": 3,
+    "name": "Mango",
+    "description": "Seasonal mango ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamMango.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 56
+  },
+  {
+    "id": 240,
+    "category_id": 4,
+    "name": "Mango",
+    "description": "Seasonal mango ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamMango.jpg",
+    "is_available": true,
+    "is_popular": true,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 63
+  },
+  {
+    "id": 241,
+    "category_id": 1,
     "name": "Chocolate",
     "description": "Rich Belgian style chocolate ice cream",
     "price": 60,
-    "image": "/images/kinds/iceCreamScoop.jpg",
+    "image": "/images/kinds/iceCreamChocolate.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 5
+    "sort_order": 64
   },
   {
-    "id": 120,
-    "category_id": 15,
+    "id": 242,
+    "category_id": 2,
+    "name": "Chocolate",
+    "description": "Rich Belgian style chocolate ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamChocolate.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 55
+  },
+  {
+    "id": 243,
+    "category_id": 3,
+    "name": "Chocolate",
+    "description": "Rich Belgian style chocolate ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamChocolate.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 57
+  },
+  {
+    "id": 244,
+    "category_id": 4,
+    "name": "Chocolate",
+    "description": "Rich Belgian style chocolate ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamChocolate.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 64
+  },
+  {
+    "id": 245,
+    "category_id": 1,
     "name": "Butter Scotch",
     "description": "Caramelised butterscotch ice cream",
     "price": 60,
-    "image": "/images/kinds/iceCreamScoop.jpg",
+    "image": "/images/kinds/iceCreamButterscotch.jpg",
     "is_available": true,
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 6
+    "sort_order": 65
   },
   {
-    "id": 121,
-    "category_id": 15,
+    "id": 246,
+    "category_id": 2,
+    "name": "Butter Scotch",
+    "description": "Caramelised butterscotch ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamButterscotch.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 56
+  },
+  {
+    "id": 247,
+    "category_id": 3,
+    "name": "Butter Scotch",
+    "description": "Caramelised butterscotch ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamButterscotch.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 58
+  },
+  {
+    "id": 248,
+    "category_id": 4,
+    "name": "Butter Scotch",
+    "description": "Caramelised butterscotch ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamButterscotch.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 65
+  },
+  {
+    "id": 249,
+    "category_id": 1,
     "name": "Black Currant",
     "description": "Tangy black currant ice cream",
     "price": 60,
@@ -1678,7 +3265,46 @@ export const defaultItems = [
     "is_popular": false,
     "is_chef_recommended": false,
     "is_new": false,
-    "sort_order": 7
+    "sort_order": 66
+  },
+  {
+    "id": 250,
+    "category_id": 2,
+    "name": "Black Currant",
+    "description": "Tangy black currant ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 57
+  },
+  {
+    "id": 251,
+    "category_id": 3,
+    "name": "Black Currant",
+    "description": "Tangy black currant ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 59
+  },
+  {
+    "id": 252,
+    "category_id": 4,
+    "name": "Black Currant",
+    "description": "Tangy black currant ice cream",
+    "price": 60,
+    "image": "/images/kinds/iceCreamScoop.jpg",
+    "is_available": true,
+    "is_popular": false,
+    "is_chef_recommended": false,
+    "is_new": false,
+    "sort_order": 66
   }
 ];
 
