@@ -2,12 +2,11 @@ import { LuHouse, LuSearch, LuLayoutGrid, LuInfo } from "react-icons/lu";
 import { useLanguage } from "../../context/LanguageContext";
 import { t } from "../../lib/translations";
 
-export default function BottomNav({ onHome, onSearch, onCategories, onInfo, active }) {
+export default function BottomNav({ onHome, onSearch, onInfo, active }) {
   const { language } = useLanguage();
   const items = [
     { key: "home", label: t("navMenu", language), icon: LuHouse, onClick: onHome },
     { key: "search", label: t("navSearch", language), icon: LuSearch, onClick: onSearch },
-    { key: "categories", label: t("navCategories", language), icon: LuLayoutGrid, onClick: onCategories },
     { key: "info", label: t("navInfo", language), icon: LuInfo, onClick: onInfo },
   ];
 

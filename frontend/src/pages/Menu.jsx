@@ -8,10 +8,8 @@ import { t, translateItemName, translateItemDescription } from "../lib/translati
 import { getCurrentMealTime } from "../lib/mealTime";
 import Header from "../components/customer/Header";
 import SearchBar from "../components/customer/SearchBar";
-import CategoryTabs from "../components/customer/CategoryTabs";
 import LanguageToggle from "../components/customer/LanguageToggle";
 import FeaturedRow from "../components/customer/FeaturedRow";
-import CategorySection from "../components/customer/CategorySection";
 import ItemCard from "../components/customer/ItemCard";
 import SkeletonCard from "../components/customer/SkeletonCard";
 import BottomNav from "../components/customer/BottomNav";
@@ -26,15 +24,13 @@ export default function Menu() {
   const [error, setError] = useState(null);
 
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState(null);
   const [currentMeal, setCurrentMeal] = useState(() => getCurrentMealTime());
   const [infoOpen, setInfoOpen] = useState(false);
 
   const searchRef = useRef(null);
   const topRef = useRef(null);
-  const categoriesRef = useRef(null);
 
-  // Keep current IST meal time updated periodically
+  // Periodically check IST meal time
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentMeal(getCurrentMealTime());
@@ -55,18 +51,6 @@ export default function Menu() {
         setCategories(cats);
         setItems(its);
         setSettings(settingsData);
-
-        // By default, set the active category to the current IST meal time category
-        const istMeal = getCurrentMealTime();
-        const matchingCat = cats.find(
-          (c) =>
-            c.is_current_meal ||
-            c.slug === istMeal.slug ||
-            c.name.toLowerCase().includes(istMeal.slug)
-        );
-        if (matchingCat) {
-          setActiveCategory(matchingCat.id);
-        }
       } catch (e) {
         if (!cancelled) setError(e.message);
       } finally {
@@ -78,67 +62,59 @@ export default function Menu() {
     };
   }, []);
 
+  // Determine active meal category strictly by IST time
+  const activeCategoryObj = useMemo(() => {
+    if (!categories.length) return null;
+    return (
+      categories.find(
+        (c) =>
+          c.is_current_meal ||
+          c.slug === currentMeal.slug ||
+          c.name.toLowerCase().includes(currentMeal.slug)
+      ) || categories[0]
+    );
+  }, [categories, currentMeal]);
+
+  // Strictly filter items to only the current active meal menu
+  const mealItems = useMemo(() => {
+    if (!activeCategoryObj) return [];
+    return items.filter((i) => i.category_id === activeCategoryObj.id);
+  }, [items, activeCategoryObj]);
+
   const query = search.trim().toLowerCase();
 
-  // Items like beverages, ice cream and tiffin dishes intentionally appear
-  // in more than one meal-time category (e.g. both Breakfast and Dinner), so
-  // each has multiple rows sharing the same name. That's fine when browsing
-  // a single category, but aggregate views spanning all categories (featured
-  // rows, all-category search) need to collapse those back to one card.
-  const uniqueItems = useMemo(() => {
-    const seen = new Set();
-    return items.filter((i) => {
-      if (seen.has(i.name)) return false;
-      seen.add(i.name);
-      return true;
-    });
-  }, [items]);
-
   const filteredItems = useMemo(() => {
-    let list = activeCategory !== null ? items.filter((i) => i.category_id === activeCategory) : uniqueItems;
-    if (query) {
-      list = list.filter((i) => {
-        const translatedName = translateItemName(i.name, language).toLowerCase();
-        const translatedDesc = translateItemDescription(i.name, i.description || "", language).toLowerCase();
-        return (
-          i.name.toLowerCase().includes(query) ||
-          (i.description || "").toLowerCase().includes(query) ||
-          (i.category_name || "").toLowerCase().includes(query) ||
-          translatedName.includes(query) ||
-          translatedDesc.includes(query)
-        );
-      });
-    }
-    return list;
-  }, [items, uniqueItems, activeCategory, query, language]);
+    if (!query) return mealItems;
+    return mealItems.filter((i) => {
+      const translatedName = translateItemName(i.name, language).toLowerCase();
+      const translatedDesc = translateItemDescription(i.name, i.description || "", language).toLowerCase();
+      return (
+        i.name.toLowerCase().includes(query) ||
+        (i.description || "").toLowerCase().includes(query) ||
+        translatedName.includes(query) ||
+        translatedDesc.includes(query)
+      );
+    });
+  }, [mealItems, query, language]);
 
-  const popularItems = useMemo(() => uniqueItems.filter((i) => i.is_popular && i.is_available), [uniqueItems]);
-  const chefItems = useMemo(() => uniqueItems.filter((i) => i.is_chef_recommended && i.is_available), [uniqueItems]);
-  const newItems = useMemo(() => uniqueItems.filter((i) => i.is_new && i.is_available), [uniqueItems]);
+  const popularItems = useMemo(() => mealItems.filter((i) => i.is_popular && i.is_available), [mealItems]);
+  const chefItems = useMemo(() => mealItems.filter((i) => i.is_chef_recommended && i.is_available), [mealItems]);
+  const newItems = useMemo(() => mealItems.filter((i) => i.is_new && i.is_available), [mealItems]);
 
-  const isSearching = query.length > 0 || activeCategory !== null;
-
+  const isSearching = query.length > 0;
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
     <div className="tamil-menu-bg min-h-screen bg-ink pb-24 sm:pb-10" ref={topRef}>
-      <Header settings={settings} currentMeal={currentMeal} />
+      <Header settings={settings} />
 
       <div className="sticky top-0 z-30 -mt-1 bg-ink/85 backdrop-blur-xl border-b border-gold/10">
-        <div className="max-w-5xl mx-auto px-4 py-3 space-y-3">
+        <div className="max-w-5xl mx-auto px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0">
               <SearchBar value={search} onChange={setSearch} inputRef={searchRef} />
             </div>
             <LanguageToggle />
-          </div>
-          <div ref={categoriesRef}>
-            <CategoryTabs
-              categories={categories}
-              activeId={activeCategory}
-              currentMealSlug={currentMeal?.slug}
-              onSelect={setActiveCategory}
-            />
           </div>
         </div>
       </div>
@@ -176,13 +152,14 @@ export default function Menu() {
               items={newItems}
             />
 
-            {categories.map((cat) => (
-              <CategorySection
-                key={cat.id}
-                category={cat}
-                items={items.filter((i) => i.category_id === cat.id)}
-              />
-            ))}
+            {/* Complete Menu for the current active meal */}
+            <section className="mt-10">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                {mealItems.map((item, i) => (
+                  <ItemCard key={item.id} item={item} index={i} />
+                ))}
+              </div>
+            </section>
           </>
         )}
 
@@ -190,7 +167,7 @@ export default function Menu() {
           <section className="mt-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-display text-xl font-semibold text-cream">
-                {query ? t("resultsFor", language, search) : t("filteredItems", language)}
+                {t("resultsFor", language, search)}
               </h2>
               <span className="text-xs text-cream/40">
                 {filteredItems.length} {t("found", language)}
@@ -228,15 +205,12 @@ export default function Menu() {
 
       <BottomNav
         onHome={() => {
-          setActiveCategory(null);
           setSearch("");
           scrollTo(topRef);
         }}
         onSearch={() => {
-          scrollTo(categoriesRef);
           searchRef.current?.focus();
         }}
-        onCategories={() => scrollTo(categoriesRef)}
         onInfo={() => setInfoOpen(true)}
       />
 
