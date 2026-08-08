@@ -5,6 +5,7 @@ import { HiSparkles } from "react-icons/hi2";
 import { api } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
 import { t, translateItemName, translateItemDescription } from "../lib/translations";
+import { getCurrentMealTime } from "../lib/mealTime";
 import Header from "../components/customer/Header";
 import SearchBar from "../components/customer/SearchBar";
 import CategoryTabs from "../components/customer/CategoryTabs";
@@ -26,11 +27,20 @@ export default function Menu() {
 
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState(null);
+  const [currentMeal, setCurrentMeal] = useState(() => getCurrentMealTime());
   const [infoOpen, setInfoOpen] = useState(false);
 
   const searchRef = useRef(null);
   const topRef = useRef(null);
   const categoriesRef = useRef(null);
+
+  // Keep current IST meal time updated periodically
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentMeal(getCurrentMealTime());
+    }, 30000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -45,6 +55,18 @@ export default function Menu() {
         setCategories(cats);
         setItems(its);
         setSettings(settingsData);
+
+        // By default, set the active category to the current IST meal time category
+        const istMeal = getCurrentMealTime();
+        const matchingCat = cats.find(
+          (c) =>
+            c.is_current_meal ||
+            c.slug === istMeal.slug ||
+            c.name.toLowerCase().includes(istMeal.slug)
+        );
+        if (matchingCat) {
+          setActiveCategory(matchingCat.id);
+        }
       } catch (e) {
         if (!cancelled) setError(e.message);
       } finally {
@@ -100,7 +122,7 @@ export default function Menu() {
 
   return (
     <div className="tamil-menu-bg min-h-screen bg-ink pb-24 sm:pb-10" ref={topRef}>
-      <Header settings={settings} />
+      <Header settings={settings} currentMeal={currentMeal} />
 
       <div className="sticky top-0 z-30 -mt-1 bg-ink/85 backdrop-blur-xl border-b border-gold/10">
         <div className="max-w-5xl mx-auto px-4 py-3 space-y-3">
@@ -111,7 +133,12 @@ export default function Menu() {
             <LanguageToggle />
           </div>
           <div ref={categoriesRef}>
-            <CategoryTabs categories={categories} activeId={activeCategory} onSelect={setActiveCategory} />
+            <CategoryTabs
+              categories={categories}
+              activeId={activeCategory}
+              currentMealSlug={currentMeal?.slug}
+              onSelect={setActiveCategory}
+            />
           </div>
         </div>
       </div>

@@ -24,15 +24,36 @@ function serializeItem(item) {
   };
 }
 
+import { getCurrentMealTime } from "../utils/istTime.js";
+
 router.get("/", async (req, res, next) => {
   try {
-    const { rows } = await query(
-      `SELECT i.*, c.name AS category_name, c.slug AS category_slug
-       FROM items i
-       JOIN categories c ON c.id = i.category_id
-       ORDER BY c.sort_order ASC, i.sort_order ASC, i.id ASC`
-    );
-    res.json(rows.map(serializeItem));
+    const currentMeal = getCurrentMealTime();
+    const filterCurrent = req.query.meal === "current" || req.query.current_time === "true";
+
+    let sql = `
+      SELECT i.*, c.name AS category_name, c.slug AS category_slug
+      FROM items i
+      JOIN categories c ON c.id = i.category_id
+    `;
+    const params = [];
+
+    if (filterCurrent) {
+      sql += ` WHERE c.slug = $1 OR c.name ILIKE $2 `;
+      params.push(currentMeal.slug, `%${currentMeal.name}%`);
+    }
+
+    sql += ` ORDER BY c.sort_order ASC, i.sort_order ASC, i.id ASC`;
+
+    const { rows } = await query(sql, params);
+    const enriched = rows.map((r) => ({
+      ...serializeItem(r),
+      is_current_meal: Boolean(r.category_slug === currentMeal.slug || r.category_name?.toLowerCase().includes(currentMeal.slug)),
+    }));
+
+    res.setHeader("X-Current-Meal", currentMeal.slug);
+    res.setHeader("X-IST-Time", currentMeal.time);
+    res.json(enriched);
   } catch (error) {
     next(error);
   }

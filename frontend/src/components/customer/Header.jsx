@@ -3,7 +3,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { t } from "../../lib/translations";
 import LanguageToggle from "./LanguageToggle";
 
-export default function Header({ settings }) {
+export default function Header({ settings, currentMeal }) {
   const { language } = useLanguage();
   const name = settings?.restaurant_name || "Amutha Surabi Restaurant";
   const tagline = settings?.tagline || "Experience Authentic Taste";
@@ -75,6 +75,23 @@ export default function Header({ settings }) {
         >
           {tagline}
         </motion.p>
+
+        {currentMeal && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.65, duration: 0.5 }}
+            className="mt-5 inline-flex items-center gap-2 rounded-full gold-border bg-surface/80 backdrop-blur-md px-4 py-1.5 shadow-lg border border-gold/30"
+          >
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+            </span>
+            <span className="text-xs sm:text-sm font-medium text-cream">
+              {language === "ta" ? currentMeal.labelTa : currentMeal.labelEn}
+            </span>
+          </motion.div>
+        )}
       </div>
     </header>
   );

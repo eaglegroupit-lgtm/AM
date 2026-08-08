@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { query, transaction } from "../db/db.js";
 import { requireAuth } from "../middleware/auth.js";
+import { getCurrentMealTime } from "../utils/istTime.js";
 
 const router = Router();
 
@@ -11,15 +12,27 @@ const slugify = (s) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+router.get("/current-meal", (req, res) => {
+  const mealInfo = getCurrentMealTime();
+  res.json(mealInfo);
+});
+
 router.get("/", async (req, res, next) => {
   try {
+    const currentMeal = getCurrentMealTime();
     const { rows } = await query(
       `SELECT c.*,
         (SELECT COUNT(*)::int FROM items i WHERE i.category_id = c.id) AS item_count
        FROM categories c
        ORDER BY c.sort_order ASC, c.id ASC`
     );
-    res.json(rows);
+    const enriched = rows.map((c) => ({
+      ...c,
+      is_current_meal: Boolean(c.slug === currentMeal.slug || c.name.toLowerCase().includes(currentMeal.slug)),
+    }));
+    res.setHeader("X-Current-Meal", currentMeal.slug);
+    res.setHeader("X-IST-Time", currentMeal.time);
+    res.json(enriched);
   } catch (error) {
     next(error);
   }
