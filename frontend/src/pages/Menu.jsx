@@ -58,9 +58,22 @@ export default function Menu() {
 
   const query = search.trim().toLowerCase();
 
+  // Items like beverages, ice cream and tiffin dishes intentionally appear
+  // in more than one meal-time category (e.g. both Breakfast and Dinner), so
+  // each has multiple rows sharing the same name. That's fine when browsing
+  // a single category, but aggregate views spanning all categories (featured
+  // rows, all-category search) need to collapse those back to one card.
+  const uniqueItems = useMemo(() => {
+    const seen = new Set();
+    return items.filter((i) => {
+      if (seen.has(i.name)) return false;
+      seen.add(i.name);
+      return true;
+    });
+  }, [items]);
+
   const filteredItems = useMemo(() => {
-    let list = items;
-    if (activeCategory !== null) list = list.filter((i) => i.category_id === activeCategory);
+    let list = activeCategory !== null ? items.filter((i) => i.category_id === activeCategory) : uniqueItems;
     if (query) {
       list = list.filter((i) => {
         const translatedName = translateItemName(i.name, language).toLowerCase();
@@ -75,11 +88,11 @@ export default function Menu() {
       });
     }
     return list;
-  }, [items, activeCategory, query, language]);
+  }, [items, uniqueItems, activeCategory, query, language]);
 
-  const popularItems = useMemo(() => items.filter((i) => i.is_popular && i.is_available), [items]);
-  const chefItems = useMemo(() => items.filter((i) => i.is_chef_recommended && i.is_available), [items]);
-  const newItems = useMemo(() => items.filter((i) => i.is_new && i.is_available), [items]);
+  const popularItems = useMemo(() => uniqueItems.filter((i) => i.is_popular && i.is_available), [uniqueItems]);
+  const chefItems = useMemo(() => uniqueItems.filter((i) => i.is_chef_recommended && i.is_available), [uniqueItems]);
+  const newItems = useMemo(() => uniqueItems.filter((i) => i.is_new && i.is_available), [uniqueItems]);
 
   const isSearching = query.length > 0 || activeCategory !== null;
 
