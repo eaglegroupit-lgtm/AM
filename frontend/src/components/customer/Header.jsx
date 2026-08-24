@@ -31,7 +31,6 @@ export default function Header({ settings, currentMeal }) {
           <LuShieldCheck className="text-[#A6291A]" size={14} />
           <span>Admin</span>
         </Link>
-        <LanguageToggle />
       </div>
 
       <div className="relative z-10 px-6 pt-4 pb-10 text-center max-w-3xl mx-auto">
