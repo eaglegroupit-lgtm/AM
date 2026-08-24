@@ -21,6 +21,7 @@ export default function MenuManagement() {
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [mealFilter, setMealFilter] = useState("all");
+  const [availabilityFilter, setAvailabilityFilter] = useState("all");
   const [selected, setSelected] = useState(new Set());
 
   const [modalOpen, setModalOpen] = useState(false);
