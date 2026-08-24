@@ -77,11 +77,24 @@ export default function Menu() {
     );
   }, [categories, currentMeal]);
 
-  // Strictly filter items to only the current active meal menu
+  // Helper to check if an item is enabled for the current IST meal slot
+  const isItemInCurrentISTMealSlot = (item, mealSlug) => {
+    if (mealSlug === "breakfast") return item.is_breakfast !== false;
+    if (mealSlug === "lunch") return item.is_lunch !== false;
+    if (mealSlug === "evening-snacks") return item.is_snacks !== false;
+    if (mealSlug === "dinner") return item.is_dinner !== false;
+    return true;
+  };
+
+  // Strictly filter items to only the current active meal menu and checked meal slot
   const mealItems = useMemo(() => {
     if (!activeCategoryObj) return [];
-    return items.filter((i) => i.category_id === activeCategoryObj.id);
-  }, [items, activeCategoryObj]);
+    return items.filter((i) => {
+      const isCategoryMatch = i.category_id === activeCategoryObj.id;
+      const isMealSlotMatch = isItemInCurrentISTMealSlot(i, currentMeal.slug);
+      return isCategoryMatch && isMealSlotMatch;
+    });
+  }, [items, activeCategoryObj, currentMeal]);
 
   const query = search.trim().toLowerCase();
 

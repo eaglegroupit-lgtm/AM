@@ -101,6 +101,11 @@ export async function initDb() {
       password_hash TEXT NOT NULL,
       created_at TIMESTAMPTZ DEFAULT now()
     );
+
+    ALTER TABLE items ADD COLUMN IF NOT EXISTS is_breakfast BOOLEAN NOT NULL DEFAULT true;
+    ALTER TABLE items ADD COLUMN IF NOT EXISTS is_lunch BOOLEAN NOT NULL DEFAULT true;
+    ALTER TABLE items ADD COLUMN IF NOT EXISTS is_snacks BOOLEAN NOT NULL DEFAULT true;
+    ALTER TABLE items ADD COLUMN IF NOT EXISTS is_dinner BOOLEAN NOT NULL DEFAULT true;
   `);
 }
 

@@ -21,6 +21,10 @@ function serializeItem(item) {
     is_popular: !!item.is_popular,
     is_chef_recommended: !!item.is_chef_recommended,
     is_new: !!item.is_new,
+    is_breakfast: item.is_breakfast !== false,
+    is_lunch: item.is_lunch !== false,
+    is_snacks: item.is_snacks !== false,
+    is_dinner: item.is_dinner !== false,
   };
 }
 
@@ -71,10 +75,23 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", requireAuth, upload.single("image"), async (req, res, next) => {
   try {
-    const { category_id, name, description, price, is_available, is_popular, is_chef_recommended, is_new } = req.body;
+    const {
+      category_id,
+      name,
+      description,
+      price,
+      is_available,
+      is_popular,
+      is_chef_recommended,
+      is_new,
+      is_breakfast,
+      is_lunch,
+      is_snacks,
+      is_dinner,
+    } = req.body;
 
-    if (!category_id || !name || !name.trim() || price === undefined) {
-      return res.status(400).json({ error: "category_id, name and price are required" });
+    if (!category_id || !name || !name.trim()) {
+      return res.status(400).json({ error: "category_id and name are required" });
     }
 
     const category = (await query("SELECT id FROM categories WHERE id = $1", [category_id])).rows[0];
@@ -87,8 +104,8 @@ router.post("/", requireAuth, upload.single("image"), async (req, res, next) => 
 
     const { rows } = await query(
       `INSERT INTO items
-        (category_id, name, description, price, image, is_available, is_popular, is_chef_recommended, is_new, sort_order)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        (category_id, name, description, price, image, is_available, is_popular, is_chef_recommended, is_new, sort_order, is_breakfast, is_lunch, is_snacks, is_dinner)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
        RETURNING *`,
       [
         category_id,
@@ -101,6 +118,10 @@ router.post("/", requireAuth, upload.single("image"), async (req, res, next) => 
         toBool(is_chef_recommended),
         toBool(is_new),
         maxOrder + 1,
+        is_breakfast === undefined ? true : toBool(is_breakfast),
+        is_lunch === undefined ? true : toBool(is_lunch),
+        is_snacks === undefined ? true : toBool(is_snacks),
+        is_dinner === undefined ? true : toBool(is_dinner),
       ]
     );
 
@@ -124,6 +145,10 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res, next) =
       is_popular,
       is_chef_recommended,
       is_new,
+      is_breakfast,
+      is_lunch,
+      is_snacks,
+      is_dinner,
       remove_image,
     } = req.body;
 
@@ -140,8 +165,9 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res, next) =
       `UPDATE items SET
         category_id = $1, name = $2, description = $3, price = $4, image = $5,
         is_available = $6, is_popular = $7, is_chef_recommended = $8, is_new = $9,
+        is_breakfast = $10, is_lunch = $11, is_snacks = $12, is_dinner = $13,
         updated_at = now()
-       WHERE id = $10
+       WHERE id = $14
        RETURNING *`,
       [
         category_id ?? existing.category_id,
@@ -153,10 +179,38 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res, next) =
         is_popular !== undefined ? toBool(is_popular) : existing.is_popular,
         is_chef_recommended !== undefined ? toBool(is_chef_recommended) : existing.is_chef_recommended,
         is_new !== undefined ? toBool(is_new) : existing.is_new,
+        is_breakfast !== undefined ? toBool(is_breakfast) : existing.is_breakfast,
+        is_lunch !== undefined ? toBool(is_lunch) : existing.is_lunch,
+        is_snacks !== undefined ? toBool(is_snacks) : existing.is_snacks,
+        is_dinner !== undefined ? toBool(is_dinner) : existing.is_dinner,
         req.params.id,
       ]
     );
 
+    res.json(serializeItem(rows[0]));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/:id/meals", requireAuth, async (req, res, next) => {
+  try {
+    const { is_breakfast, is_lunch, is_snacks, is_dinner } = req.body;
+    const existing = (await query("SELECT * FROM items WHERE id = $1", [req.params.id])).rows[0];
+    if (!existing) return res.status(404).json({ error: "Item not found" });
+
+    const { rows } = await query(
+      `UPDATE items SET
+        is_breakfast = $1, is_lunch = $2, is_snacks = $3, is_dinner = $4, updated_at = now()
+       WHERE id = $5 RETURNING *`,
+      [
+        is_breakfast !== undefined ? toBool(is_breakfast) : existing.is_breakfast,
+        is_lunch !== undefined ? toBool(is_lunch) : existing.is_lunch,
+        is_snacks !== undefined ? toBool(is_snacks) : existing.is_snacks,
+        is_dinner !== undefined ? toBool(is_dinner) : existing.is_dinner,
+        req.params.id,
+      ]
+    );
     res.json(serializeItem(rows[0]));
   } catch (error) {
     next(error);

@@ -63,6 +63,8 @@ export const api = {
     request(`/items/${id}/availability`, { method: "PATCH", auth: true, body: { is_available } }),
   bulkAvailability: (ids, is_available) =>
     request("/items/bulk-availability", { method: "POST", auth: true, body: { ids, is_available } }),
+  toggleMealSlot: (id, payload) =>
+    request(`/items/${id}/meals`, { method: "PATCH", auth: true, body: payload }),
   moveCategory: (ids, category_id) =>
     request("/items/move-category", { method: "POST", auth: true, body: { ids, category_id } }),
 
