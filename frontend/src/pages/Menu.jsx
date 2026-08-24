@@ -107,10 +107,10 @@ export default function Menu() {
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
-    <div className="tamil-menu-bg min-h-screen bg-ink pb-24 sm:pb-10" ref={topRef}>
+    <div className="tamil-menu-bg min-h-screen bg-[#FAF6EC] text-[#2B2013] pb-24 sm:pb-10" ref={topRef}>
       <Header settings={settings} />
 
-      <div className="sticky top-0 z-30 -mt-1 bg-ink/85 backdrop-blur-xl border-b border-gold/10">
+      <div className="sticky top-0 z-30 -mt-1 bg-[#FAF6EC]/90 backdrop-blur-xl border-b border-[#B8860B]/20">
         <div className="max-w-5xl mx-auto px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0">
