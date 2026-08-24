@@ -97,12 +97,6 @@ export default function Dashboard() {
             >
               Manage Categories
             </Link>
-            <Link
-              to="/admin/qr"
-              className="rounded-xl gold-border px-5 py-2.5 text-sm font-medium text-gold-light hover:bg-gold/10"
-            >
-              Generate QR Code
-            </Link>
           </div>
         </>
       )}

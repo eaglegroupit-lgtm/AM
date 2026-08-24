@@ -18,7 +18,6 @@ const NAV_ITEMS = [
   { to: "/admin", label: "Dashboard", icon: LuLayoutDashboard, end: true },
   { to: "/admin/items", label: "Menu Items", icon: LuUtensilsCrossed },
   { to: "/admin/categories", label: "Categories", icon: LuFolderTree },
-  { to: "/admin/qr", label: "QR Code", icon: LuQrCode },
   { to: "/admin/settings", label: "Settings", icon: LuSettings },
 ];
 
