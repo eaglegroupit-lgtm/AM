@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose } from "react-icons/io5";
-import { LuLeaf, LuMaximize2, LuRotateCcw, LuEye, LuCompass } from "react-icons/lu";
+import {
+  LuLeaf,
+  LuMaximize2,
+  LuZoomIn,
+  LuZoomOut,
+  LuRefreshCw,
+  LuSparkles,
+} from "react-icons/lu";
 import { GiChefToque } from "react-icons/gi";
 import { HiSparkles } from "react-icons/hi2";
 import { useLanguage } from "../../context/LanguageContext";
@@ -11,53 +18,18 @@ const PLACEHOLDER =
   "data:image/svg+xml;utf8," +
   encodeURIComponent(`
     <svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'>
-      <rect width='100%' height='100%' fill='#f3ead4'/>
-      <text x='50%' y='50%' font-family='Georgia' font-size='20' fill='#b8860b' text-anchor='middle' dy='.3em'>Amutha Surabi</text>
+      <rect width='100%' height='100%' fill='#12121c'/>
+      <text x='50%' y='50%' font-family='Georgia' font-size='22' fill='#d4af37' text-anchor='middle' dy='.3em'>Amutha Surabi</text>
     </svg>
   `);
 
-// Defines the 3 meaningful angle views requested by user: Top View, Right View, and Left View
-const ANGLES = [
-  {
-    id: "top",
-    labelEn: "Top View",
-    labelTa: "மேல் பார்வை",
-    descEn: "Direct overhead top-down perspective",
-    descTa: "மேலிருந்து நேரடி பார்வை",
-    badge: "Top 90°",
-    transform: "perspective(900px) rotateX(46deg) scale(1.15) translateY(-8px)",
-    lightOverlay: "radial-gradient(circle at center, rgba(255,255,255,0.22) 0%, transparent 70%)",
-    shadow: "0 25px 35px -5px rgba(0, 0, 0, 0.7)",
-  },
-  {
-    id: "right",
-    labelEn: "Right View",
-    labelTa: "வலது பக்க பார்வை",
-    descEn: "Right side angled perspective",
-    descTa: "வலது பக்க 3D பார்வை",
-    badge: "Right 45°",
-    transform: "perspective(900px) rotateY(-36deg) rotateX(10deg) scale(1.18) translateX(12px)",
-    lightOverlay: "linear-gradient(to left, rgba(212,175,55,0.2), transparent 60%)",
-    shadow: "-20px 20px 30px -5px rgba(0, 0, 0, 0.7)",
-  },
-  {
-    id: "left",
-    labelEn: "Left View",
-    labelTa: "இடது பக்க பார்வை",
-    descEn: "Left side angled perspective",
-    descTa: "இடது பக்க 3D பார்வை",
-    badge: "Left 45°",
-    transform: "perspective(900px) rotateY(36deg) rotateX(10deg) scale(1.18) translateX(-12px)",
-    lightOverlay: "linear-gradient(to right, rgba(212,175,55,0.2), transparent 60%)",
-    shadow: "20px 20px 30px -5px rgba(0, 0, 0, 0.7)",
-  },
-];
+const ZOOM_LEVELS = [1.0, 1.5, 2.0, 2.5];
 
 export default function ItemDetailModal({ item, onClose }) {
   const { language } = useLanguage();
-  const [activeAngleIndex, setActiveAngleIndex] = useState(0);
+  const [zoomIndex, setZoomIndex] = useState(0);
   const [isFullViewOpen, setIsFullViewOpen] = useState(false);
-  const [zoomLevel, setZoomLevel] = useState(1);
+  const [fullViewZoom, setFullViewZoom] = useState(1);
 
   // Keyboard shortcut for escape key
   useEffect(() => {
@@ -75,45 +47,41 @@ export default function ItemDetailModal({ item, onClose }) {
 
   const name = translateItemName(item.name, language);
   const description = translateItemDescription(item.name, item.description, language);
-  const activeAngle = ANGLES[activeAngleIndex];
-  
-  // Custom per-angle image if available, fallback to main item image
-  const defaultImage = item.image || PLACEHOLDER;
-  const currentAngleImage =
-    (item.image_angles?.[activeAngle.id] || item[`image_${activeAngle.id}`]) || defaultImage;
+  const itemImage = item.image || PLACEHOLDER;
+  const currentZoom = ZOOM_LEVELS[zoomIndex];
 
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-        {/* Backdrop */}
+        {/* Dark Obsidian Glass Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/80 backdrop-blur-md"
+          className="fixed inset-0 bg-black/85 backdrop-blur-xl"
         />
 
-        {/* Modal Dialog */}
+        {/* Premium Dialog Container */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.92, y: 20 }}
+          initial={{ opacity: 0, scale: 0.93, y: 25 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.92, y: 20 }}
-          transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-gold/30 bg-ink/95 text-cream shadow-2xl z-10 my-auto max-h-[90vh] flex flex-col"
+          exit={{ opacity: 0, scale: 0.93, y: 25 }}
+          transition={{ type: "spring", damping: 26, stiffness: 320 }}
+          className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-amber-500/30 bg-[#0B0B12]/95 text-amber-50 shadow-[0_0_60px_rgba(212,175,55,0.15)] z-10 my-auto max-h-[92vh] flex flex-col"
         >
           {/* Top Header Bar */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gold/15 bg-surface/50 backdrop-blur-md">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-gold animate-ping" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-gold-light">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-amber-500/20 bg-surface/70 backdrop-blur-md">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-2.5 w-2.5 rounded-full bg-amber-400 shadow-[0_0_10px_#f59e0b] animate-pulse" />
+              <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 bg-clip-text text-transparent">
                 {t("liveMenu", language)} • {t("viewDetails", language)}
               </span>
             </div>
 
             <button
               onClick={onClose}
-              className="rounded-full p-2 text-cream/70 hover:text-white hover:bg-gold/20 transition-all focus:outline-none"
+              className="rounded-full p-2 text-amber-200/70 hover:text-white hover:bg-amber-500/20 transition-all focus:outline-none ring-1 ring-amber-500/20 hover:ring-amber-400"
               title={t("close", language)}
             >
               <IoClose size={22} />
@@ -121,112 +89,94 @@ export default function ItemDetailModal({ item, onClose }) {
           </div>
 
           <div className="overflow-y-auto custom-scrollbar p-6 space-y-6">
-            {/* Image & Angle Viewer Section */}
-            <div className="relative rounded-2xl overflow-hidden bg-black/80 border border-gold/20 shadow-2xl group">
-              {/* Active Image Display with 3D perspective viewport */}
+            {/* Interactive Image & Zoom Section */}
+            <div className="relative rounded-2xl overflow-hidden bg-black/90 border border-amber-500/25 shadow-2xl group">
+              {/* Main Image Viewport with Zoom Scale */}
               <div
-                className="relative h-64 sm:h-80 w-full overflow-hidden flex items-center justify-center cursor-pointer select-none perspective-container"
+                className="relative h-64 sm:h-84 w-full overflow-hidden flex items-center justify-center cursor-pointer select-none"
                 onClick={() => setIsFullViewOpen(true)}
               >
                 <motion.img
-                  key={activeAngle.id}
-                  src={currentAngleImage}
-                  alt={`${name} - ${activeAngle.labelEn}`}
-                  initial={{ opacity: 0.5, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4 }}
-                  style={{
-                    transform: activeAngle.transform,
-                    boxShadow: activeAngle.shadow,
-                  }}
+                  key={`zoom-${currentZoom}`}
+                  src={itemImage}
+                  alt={name}
+                  initial={{ opacity: 0.8 }}
+                  animate={{ opacity: 1, scale: currentZoom }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                   className="h-full w-full object-cover transition-transform duration-500 ease-out rounded-xl"
                   onError={(e) => {
                     e.currentTarget.src = PLACEHOLDER;
                   }}
                 />
 
-                {/* Perspective Directional Light Overlay */}
-                <div
-                  className="absolute inset-0 pointer-events-none transition-all duration-500"
-                  style={{ background: activeAngle.lightOverlay }}
-                />
+                {/* Subtle Ambient Lighting Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/25 pointer-events-none" />
 
-                {/* Dark Vignette Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none" />
-
-                {/* Angle Badge Overlay */}
-                <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="flex items-center gap-1.5 rounded-full bg-gold text-black text-[11px] font-bold px-3 py-1 shadow-lg backdrop-blur-md">
-                    <LuCompass size={13} />
-                    {language === "ta" ? activeAngle.labelTa : activeAngle.labelEn}
-                  </span>
+                {/* Hint badge top-left */}
+                <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 rounded-full bg-black/75 border border-amber-500/40 px-3 py-1 text-[11px] font-bold text-amber-300 backdrop-blur-md shadow-lg">
+                  <LuSparkles size={13} className="text-amber-400" />
+                  <span>{t("clickToZoom", language)}</span>
                 </div>
 
-                {/* Full View Expand Button */}
+                {/* Full View Expand Trigger */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsFullViewOpen(true);
                   }}
-                  className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-xl bg-surface/90 hover:bg-gold hover:text-black border border-gold/40 px-3.5 py-1.5 text-xs font-semibold text-gold-light backdrop-blur-md shadow-lg transition-all"
+                  className="absolute bottom-3.5 right-3.5 flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-amber-300 text-black px-4 py-2 text-xs font-extrabold shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all hover:scale-105"
                 >
-                  <LuMaximize2 size={14} />
+                  <LuMaximize2 size={15} />
                   <span>{t("fullView", language)}</span>
                 </button>
               </div>
 
-              {/* Angle Switcher Controls (Top View, Right View, Left View) */}
-              <div className="p-3.5 bg-surface/90 border-t border-gold/15 backdrop-blur-md">
-                <div className="text-[11px] font-medium text-cream/70 mb-2 flex items-center justify-between">
-                  <span className="flex items-center gap-1 text-gold-light font-semibold">
-                    <LuRotateCcw size={13} /> {t("threeAngles", language)}
-                  </span>
-                  <span className="text-gold-light/90 font-medium">
-                    {language === "ta" ? activeAngle.descTa : activeAngle.descEn}
-                  </span>
+              {/* Zoom Controls Bar */}
+              <div className="px-4 py-3 bg-[#13131F]/90 border-t border-amber-500/20 backdrop-blur-md flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 text-xs font-semibold text-amber-200">
+                  <LuZoomIn size={16} className="text-amber-400" />
+                  <span>{t("zoomView", language)}</span>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
-                  {ANGLES.map((angle, idx) => {
-                    const isActive = idx === activeAngleIndex;
-                    return (
-                      <button
-                        key={angle.id}
-                        onClick={() => setActiveAngleIndex(idx)}
-                        className={`flex flex-col items-center justify-center p-2.5 rounded-xl border text-xs font-medium transition-all ${
-                          isActive
-                            ? "border-gold bg-gold/25 text-gold-light font-bold shadow-lg ring-1 ring-gold/60 scale-[1.02]"
-                            : "border-gold/20 bg-ink/40 text-cream/70 hover:border-gold/40 hover:bg-surface hover:text-cream"
-                        }`}
-                      >
-                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-gold/90 mb-0.5">
-                          {angle.badge}
-                        </span>
-                        <span>{language === "ta" ? angle.labelTa : angle.labelEn}</span>
-                      </button>
-                    );
-                  })}
+                <div className="flex items-center gap-1.5">
+                  {ZOOM_LEVELS.map((lvl, idx) => (
+                    <button
+                      key={lvl}
+                      onClick={() => setZoomIndex(idx)}
+                      className={`px-3 py-1 rounded-lg text-xs font-bold transition-all border ${
+                        idx === zoomIndex
+                          ? "bg-amber-400 text-black border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)] scale-105"
+                          : "bg-surface/80 text-amber-200/70 border-amber-500/20 hover:border-amber-400/50 hover:text-amber-100"
+                      }`}
+                    >
+                      {lvl}x
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* Details Section (Prices removed) */}
-            <div className="space-y-3">
+            {/* Dish Info & Description Section */}
+            <div className="space-y-4 pt-1">
               <div>
-                <h2 className="font-display text-2xl sm:text-3xl font-bold text-cream leading-tight">{name}</h2>
-                <div className="mt-2.5 flex flex-wrap items-center gap-2">
+                <h2 className="font-display text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-amber-100 via-amber-300 to-amber-400 bg-clip-text text-transparent leading-tight tracking-tight">
+                  {name}
+                </h2>
+
+                {/* Badges Pill Row */}
+                <div className="mt-3 flex flex-wrap items-center gap-2">
                   {item.is_popular && (
-                    <span className="flex items-center gap-1 rounded-full bg-emerald-900/40 border border-emerald-500/40 text-emerald-300 text-xs px-3 py-0.5 font-medium">
-                      <LuLeaf /> {t("popular", language)}
+                    <span className="flex items-center gap-1.5 rounded-full bg-emerald-950/70 border border-emerald-500/50 text-emerald-300 text-xs px-3.5 py-1 font-bold shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                      <LuLeaf className="text-emerald-400" /> {t("popular", language)}
                     </span>
                   )}
                   {item.is_chef_recommended && (
-                    <span className="flex items-center gap-1 rounded-full bg-amber-900/40 border border-amber-500/40 text-amber-300 text-xs px-3 py-0.5 font-medium">
-                      <GiChefToque /> {t("chefsPick", language)}
+                    <span className="flex items-center gap-1.5 rounded-full bg-amber-950/70 border border-amber-500/50 text-amber-300 text-xs px-3.5 py-1 font-bold shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+                      <GiChefToque className="text-amber-400" /> {t("chefsPick", language)}
                     </span>
                   )}
                   {item.is_new && (
-                    <span className="flex items-center gap-1 rounded-full bg-gold/20 border border-gold/50 text-gold-light text-xs px-3 py-0.5 font-medium">
+                    <span className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 text-black text-xs px-3.5 py-1 font-extrabold shadow-[0_0_12px_rgba(245,158,11,0.3)]">
                       <HiSparkles /> {t("newBadge", language)}
                     </span>
                   )}
@@ -234,22 +184,28 @@ export default function ItemDetailModal({ item, onClose }) {
               </div>
 
               {description && (
-                <p className="text-sm sm:text-base text-cream/80 leading-relaxed pt-3 border-t border-gold/10">
-                  {description}
-                </p>
+                <div className="pt-3 border-t border-amber-500/15">
+                  <p className="text-sm sm:text-base text-amber-100/90 leading-relaxed tracking-wide font-normal">
+                    {description}
+                  </p>
+                </div>
               )}
 
-              {/* Status */}
-              <div className="pt-2 flex items-center justify-between text-xs text-cream/60">
+              {/* Status Bar */}
+              <div className="pt-3 flex items-center justify-between text-xs text-amber-200/60 border-t border-amber-500/10">
                 <span className="flex items-center gap-2">
                   <span
                     className={`h-2.5 w-2.5 rounded-full ${
-                      item.is_available ? "bg-emerald-400 animate-pulse" : "bg-red-500"
+                      item.is_available
+                        ? "bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"
+                        : "bg-red-500"
                     }`}
                   />
-                  {item.is_available ? t("available", language) : t("notAvailable", language)}
+                  <span className="font-semibold text-amber-100/80">
+                    {item.is_available ? t("available", language) : t("notAvailable", language)}
+                  </span>
                 </span>
-                <span className="text-gold-light/60">Amutha Surabi Authentic Taste</span>
+                <span className="font-display font-semibold gold-text">Amutha Surabi Authentic Taste</span>
               </div>
             </div>
           </div>
@@ -262,68 +218,76 @@ export default function ItemDetailModal({ item, onClose }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-60 bg-black/95 backdrop-blur-xl flex flex-col justify-between p-4 sm:p-6"
+              className="fixed inset-0 z-60 bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-4 sm:p-6"
             >
-              {/* Full View Header */}
-              <div className="flex items-center justify-between z-10">
+              {/* Full View Top Bar */}
+              <div className="flex items-center justify-between z-10 bg-black/50 p-3 rounded-2xl border border-amber-500/20 backdrop-blur-md">
                 <div>
-                  <h3 className="font-display text-xl font-bold text-cream">{name}</h3>
-                  <p className="text-xs text-gold-light">
-                    {t("fullView", language)} • {language === "ta" ? activeAngle.labelTa : activeAngle.labelEn} ({activeAngle.badge})
-                  </p>
+                  <h3 className="font-display text-xl font-bold bg-gradient-to-r from-amber-200 to-amber-400 bg-clip-text text-transparent">
+                    {name}
+                  </h3>
+                  <p className="text-xs text-amber-300/80">{t("fullView", language)} ({fullViewZoom}x)</p>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setZoomLevel((z) => (z >= 2 ? 1 : z + 0.5))}
-                    className="rounded-full bg-surface border border-gold/30 p-2.5 text-gold-light hover:bg-gold hover:text-black transition-all"
-                    title="Zoom"
+                    onClick={() => setFullViewZoom((z) => Math.max(1, z - 0.5))}
+                    disabled={fullViewZoom <= 1}
+                    className="rounded-xl bg-surface/80 border border-amber-500/30 p-2.5 text-amber-300 hover:bg-amber-400 hover:text-black transition-all disabled:opacity-40"
+                    title={t("zoomOut", language)}
                   >
-                    <LuEye size={20} />
+                    <LuZoomOut size={18} />
                   </button>
+
+                  <button
+                    onClick={() => setFullViewZoom((z) => Math.min(3, z + 0.5))}
+                    disabled={fullViewZoom >= 3}
+                    className="rounded-xl bg-surface/80 border border-amber-500/30 p-2.5 text-amber-300 hover:bg-amber-400 hover:text-black transition-all disabled:opacity-40"
+                    title={t("zoomIn", language)}
+                  >
+                    <LuZoomIn size={18} />
+                  </button>
+
+                  <button
+                    onClick={() => setFullViewZoom(1)}
+                    className="rounded-xl bg-surface/80 border border-amber-500/30 p-2.5 text-amber-300 hover:bg-amber-400 hover:text-black transition-all"
+                    title="Reset Zoom"
+                  >
+                    <LuRefreshCw size={18} />
+                  </button>
+
                   <button
                     onClick={() => setIsFullViewOpen(false)}
-                    className="rounded-full bg-surface border border-gold/30 p-2.5 text-cream hover:bg-red-500 hover:text-white transition-all"
+                    className="rounded-xl bg-red-950/80 border border-red-500/40 p-2.5 text-red-300 hover:bg-red-500 hover:text-white transition-all ml-2"
                     title={t("close", language)}
                   >
-                    <IoClose size={22} />
+                    <IoClose size={20} />
                   </button>
                 </div>
               </div>
 
-              {/* Full View Main Image Display */}
+              {/* Full View Main Image */}
               <div className="relative flex-1 flex items-center justify-center overflow-hidden my-4">
                 <motion.img
-                  key={`full-${activeAngle.id}-${zoomLevel}`}
-                  src={currentAngleImage}
+                  key={`lightbox-${fullViewZoom}`}
+                  src={itemImage}
                   alt={name}
                   initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: zoomLevel, opacity: 1 }}
+                  animate={{ scale: fullViewZoom, opacity: 1 }}
                   transition={{ duration: 0.3 }}
-                  style={{ transform: `${activeAngle.transform} scale(${zoomLevel})` }}
-                  className="max-h-[80vh] max-w-full object-contain cursor-zoom-in rounded-2xl shadow-2xl border border-gold/20"
-                  onClick={() => setZoomLevel((z) => (z >= 2 ? 1 : z + 0.5))}
+                  className="max-h-[82vh] max-w-full object-contain cursor-zoom-in rounded-2xl shadow-[0_0_80px_rgba(212,175,55,0.2)] border border-amber-500/30"
+                  onClick={() => setFullViewZoom((z) => (z >= 2.5 ? 1 : z + 0.5))}
                   onError={(e) => {
                     e.currentTarget.src = PLACEHOLDER;
                   }}
                 />
               </div>
 
-              {/* Full View Bottom Bar: Angle Selection */}
+              {/* Full View Footer Bar */}
               <div className="flex items-center justify-center gap-3 z-10 max-w-md mx-auto w-full">
-                {ANGLES.map((angle, idx) => (
-                  <button
-                    key={`full-btn-${angle.id}`}
-                    onClick={() => setActiveAngleIndex(idx)}
-                    className={`flex-1 py-2 px-3 rounded-xl border text-xs font-semibold transition-all ${
-                      idx === activeAngleIndex
-                        ? "bg-gold text-black border-gold shadow-lg font-bold"
-                        : "bg-surface/80 text-cream/80 border-gold/30 hover:border-gold"
-                    }`}
-                  >
-                    {angle.badge} {language === "ta" ? angle.labelTa : angle.labelEn}
-                  </button>
-                ))}
+                <div className="flex items-center gap-2 rounded-xl bg-surface/80 border border-amber-500/30 px-4 py-2 text-xs font-semibold text-amber-200 backdrop-blur-md">
+                  <span>{t("clickToZoom", language)}</span>
+                </div>
               </div>
             </motion.div>
           )}
