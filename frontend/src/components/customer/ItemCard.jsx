@@ -14,7 +14,7 @@ const PLACEHOLDER =
     </svg>
   `);
 
-export default function ItemCard({ item, index = 0 }) {
+export default function ItemCard({ item, index = 0, onClick }) {
   const available = item.is_available;
   const { language } = useLanguage();
   const name = translateItemName(item.name, language);
@@ -28,7 +28,8 @@ export default function ItemCard({ item, index = 0 }) {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.3) }}
       whileHover={{ y: -5 }}
-      className={`glass-card rounded-2xl overflow-hidden group relative transition-all duration-300 hover:gold-glow h-full flex flex-col border border-gold/20 hover:border-gold/60 shadow-lg ${
+      onClick={() => onClick && onClick(item)}
+      className={`glass-card rounded-2xl overflow-hidden group relative transition-all duration-300 hover:gold-glow h-full flex flex-col border border-gold/20 hover:border-gold/60 shadow-lg cursor-pointer ${
         !available ? "opacity-60" : ""
       }`}
     >

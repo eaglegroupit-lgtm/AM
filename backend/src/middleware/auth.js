@@ -9,7 +9,8 @@ export function requireAuth(req, res, next) {
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || "amutha-surabi-secret-key-2026";
+    const payload = jwt.verify(token, secret);
     req.admin = payload;
     next();
   } catch {

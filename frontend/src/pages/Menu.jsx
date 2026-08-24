@@ -14,6 +14,7 @@ import ItemCard from "../components/customer/ItemCard";
 import SkeletonCard from "../components/customer/SkeletonCard";
 import BottomNav from "../components/customer/BottomNav";
 import InfoSheet from "../components/customer/InfoSheet";
+import ItemDetailModal from "../components/customer/ItemDetailModal";
 
 export default function Menu() {
   const { language } = useLanguage();
@@ -26,6 +27,7 @@ export default function Menu() {
   const [search, setSearch] = useState("");
   const [currentMeal, setCurrentMeal] = useState(() => getCurrentMealTime());
   const [infoOpen, setInfoOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const searchRef = useRef(null);
   const topRef = useRef(null);
@@ -140,23 +142,26 @@ export default function Menu() {
               title={t("todaysSpecials", language)}
               icon={<GiChefToque className="text-gold-light" size={22} />}
               items={chefItems}
+              onItemClick={setSelectedItem}
             />
             <FeaturedRow
               title={t("mostPopular", language)}
               icon={<GiStarFormation className="text-gold-light" size={22} />}
               items={popularItems}
+              onItemClick={setSelectedItem}
             />
             <FeaturedRow
               title={t("newlyAdded", language)}
               icon={<HiSparkles className="text-gold-light" size={22} />}
               items={newItems}
+              onItemClick={setSelectedItem}
             />
 
             {/* Complete Menu for the current active meal */}
             <section className="mt-10">
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {mealItems.map((item, i) => (
-                  <ItemCard key={item.id} item={item} index={i} />
+                  <ItemCard key={item.id} item={item} index={i} onClick={setSelectedItem} />
                 ))}
               </div>
             </section>
@@ -181,7 +186,7 @@ export default function Menu() {
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {filteredItems.map((item, i) => (
-                  <ItemCard key={item.id} item={item} index={i} />
+                  <ItemCard key={item.id} item={item} index={i} onClick={setSelectedItem} />
                 ))}
               </div>
             )}
@@ -215,6 +220,8 @@ export default function Menu() {
       />
 
       <InfoSheet open={infoOpen} onClose={() => setInfoOpen(false)} settings={settings} />
+
+      <ItemDetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
     </div>
   );
 }

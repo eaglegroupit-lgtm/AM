@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import ItemCard from "./ItemCard";
 
-export default function FeaturedRow({ title, icon, items }) {
+export default function FeaturedRow({ title, icon, items, onItemClick }) {
   if (!items || items.length === 0) return null;
 
   return (
@@ -20,7 +20,7 @@ export default function FeaturedRow({ title, icon, items }) {
       <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2 px-1 snap-x snap-mandatory">
         {items.map((item, i) => (
           <div key={item.id} className="min-w-[220px] sm:min-w-[250px] snap-start">
-            <ItemCard item={item} index={i} />
+            <ItemCard item={item} index={i} onClick={onItemClick} />
           </div>
         ))}
       </div>

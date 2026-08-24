@@ -163,6 +163,10 @@ export const uiText = {
     navInfo: "Info",
     itemsCount: (n) => `${n} items`,
     currency: "Rs.",
+    viewDetails: "View Details",
+    threeAngles: "3 Angle Views",
+    fullView: "Full View",
+    close: "Close",
   },
   ta: {
     welcomeTo: "அன்புடன் வரவேற்கிறோம்",
@@ -193,6 +197,10 @@ export const uiText = {
     navInfo: "தகவல்",
     itemsCount: (n) => `${n} உணவுகள்`,
     currency: "ரூ.",
+    viewDetails: "விவரங்களைப் பார்க்க",
+    threeAngles: "3 கோண பார்வைகள்",
+    fullView: "முழு பார்வை",
+    close: "மூடு",
   },
 };
 

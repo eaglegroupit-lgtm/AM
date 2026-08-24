@@ -5,36 +5,39 @@ import { defaultCategories, defaultItems, defaultSettings } from "./defaultData.
 
 const { Pool } = pg;
 
-const rawConnectionString =
-  process.env.DATABASE_URL ||
-  process.env.POSTGRES_URL ||
-  process.env.POSTGRES_PRISMA_URL ||
-  process.env.POSTGRES_URL_NON_POOLING;
+let _pool = null;
 
-if (!rawConnectionString) {
-  throw new Error("Missing DATABASE_URL or POSTGRES_URL for Postgres connection");
+export function getPool() {
+  if (!_pool) {
+    const rawConnectionString =
+      process.env.DATABASE_URL ||
+      process.env.POSTGRES_URL ||
+      process.env.POSTGRES_PRISMA_URL ||
+      process.env.POSTGRES_URL_NON_POOLING;
+
+    if (!rawConnectionString) {
+      throw new Error("Missing DATABASE_URL or POSTGRES_URL environment variable for Postgres connection");
+    }
+
+    const connectionString = rawConnectionString.replace(/([?&])sslmode=[^&]*&?/i, "$1").replace(/[?&]$/, "");
+
+    _pool = new Pool({
+      connectionString,
+      ssl: { rejectUnauthorized: false },
+    });
+  }
+  return _pool;
 }
 
-// Newer pg-connection-string versions treat a `sslmode=require` query param
-// on the URL as an instruction to do full certificate-chain verification
-// (equivalent to `verify-full`), which overrides any `ssl` option passed to
-// `new Pool()` and fails against Supabase's pooler certificate with
-// "self-signed certificate in certificate chain". Strip sslmode from the
-// URL and control TLS purely via the explicit `ssl` option below instead.
-const connectionString = rawConnectionString.replace(/([?&])sslmode=[^&]*&?/i, "$1").replace(/[?&]$/, "");
-
-export const pool = new Pool({
-  connectionString,
-  ssl: { rejectUnauthorized: false },
-});
-
 export async function query(text, params = []) {
-  const result = await pool.query(text, params);
+  const p = getPool();
+  const result = await p.query(text, params);
   return result;
 }
 
 export async function transaction(callback) {
-  const client = await pool.connect();
+  const p = getPool();
+  const client = await p.connect();
   try {
     await client.query("BEGIN");
     const result = await callback(client);
@@ -101,17 +104,17 @@ export async function initDb() {
   `);
 }
 
-export async function seedDefaults() {
+export async function seedDefaults(options = {}) {
+  const { force = false } = options;
   await initDb();
 
-  const categoryCount = Number((await query("SELECT COUNT(*) AS count FROM categories")).rows[0].count);
-  if (categoryCount === 0) {
+  if (force) {
     await transaction(async (client) => {
+      await client.query("TRUNCATE TABLE items, categories RESTART IDENTITY CASCADE");
       for (const category of defaultCategories) {
         await client.query(
           `INSERT INTO categories (id, name, slug, icon, sort_order)
-           VALUES ($1, $2, $3, $4, $5)
-           ON CONFLICT (id) DO NOTHING`,
+           VALUES ($1, $2, $3, $4, $5)`,
           [category.id, category.name, category.slug, category.icon || "", category.sort_order]
         );
       }
@@ -137,6 +140,41 @@ export async function seedDefaults() {
       await client.query("SELECT setval(pg_get_serial_sequence('categories', 'id'), COALESCE((SELECT MAX(id) FROM categories), 1))");
       await client.query("SELECT setval(pg_get_serial_sequence('items', 'id'), COALESCE((SELECT MAX(id) FROM items), 1))");
     });
+  } else {
+    const categoryCount = Number((await query("SELECT COUNT(*) AS count FROM categories")).rows[0].count);
+    if (categoryCount === 0) {
+      await transaction(async (client) => {
+        for (const category of defaultCategories) {
+          await client.query(
+            `INSERT INTO categories (id, name, slug, icon, sort_order)
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (id) DO NOTHING`,
+            [category.id, category.name, category.slug, category.icon || "", category.sort_order]
+          );
+        }
+        for (const item of defaultItems) {
+          await client.query(
+            `INSERT INTO items
+              (category_id, name, description, price, image, is_available, is_popular, is_chef_recommended, is_new, sort_order)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+            [
+              item.category_id,
+              item.name,
+              item.description || "",
+              item.price,
+              item.image || "",
+              Boolean(item.is_available),
+              Boolean(item.is_popular),
+              Boolean(item.is_chef_recommended),
+              Boolean(item.is_new),
+              item.sort_order,
+            ]
+          );
+        }
+        await client.query("SELECT setval(pg_get_serial_sequence('categories', 'id'), COALESCE((SELECT MAX(id) FROM categories), 1))");
+        await client.query("SELECT setval(pg_get_serial_sequence('items', 'id'), COALESCE((SELECT MAX(id) FROM items), 1))");
+      });
+    }
   }
 
   const settingsCount = Number((await query("SELECT COUNT(*) AS count FROM settings WHERE id = 1")).rows[0].count);
@@ -146,7 +184,8 @@ export async function seedDefaults() {
       `INSERT INTO settings
         (id, restaurant_name, tagline, logo, banner, address, phone, opening_hours, facebook,
          instagram, whatsapp, theme_primary, theme_dark, menu_url)
-       VALUES (1, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+       VALUES (1, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+       ON CONFLICT (id) DO NOTHING`,
       [
         settings.restaurant_name || "Amutha Surabi Restaurant",
         settings.tagline || "Experience Authentic Taste",
@@ -170,8 +209,20 @@ export async function seedDefaults() {
     const username = process.env.ADMIN_USERNAME || "admin";
     const password = process.env.ADMIN_PASSWORD || "Amutha@123";
     const hash = bcrypt.hashSync(password, 10);
-    await query("INSERT INTO admins (username, password_hash) VALUES ($1, $2)", [username, hash]);
+    await query("INSERT INTO admins (username, password_hash) VALUES ($1, $2) ON CONFLICT (username) DO NOTHING", [username, hash]);
   }
 }
 
-export default { query, transaction, initDb, seedDefaults, pool };
+let _initPromise = null;
+
+export async function ensureDbInitialized() {
+  if (!_initPromise) {
+    _initPromise = seedDefaults().catch((err) => {
+      _initPromise = null;
+      throw err;
+    });
+  }
+  return _initPromise;
+}
+
+export default { query, transaction, initDb, seedDefaults, ensureDbInitialized, getPool };

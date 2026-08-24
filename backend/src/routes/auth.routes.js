@@ -18,9 +18,10 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
+    const secret = process.env.JWT_SECRET || "amutha-surabi-secret-key-2026";
     const token = jwt.sign(
       { id: admin.id, username: admin.username },
-      process.env.JWT_SECRET,
+      secret,
       { expiresIn: "12h" }
     );
 
