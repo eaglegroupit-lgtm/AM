@@ -102,9 +102,6 @@ export default function Settings() {
           <Field label="Opening Hours">
             <input {...field("opening_hours")} className={inputCls} placeholder="7:30 AM - 10:30 PM" />
           </Field>
-          <Field label="Live Menu URL">
-            <input {...field("menu_url")} className={inputCls} placeholder="https://your-domain.com" />
-          </Field>
         </div>
 
         <div className="space-y-6">
