@@ -25,6 +25,8 @@ export default function ItemFormModal({ open, onClose, onSubmit, categories, ite
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
+  const [imageUrl, setImageUrl] = useState("");
+
   useEffect(() => {
     if (open) {
       setForm(
@@ -46,6 +48,7 @@ export default function ItemFormModal({ open, onClose, onSubmit, categories, ite
           : { ...emptyForm, category_id: categories[0]?.id || "" }
       );
       setImageFile(null);
+      setImageUrl(item?.image?.startsWith("http") ? item.image : "");
       setImagePreview(item?.image || "");
       setRemoveImage(false);
       setError("");
@@ -56,8 +59,17 @@ export default function ItemFormModal({ open, onClose, onSubmit, categories, ite
     const file = e.target.files?.[0];
     if (!file) return;
     setImageFile(file);
+    setImageUrl("");
     setRemoveImage(false);
     setImagePreview(URL.createObjectURL(file));
+  };
+
+  const handleUrlChange = (e) => {
+    const url = e.target.value;
+    setImageUrl(url);
+    setImageFile(null);
+    setRemoveImage(false);
+    setImagePreview(url);
   };
 
   const handleSubmit = async (e) => {
@@ -82,7 +94,12 @@ export default function ItemFormModal({ open, onClose, onSubmit, categories, ite
     fd.append("is_snacks", form.is_snacks);
     fd.append("is_dinner", form.is_dinner);
 
-    if (imageFile) fd.append("image", imageFile);
+    if (imageFile) {
+      fd.append("image", imageFile);
+    } else if (imageUrl.trim()) {
+      fd.append("image", imageUrl.trim());
+    }
+
     if (removeImage) fd.append("remove_image", "true");
 
     setSaving(true);
@@ -124,33 +141,51 @@ export default function ItemFormModal({ open, onClose, onSubmit, categories, ite
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-[#4A3825] mb-1.5">Food Image</label>
+                <label className="block text-xs font-bold text-[#4A3825] mb-1.5">Food Image (Upload File or Enter URL)</label>
                 <div className="flex items-center gap-4">
                   <div className="h-20 w-20 rounded-xl overflow-hidden bg-[#F3EAD4] border border-[#B8860B]/30 flex items-center justify-center shrink-0">
                     {imagePreview && !removeImage ? (
-                      <img src={imagePreview} alt="" className="h-full w-full object-cover" />
+                      <img
+                        src={imagePreview}
+                        alt=""
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100%' height='100%' fill='%23f3ead4'/></svg>";
+                        }}
+                      />
                     ) : (
                       <LuUpload className="text-[#8B6914]/40" size={22} />
                     )}
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <label className="cursor-pointer rounded-xl border border-[#B8860B]/40 bg-[#FFF8EA] px-3.5 py-1.5 text-xs font-bold text-[#8B0000] hover:bg-[#A6291A]/10 text-center transition-all">
-                      Choose Image
-                      <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
-                    </label>
-                    {imagePreview && !removeImage && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setRemoveImage(true);
-                          setImageFile(null);
-                          setImagePreview("");
-                        }}
-                        className="flex items-center gap-1 text-xs text-red-600 font-semibold hover:text-red-700"
-                      >
-                        <LuTrash2 size={13} /> Remove
-                      </button>
-                    )}
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <label className="cursor-pointer rounded-xl border border-[#B8860B]/40 bg-[#FFF8EA] px-3.5 py-1.5 text-xs font-bold text-[#8B0000] hover:bg-[#A6291A]/10 text-center transition-all">
+                        Upload Image
+                        <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+                      </label>
+                      {imagePreview && !removeImage && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setRemoveImage(true);
+                            setImageFile(null);
+                            setImageUrl("");
+                            setImagePreview("");
+                          }}
+                          className="flex items-center gap-1 text-xs text-red-600 font-semibold hover:text-red-700"
+                        >
+                          <LuTrash2 size={13} /> Remove
+                        </button>
+                      )}
+                    </div>
+
+                    <input
+                      type="url"
+                      value={imageUrl}
+                      onChange={handleUrlChange}
+                      placeholder="Or paste image URL (https://...)"
+                      className="w-full rounded-xl bg-[#FAF6EC] border border-[#B8860B]/30 py-1.5 px-3 text-xs text-[#2B2013] font-semibold outline-none focus:border-[#A6291A]"
+                    />
                   </div>
                 </div>
               </div>

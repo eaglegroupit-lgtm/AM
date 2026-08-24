@@ -100,7 +100,13 @@ router.post("/", requireAuth, upload.single("image"), async (req, res, next) => 
     const maxOrder = Number(
       (await query("SELECT COALESCE(MAX(sort_order), -1) AS m FROM items WHERE category_id = $1", [category_id])).rows[0].m
     );
-    const image = req.file ? `/uploads/${req.file.filename}` : "";
+    
+    let image = "";
+    if (req.file) {
+      image = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+    } else if (req.body.image) {
+      image = req.body.image;
+    }
 
     const { rows } = await query(
       `INSERT INTO items
@@ -154,11 +160,11 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res, next) =
 
     let image = existing.image;
     if (req.file) {
-      if (existing.image) fs.unlink(path.join(uploadsDir, path.basename(existing.image)), () => {});
-      image = `/uploads/${req.file.filename}`;
+      image = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
     } else if (remove_image === "true" || remove_image === true) {
-      if (existing.image) fs.unlink(path.join(uploadsDir, path.basename(existing.image)), () => {});
       image = "";
+    } else if (req.body.image !== undefined) {
+      image = req.body.image;
     }
 
     const { rows } = await query(
