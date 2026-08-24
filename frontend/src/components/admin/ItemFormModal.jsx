@@ -55,8 +55,8 @@ export default function ItemFormModal({ open, onClose, onSubmit, categories, ite
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (!form.category_id || !form.name.trim() || form.price === "") {
-      setError("Category, name and price are required.");
+    if (!form.category_id || !form.name.trim()) {
+      setError("Category and name are required.");
       return;
     }
 
@@ -64,7 +64,7 @@ export default function ItemFormModal({ open, onClose, onSubmit, categories, ite
     fd.append("category_id", form.category_id);
     fd.append("name", form.name.trim());
     fd.append("description", form.description);
-    fd.append("price", form.price);
+    fd.append("price", form.price !== "" ? form.price : "0");
     fd.append("is_available", form.is_available);
     fd.append("is_popular", form.is_popular);
     fd.append("is_chef_recommended", form.is_chef_recommended);

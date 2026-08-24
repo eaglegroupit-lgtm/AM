@@ -107,10 +107,10 @@ function SidebarContent({ username, onLogout, onNavigate }) {
             end={end}
             onClick={onNavigate}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+              `flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
                 isActive
-                  ? "bg-gradient-to-r from-gold/20 to-gold/5 text-gold-light gold-border"
-                  : "text-cream/60 hover:text-cream hover:bg-black/5"
+                  ? "bg-gradient-to-r from-[#A6291A]/15 to-[#B8860B]/10 text-[#8B0000] border border-[#B8860B]/40 font-extrabold shadow-sm"
+                  : "text-[#4A3825] hover:text-[#8B0000] hover:bg-[#A6291A]/5"
               }`
             }
           >

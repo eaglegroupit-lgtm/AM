@@ -204,13 +204,15 @@ export async function seedDefaults(options = {}) {
     );
   }
 
-  const adminCount = Number((await query("SELECT COUNT(*) AS count FROM admins")).rows[0].count);
-  if (adminCount === 0) {
-    const username = process.env.ADMIN_USERNAME || "admin";
-    const password = process.env.ADMIN_PASSWORD || "Amutha@123";
-    const hash = bcrypt.hashSync(password, 10);
-    await query("INSERT INTO admins (username, password_hash) VALUES ($1, $2) ON CONFLICT (username) DO NOTHING", [username, hash]);
-  }
+  const username = process.env.ADMIN_USERNAME || "ams";
+  const password = process.env.ADMIN_PASSWORD || "ams";
+  const hash = bcrypt.hashSync(password, 10);
+  await query(
+    `INSERT INTO admins (username, password_hash)
+     VALUES ($1, $2)
+     ON CONFLICT (username) DO UPDATE SET password_hash = EXCLUDED.password_hash`,
+    [username, hash]
+  );
 }
 
 let _initPromise = null;
