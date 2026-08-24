@@ -8,9 +8,13 @@ import {
   LuCircleCheck,
   LuCircleX,
   LuFolderInput,
+  LuChevronLeft,
+  LuChevronRight,
 } from "react-icons/lu";
 import { api } from "../../lib/api";
 import ItemFormModal from "../../components/admin/ItemFormModal";
+
+const ITEMS_PER_PAGE = 10;
 
 export default function MenuManagement() {
   const [items, setItems] = useState([]);
@@ -23,6 +27,7 @@ export default function MenuManagement() {
   const [mealFilter, setMealFilter] = useState("all");
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
   const [selected, setSelected] = useState(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
@@ -45,6 +50,11 @@ export default function MenuManagement() {
     load();
   }, []);
 
+  // Reset pagination to page 1 whenever search or filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, categoryFilter, mealFilter, availabilityFilter]);
+
   const filtered = useMemo(() => {
     return items.filter((i) => {
       if (categoryFilter !== "all" && i.category_id !== Number(categoryFilter)) return false;
@@ -58,6 +68,14 @@ export default function MenuManagement() {
       return true;
     });
   }, [items, categoryFilter, availabilityFilter, mealFilter, search]);
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE) || 1;
+  const safePage = Math.min(currentPage, totalPages);
+
+  const paginatedItems = useMemo(() => {
+    const start = (safePage - 1) * ITEMS_PER_PAGE;
+    return filtered.slice(start, start + ITEMS_PER_PAGE);
+  }, [filtered, safePage]);
 
   const toggleSelect = (id) => {
     setSelected((prev) => {
@@ -150,7 +168,7 @@ export default function MenuManagement() {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
           <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#8B0000]">Menu Items Management</h1>
-          <p className="text-sm text-[#4A3825] mt-1">{items.length} items across {categories.length} categories</p>
+          <p className="text-sm text-[#4A3825] mt-1">{items.length} total items across {categories.length} categories</p>
         </div>
         <button
           onClick={handleCreate}
@@ -262,7 +280,7 @@ export default function MenuManagement() {
       {loading ? (
         <p className="text-sm text-[#4A3825] font-semibold">Loading items...</p>
       ) : (
-        <div className="rounded-2xl border border-[#B8860B]/30 bg-[#FFFDF8] overflow-hidden shadow-lg">
+        <div className="rounded-2xl border border-[#B8860B]/30 bg-[#FFFDF8] overflow-hidden shadow-lg flex flex-col">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[#B8860B]/20 bg-[#FAF6EC] text-left text-xs font-extrabold text-[#8B6914] uppercase tracking-wider">
@@ -282,7 +300,7 @@ export default function MenuManagement() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((item) => (
+              {paginatedItems.map((item) => (
                 <tr key={item.id} className="border-b border-[#B8860B]/10 last:border-0 hover:bg-[#FFF8EA]/60 transition-colors">
                   <td className="p-3">
                     <input
@@ -406,6 +424,61 @@ export default function MenuManagement() {
               )}
             </tbody>
           </table>
+
+          {/* Pagination Controls Bar */}
+          {filtered.length > 0 && (
+            <div className="flex flex-wrap items-center justify-between gap-4 p-4 border-t border-[#B8860B]/20 bg-[#FAF6EC]/80 text-xs text-[#4A3825] font-semibold">
+              <div>
+                Showing{" "}
+                <span className="font-extrabold text-[#2B2013]">
+                  {(safePage - 1) * ITEMS_PER_PAGE + 1}
+                </span>{" "}
+                to{" "}
+                <span className="font-extrabold text-[#2B2013]">
+                  {Math.min(safePage * ITEMS_PER_PAGE, filtered.length)}
+                </span>{" "}
+                of <span className="font-extrabold text-[#8B0000]">{filtered.length}</span> items
+              </div>
+
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={safePage === 1}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[#B8860B]/30 bg-[#FFFDF8] hover:border-[#A6291A] hover:text-[#8B0000] disabled:opacity-40 disabled:hover:border-[#B8860B]/30 disabled:hover:text-[#4A3825] transition-all cursor-pointer"
+                >
+                  <LuChevronLeft size={15} /> Prev
+                </button>
+
+                <div className="flex items-center gap-1 px-1">
+                  {Array.from({ length: totalPages }).map((_, idx) => {
+                    const pageNum = idx + 1;
+                    const isActive = pageNum === safePage;
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`h-7 w-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          isActive
+                            ? "bg-[#A6291A] text-white shadow-sm scale-105"
+                            : "bg-[#FFFDF8] border border-[#B8860B]/20 text-[#4A3825] hover:border-[#A6291A] hover:text-[#8B0000]"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={safePage === totalPages}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[#B8860B]/30 bg-[#FFFDF8] hover:border-[#A6291A] hover:text-[#8B0000] disabled:opacity-40 disabled:hover:border-[#B8860B]/30 disabled:hover:text-[#4A3825] transition-all cursor-pointer"
+                >
+                  Next <LuChevronRight size={15} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
