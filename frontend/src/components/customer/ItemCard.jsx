@@ -66,14 +66,7 @@ export default function ItemCard({ item, index = 0, onClick }) {
           )}
         </div>
 
-        {/* Price Tag Top Right */}
-        {item.price > 0 && (
-          <div className="absolute top-2.5 right-2.5 z-10">
-            <span className="inline-flex items-center rounded-full bg-black/70 backdrop-blur-md px-2.5 py-1 text-xs font-bold gold-text border border-gold/40 shadow-lg tracking-wide">
-              {currencySymbol} {item.price}
-            </span>
-          </div>
-        )}
+
 
         {/* Availability Badge Bottom Right */}
         <div className="absolute bottom-2.5 right-2.5 z-10">

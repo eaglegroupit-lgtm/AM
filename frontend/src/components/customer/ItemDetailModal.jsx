@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose } from "react-icons/io5";
-import { LuLeaf, LuMaximize2, LuRotateCcw, LuEye } from "react-icons/lu";
+import { LuLeaf, LuMaximize2, LuRotateCcw, LuEye, LuCompass } from "react-icons/lu";
 import { GiChefToque } from "react-icons/gi";
 import { HiSparkles } from "react-icons/hi2";
 import { useLanguage } from "../../context/LanguageContext";
@@ -16,34 +16,40 @@ const PLACEHOLDER =
     </svg>
   `);
 
-// Defines three angle perspective modes and styling transformations
+// Defines the 3 meaningful angle views requested by user: Top View, Right View, and Left View
 const ANGLES = [
-  {
-    id: "front",
-    labelEn: "Front View",
-    labelTa: "முன் கோணம்",
-    descEn: "Standard eye-level serving angle",
-    descTa: "நேரடி பார்வை",
-    transform: "scale(1) rotate(0deg)",
-    badge: "0°",
-  },
   {
     id: "top",
     labelEn: "Top View",
-    labelTa: "மேல் கோணம்",
-    descEn: "Overhead top-down perspective",
-    descTa: "மேலிருந்து பார்வை",
-    transform: "scale(1.12) rotate(-3deg) perspective(600px) rotateX(15deg)",
-    badge: "90°",
+    labelTa: "மேல் பார்வை",
+    descEn: "Direct overhead top-down perspective",
+    descTa: "மேலிருந்து நேரடி பார்வை",
+    badge: "Top 90°",
+    transform: "perspective(900px) rotateX(46deg) scale(1.15) translateY(-8px)",
+    lightOverlay: "radial-gradient(circle at center, rgba(255,255,255,0.22) 0%, transparent 70%)",
+    shadow: "0 25px 35px -5px rgba(0, 0, 0, 0.7)",
   },
   {
-    id: "side",
-    labelEn: "Plated Side View",
-    labelTa: "பக்க கோணம்",
-    descEn: "Close-up angled detail view",
-    descTa: "அருகாமை பக்க பார்வை",
-    transform: "scale(1.22) rotate(2deg) perspective(600px) rotateY(-12deg)",
-    badge: "45°",
+    id: "right",
+    labelEn: "Right View",
+    labelTa: "வலது பக்க பார்வை",
+    descEn: "Right side angled perspective",
+    descTa: "வலது பக்க 3D பார்வை",
+    badge: "Right 45°",
+    transform: "perspective(900px) rotateY(-36deg) rotateX(10deg) scale(1.18) translateX(12px)",
+    lightOverlay: "linear-gradient(to left, rgba(212,175,55,0.2), transparent 60%)",
+    shadow: "-20px 20px 30px -5px rgba(0, 0, 0, 0.7)",
+  },
+  {
+    id: "left",
+    labelEn: "Left View",
+    labelTa: "இடது பக்க பார்வை",
+    descEn: "Left side angled perspective",
+    descTa: "இடது பக்க 3D பார்வை",
+    badge: "Left 45°",
+    transform: "perspective(900px) rotateY(36deg) rotateX(10deg) scale(1.18) translateX(-12px)",
+    lightOverlay: "linear-gradient(to right, rgba(212,175,55,0.2), transparent 60%)",
+    shadow: "20px 20px 30px -5px rgba(0, 0, 0, 0.7)",
   },
 ];
 
@@ -69,9 +75,12 @@ export default function ItemDetailModal({ item, onClose }) {
 
   const name = translateItemName(item.name, language);
   const description = translateItemDescription(item.name, item.description, language);
-  const currencySymbol = language === "ta" ? "ரூ." : "₹";
   const activeAngle = ANGLES[activeAngleIndex];
-  const itemImage = item.image || PLACEHOLDER;
+  
+  // Custom per-angle image if available, fallback to main item image
+  const defaultImage = item.image || PLACEHOLDER;
+  const currentAngleImage =
+    (item.image_angles?.[activeAngle.id] || item[`image_${activeAngle.id}`]) || defaultImage;
 
   return (
     <AnimatePresence>
@@ -113,33 +122,43 @@ export default function ItemDetailModal({ item, onClose }) {
 
           <div className="overflow-y-auto custom-scrollbar p-6 space-y-6">
             {/* Image & Angle Viewer Section */}
-            <div className="relative rounded-2xl overflow-hidden bg-black/60 border border-gold/20 shadow-inner group">
-              {/* Active Image Display */}
+            <div className="relative rounded-2xl overflow-hidden bg-black/80 border border-gold/20 shadow-2xl group">
+              {/* Active Image Display with 3D perspective viewport */}
               <div
-                className="relative h-64 sm:h-80 w-full overflow-hidden flex items-center justify-center cursor-pointer select-none"
+                className="relative h-64 sm:h-80 w-full overflow-hidden flex items-center justify-center cursor-pointer select-none perspective-container"
                 onClick={() => setIsFullViewOpen(true)}
               >
                 <motion.img
                   key={activeAngle.id}
-                  src={itemImage}
+                  src={currentAngleImage}
                   alt={`${name} - ${activeAngle.labelEn}`}
-                  initial={{ opacity: 0.6, scale: 0.95 }}
+                  initial={{ opacity: 0.5, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4 }}
-                  style={{ transform: activeAngle.transform }}
-                  className="h-full w-full object-cover transition-transform duration-500 ease-out"
+                  style={{
+                    transform: activeAngle.transform,
+                    boxShadow: activeAngle.shadow,
+                  }}
+                  className="h-full w-full object-cover transition-transform duration-500 ease-out rounded-xl"
                   onError={(e) => {
                     e.currentTarget.src = PLACEHOLDER;
                   }}
                 />
 
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+                {/* Perspective Directional Light Overlay */}
+                <div
+                  className="absolute inset-0 pointer-events-none transition-all duration-500"
+                  style={{ background: activeAngle.lightOverlay }}
+                />
 
-                {/* Badge Overlay */}
+                {/* Dark Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none" />
+
+                {/* Angle Badge Overlay */}
                 <div className="absolute top-3 left-3 flex items-center gap-2">
-                  <span className="rounded-full bg-gold/90 text-black text-[11px] font-bold px-3 py-1 shadow-md backdrop-blur-sm">
-                    {activeAngle.badge} {language === "ta" ? activeAngle.labelTa : activeAngle.labelEn}
+                  <span className="flex items-center gap-1.5 rounded-full bg-gold text-black text-[11px] font-bold px-3 py-1 shadow-lg backdrop-blur-md">
+                    <LuCompass size={13} />
+                    {language === "ta" ? activeAngle.labelTa : activeAngle.labelEn}
                   </span>
                 </div>
 
@@ -149,20 +168,22 @@ export default function ItemDetailModal({ item, onClose }) {
                     e.stopPropagation();
                     setIsFullViewOpen(true);
                   }}
-                  className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-xl bg-surface/80 hover:bg-gold hover:text-black border border-gold/40 px-3 py-1.5 text-xs font-semibold text-gold-light backdrop-blur-md shadow-lg transition-all"
+                  className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-xl bg-surface/90 hover:bg-gold hover:text-black border border-gold/40 px-3.5 py-1.5 text-xs font-semibold text-gold-light backdrop-blur-md shadow-lg transition-all"
                 >
                   <LuMaximize2 size={14} />
                   <span>{t("fullView", language)}</span>
                 </button>
               </div>
 
-              {/* Angle Switcher Controls */}
-              <div className="p-3 bg-surface/80 border-t border-gold/15 backdrop-blur-md">
+              {/* Angle Switcher Controls (Top View, Right View, Left View) */}
+              <div className="p-3.5 bg-surface/90 border-t border-gold/15 backdrop-blur-md">
                 <div className="text-[11px] font-medium text-cream/70 mb-2 flex items-center justify-between">
                   <span className="flex items-center gap-1 text-gold-light font-semibold">
                     <LuRotateCcw size={13} /> {t("threeAngles", language)}
                   </span>
-                  <span>{language === "ta" ? activeAngle.descTa : activeAngle.descEn}</span>
+                  <span className="text-gold-light/90 font-medium">
+                    {language === "ta" ? activeAngle.descTa : activeAngle.descEn}
+                  </span>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2">
@@ -172,13 +193,15 @@ export default function ItemDetailModal({ item, onClose }) {
                       <button
                         key={angle.id}
                         onClick={() => setActiveAngleIndex(idx)}
-                        className={`flex flex-col items-center justify-center p-2 rounded-xl border text-xs font-medium transition-all ${
+                        className={`flex flex-col items-center justify-center p-2.5 rounded-xl border text-xs font-medium transition-all ${
                           isActive
-                            ? "border-gold bg-gold/20 text-gold-light font-bold shadow-md ring-1 ring-gold/50"
-                            : "border-gold/20 bg-ink/40 text-cream/70 hover:border-gold/40 hover:bg-surface"
+                            ? "border-gold bg-gold/25 text-gold-light font-bold shadow-lg ring-1 ring-gold/60 scale-[1.02]"
+                            : "border-gold/20 bg-ink/40 text-cream/70 hover:border-gold/40 hover:bg-surface hover:text-cream"
                         }`}
                       >
-                        <span className="text-[10px] uppercase font-bold text-gold/80 mb-0.5">{angle.badge}</span>
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-gold/90 mb-0.5">
+                          {angle.badge}
+                        </span>
                         <span>{language === "ta" ? angle.labelTa : angle.labelEn}</span>
                       </button>
                     );
@@ -187,41 +210,31 @@ export default function ItemDetailModal({ item, onClose }) {
               </div>
             </div>
 
-            {/* Details Section */}
+            {/* Details Section (Prices removed) */}
             <div className="space-y-3">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h2 className="font-display text-2xl sm:text-3xl font-bold text-cream leading-tight">{name}</h2>
-                  <div className="mt-2 flex flex-wrap items-center gap-2">
-                    {item.is_popular && (
-                      <span className="flex items-center gap-1 rounded-full bg-emerald-900/40 border border-emerald-500/40 text-emerald-300 text-xs px-2.5 py-0.5 font-medium">
-                        <LuLeaf /> {t("popular", language)}
-                      </span>
-                    )}
-                    {item.is_chef_recommended && (
-                      <span className="flex items-center gap-1 rounded-full bg-amber-900/40 border border-amber-500/40 text-amber-300 text-xs px-2.5 py-0.5 font-medium">
-                        <GiChefToque /> {t("chefsPick", language)}
-                      </span>
-                    )}
-                    {item.is_new && (
-                      <span className="flex items-center gap-1 rounded-full bg-gold/20 border border-gold/50 text-gold-light text-xs px-2.5 py-0.5 font-medium">
-                        <HiSparkles /> {t("newBadge", language)}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {item.price > 0 && (
-                  <div className="text-right">
-                    <span className="font-display text-2xl sm:text-3xl font-extrabold gold-text">
-                      {currencySymbol} {item.price}
+              <div>
+                <h2 className="font-display text-2xl sm:text-3xl font-bold text-cream leading-tight">{name}</h2>
+                <div className="mt-2.5 flex flex-wrap items-center gap-2">
+                  {item.is_popular && (
+                    <span className="flex items-center gap-1 rounded-full bg-emerald-900/40 border border-emerald-500/40 text-emerald-300 text-xs px-3 py-0.5 font-medium">
+                      <LuLeaf /> {t("popular", language)}
                     </span>
-                  </div>
-                )}
+                  )}
+                  {item.is_chef_recommended && (
+                    <span className="flex items-center gap-1 rounded-full bg-amber-900/40 border border-amber-500/40 text-amber-300 text-xs px-3 py-0.5 font-medium">
+                      <GiChefToque /> {t("chefsPick", language)}
+                    </span>
+                  )}
+                  {item.is_new && (
+                    <span className="flex items-center gap-1 rounded-full bg-gold/20 border border-gold/50 text-gold-light text-xs px-3 py-0.5 font-medium">
+                      <HiSparkles /> {t("newBadge", language)}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {description && (
-                <p className="text-sm sm:text-base text-cream/80 leading-relaxed pt-2 border-t border-gold/10">
+                <p className="text-sm sm:text-base text-cream/80 leading-relaxed pt-3 border-t border-gold/10">
                   {description}
                 </p>
               )}
@@ -236,7 +249,7 @@ export default function ItemDetailModal({ item, onClose }) {
                   />
                   {item.is_available ? t("available", language) : t("notAvailable", language)}
                 </span>
-                <span>Amutha Surabi Authentic Cuisine</span>
+                <span className="text-gold-light/60">Amutha Surabi Authentic Taste</span>
               </div>
             </div>
           </div>
@@ -278,11 +291,11 @@ export default function ItemDetailModal({ item, onClose }) {
                 </div>
               </div>
 
-              {/* Full View Main Image */}
+              {/* Full View Main Image Display */}
               <div className="relative flex-1 flex items-center justify-center overflow-hidden my-4">
                 <motion.img
                   key={`full-${activeAngle.id}-${zoomLevel}`}
-                  src={itemImage}
+                  src={currentAngleImage}
                   alt={name}
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: zoomLevel, opacity: 1 }}
@@ -304,7 +317,7 @@ export default function ItemDetailModal({ item, onClose }) {
                     onClick={() => setActiveAngleIndex(idx)}
                     className={`flex-1 py-2 px-3 rounded-xl border text-xs font-semibold transition-all ${
                       idx === activeAngleIndex
-                        ? "bg-gold text-black border-gold shadow-lg"
+                        ? "bg-gold text-black border-gold shadow-lg font-bold"
                         : "bg-surface/80 text-cream/80 border-gold/30 hover:border-gold"
                     }`}
                   >
