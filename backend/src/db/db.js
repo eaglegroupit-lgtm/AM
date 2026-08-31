@@ -126,8 +126,8 @@ export async function seedDefaults(options = {}) {
       for (const item of defaultItems) {
         await client.query(
           `INSERT INTO items
-            (category_id, name, description, price, image, is_available, is_popular, is_chef_recommended, is_new, sort_order)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+            (category_id, name, description, price, image, is_available, is_popular, is_chef_recommended, is_new, sort_order, is_breakfast, is_lunch, is_snacks, is_dinner)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
           [
             item.category_id,
             item.name,
@@ -139,6 +139,10 @@ export async function seedDefaults(options = {}) {
             Boolean(item.is_chef_recommended),
             Boolean(item.is_new),
             item.sort_order,
+            item.is_breakfast !== false,
+            item.is_lunch !== false,
+            item.is_snacks !== false,
+            item.is_dinner !== false,
           ]
         );
       }
@@ -160,8 +164,8 @@ export async function seedDefaults(options = {}) {
         for (const item of defaultItems) {
           await client.query(
             `INSERT INTO items
-              (category_id, name, description, price, image, is_available, is_popular, is_chef_recommended, is_new, sort_order)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+              (category_id, name, description, price, image, is_available, is_popular, is_chef_recommended, is_new, sort_order, is_breakfast, is_lunch, is_snacks, is_dinner)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
             [
               item.category_id,
               item.name,
@@ -173,12 +177,53 @@ export async function seedDefaults(options = {}) {
               Boolean(item.is_chef_recommended),
               Boolean(item.is_new),
               item.sort_order,
+              item.is_breakfast !== false,
+              item.is_lunch !== false,
+              item.is_snacks !== false,
+              item.is_dinner !== false,
             ]
           );
         }
         await client.query("SELECT setval(pg_get_serial_sequence('categories', 'id'), COALESCE((SELECT MAX(id) FROM categories), 1))");
         await client.query("SELECT setval(pg_get_serial_sequence('items', 'id'), COALESCE((SELECT MAX(id) FROM items), 1))");
       });
+    } else {
+      // Auto-deduplicate any existing items in the database that share the exact dish name
+      try {
+        const { rows: allDbItems } = await query("SELECT * FROM items ORDER BY id ASC");
+        const duplicatesByName = new Map();
+        for (const item of allDbItems) {
+          const key = item.name.trim().toLowerCase();
+          if (!duplicatesByName.has(key)) {
+            duplicatesByName.set(key, [item]);
+          } else {
+            duplicatesByName.get(key).push(item);
+          }
+        }
+        for (const [key, group] of duplicatesByName.entries()) {
+          if (group.length > 1) {
+            const primary = group[0];
+            const is_breakfast = group.some((i) => i.is_breakfast || i.category_id === 1);
+            const is_lunch = group.some((i) => i.is_lunch || i.category_id === 2);
+            const is_snacks = group.some((i) => i.is_snacks || i.category_id === 3);
+            const is_dinner = group.some((i) => i.is_dinner || i.category_id === 4);
+            const bestImage = group.find((i) => i.image)?.image || primary.image;
+            const is_popular = group.some((i) => i.is_popular);
+            const is_chef_recommended = group.some((i) => i.is_chef_recommended);
+            const is_new = group.some((i) => i.is_new);
+
+            await query(
+              `UPDATE items SET is_breakfast = $1, is_lunch = $2, is_snacks = $3, is_dinner = $4, image = $5, is_popular = $6, is_chef_recommended = $7, is_new = $8 WHERE id = $9`,
+              [is_breakfast, is_lunch, is_snacks, is_dinner, bestImage, is_popular, is_chef_recommended, is_new, primary.id]
+            );
+
+            const duplicateIds = group.slice(1).map((i) => i.id);
+            await query(`DELETE FROM items WHERE id = ANY($1::int[])`, [duplicateIds]);
+          }
+        }
+      } catch (dedupErr) {
+        console.warn("Auto-deduplication check skipped:", dedupErr.message);
+      }
     }
   }
 

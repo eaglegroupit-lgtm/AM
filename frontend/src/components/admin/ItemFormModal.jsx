@@ -128,14 +128,14 @@ export default function ItemFormModal({ open, onClose, onSubmit, categories, ite
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-x-4 top-[3%] bottom-[3%] sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-full sm:max-w-lg z-50 overflow-y-auto rounded-3xl border border-[#B8860B]/35 bg-[#FFFDF8] p-6 text-[#2B2013] shadow-2xl"
+            className="fixed inset-x-2 top-[2%] bottom-[2%] sm:inset-x-auto sm:top-[4%] sm:bottom-[4%] sm:left-1/2 sm:-translate-x-1/2 sm:w-full sm:max-w-lg z-50 overflow-y-auto rounded-2xl sm:rounded-3xl border border-[#B8860B]/35 bg-[#FFFDF8] p-4 sm:p-6 text-[#2B2013] shadow-2xl"
           >
-            <div className="flex items-center justify-between mb-5 border-b border-[#B8860B]/20 pb-3">
-              <h2 className="font-display text-xl font-bold text-[#8B0000]">
+            <div className="flex items-center justify-between mb-4 border-b border-[#B8860B]/20 pb-3">
+              <h2 className="font-display text-lg sm:text-xl font-bold text-[#8B0000]">
                 {item ? "Edit Menu Item" : "Add Menu Item"}
               </h2>
-              <button onClick={onClose} className="text-[#4A3825] hover:text-[#A6291A]">
-                <LuX size={22} />
+              <button onClick={onClose} className="p-1.5 rounded-lg text-[#4A3825] hover:text-[#A6291A] hover:bg-[#A6291A]/10 transition-colors">
+                <LuX size={20} />
               </button>
             </div>
 

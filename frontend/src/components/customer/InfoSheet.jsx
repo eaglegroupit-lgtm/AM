@@ -1,8 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { LuX, LuMapPin, LuPhone, LuClock } from "react-icons/lu";
 import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { useLanguage } from "../../context/LanguageContext";
+import { branchAddresses } from "../../lib/translations";
 
 export default function InfoSheet({ open, onClose, settings }) {
+  const { language } = useLanguage();
+  const branches = branchAddresses[language] || branchAddresses.en;
+
   return (
     <AnimatePresence>
       {open && (
@@ -32,12 +37,17 @@ export default function InfoSheet({ open, onClose, settings }) {
             </div>
 
             <div className="space-y-3 text-sm text-cream/80">
-              {settings?.address && (
-                <div className="flex items-start gap-3">
-                  <LuMapPin className="mt-0.5 text-gold-light shrink-0" size={18} />
-                  <span>{settings.address}</span>
+              {branches.map((b, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <LuMapPin className="mt-0.5 text-[#A6291A] shrink-0" size={18} />
+                  <div>
+                    <span className="block text-[11px] font-bold tracking-wider text-[#8B6914] uppercase">
+                      {b.title}
+                    </span>
+                    <span className="text-xs text-[#2B2013]">{b.address}</span>
+                  </div>
                 </div>
-              )}
+              ))}
               {settings?.phone && (
                 <div className="flex items-center gap-3">
                   <LuPhone className="text-gold-light shrink-0" size={18} />

@@ -2,6 +2,29 @@
 // in the database — if an admin adds a brand-new item with no Tamil entry
 // here, translateItemName/translateItemDescription fall back to the
 // English text rather than showing nothing.
+export const branchAddresses = {
+  en: [
+    {
+      title: "Branch 1",
+      address: "Edyarpalayam, Opp. Avila Convent, Covai - 25",
+    },
+    {
+      title: "Branch 2",
+      address: "Mullai Nagar, Coimbatore",
+    },
+  ],
+  ta: [
+    {
+      title: "கிளை 1",
+      address: "எடையார்பாளையம், அவிலா கான்வென்ட் எதிரில், கோவை - 25",
+    },
+    {
+      title: "கிளை 2",
+      address: "முல்லை நகர், கோயம்புத்தூர்",
+    },
+  ],
+};
+
 export const categoryTranslations = {
   "Breakfast": "காலை உணவு",
   "Lunch": "மதிய உணவு",

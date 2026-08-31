@@ -4,7 +4,7 @@ import { GiChefToque, GiStarFormation } from "react-icons/gi";
 import { HiSparkles } from "react-icons/hi2";
 import { api } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
-import { t, translateItemName, translateItemDescription } from "../lib/translations";
+import { t, translateItemName, translateItemDescription, branchAddresses } from "../lib/translations";
 import { getCurrentMealTime } from "../lib/mealTime";
 import Header from "../components/customer/Header";
 import SearchBar from "../components/customer/SearchBar";
@@ -86,15 +86,13 @@ export default function Menu() {
     return true;
   };
 
-  // Strictly filter items to only the current active meal menu and checked meal slot
+  // Filter items to only those enabled for the current IST meal slot and currently available
   const mealItems = useMemo(() => {
-    if (!activeCategoryObj) return [];
     return items.filter((i) => {
-      const isCategoryMatch = i.category_id === activeCategoryObj.id;
       const isMealSlotMatch = isItemInCurrentISTMealSlot(i, currentMeal.slug);
-      return isCategoryMatch && isMealSlotMatch;
+      return isMealSlotMatch && i.is_available;
     });
-  }, [items, activeCategoryObj, currentMeal]);
+  }, [items, currentMeal]);
 
   const query = search.trim().toLowerCase();
 
@@ -215,8 +213,15 @@ export default function Menu() {
           <p className="font-display gold-text text-lg font-semibold">
             {settings?.restaurant_name || "Amutha Surabi Restaurant"}
           </p>
-          {settings?.address && <p className="text-xs text-cream/40 mt-2 max-w-sm mx-auto">{settings.address}</p>}
-          {settings?.opening_hours && <p className="text-xs text-cream/40 mt-1">{settings.opening_hours}</p>}
+          <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-cream/70 max-w-xl mx-auto">
+            {(branchAddresses[language] || branchAddresses.en).map((b, idx) => (
+              <span key={idx} className="inline-flex items-center gap-1.5">
+                <span className="font-bold text-[#8B6914] uppercase text-[10px]">{b.title}:</span>
+                <span>{b.address}</span>
+              </span>
+            ))}
+          </div>
+          {settings?.opening_hours && <p className="text-xs text-cream/40 mt-2">{settings.opening_hours}</p>}
           <p className="text-[11px] text-cream/25 mt-4">{t("craftedWithLove", language)}</p>
         </motion.footer>
       </main>
