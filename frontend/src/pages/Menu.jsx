@@ -16,6 +16,14 @@ import BottomNav from "../components/customer/BottomNav";
 import InfoSheet from "../components/customer/InfoSheet";
 import ItemDetailModal from "../components/customer/ItemDetailModal";
 
+const MEAL_TABS = [
+  { id: "all", icon: "🍽️", labelEn: "All", labelTa: "அனைத்தும்" },
+  { id: "breakfast", icon: "🌅", labelEn: "Breakfast", labelTa: "காலை உணவு" },
+  { id: "lunch", icon: "☀️", labelEn: "Lunch", labelTa: "மதிய உணவு" },
+  { id: "evening-snacks", icon: "☕", labelEn: "Snacks", labelTa: "சிற்றுண்டி" },
+  { id: "dinner", icon: "🌙", labelEn: "Dinner", labelTa: "இரவு உணவு" },
+];
+
 export default function Menu() {
   const { language } = useLanguage();
   const [categories, setCategories] = useState([]);
@@ -26,6 +34,7 @@ export default function Menu() {
 
   const [search, setSearch] = useState("");
   const [currentMeal, setCurrentMeal] = useState(() => getCurrentMealTime());
+  const [activeMealFilter, setActiveMealFilter] = useState(() => getCurrentMealTime().slug);
   const [infoOpen, setInfoOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -64,21 +73,9 @@ export default function Menu() {
     };
   }, []);
 
-  // Determine active meal category strictly by IST time
-  const activeCategoryObj = useMemo(() => {
-    if (!categories.length) return null;
-    return (
-      categories.find(
-        (c) =>
-          c.is_current_meal ||
-          c.slug === currentMeal.slug ||
-          c.name.toLowerCase().includes(currentMeal.slug)
-      ) || categories[0]
-    );
-  }, [categories, currentMeal]);
-
-  // Helper to check if an item is enabled for the current IST meal slot
-  const isItemInCurrentISTMealSlot = (item, mealSlug) => {
+  // Helper to check if an item is enabled for a meal slot
+  const isItemInMealSlot = (item, mealSlug) => {
+    if (mealSlug === "all") return true;
     if (mealSlug === "breakfast") return item.is_breakfast !== false;
     if (mealSlug === "lunch") return item.is_lunch !== false;
     if (mealSlug === "evening-snacks") return item.is_snacks !== false;
@@ -86,13 +83,13 @@ export default function Menu() {
     return true;
   };
 
-  // Filter items to only those enabled for the current IST meal slot and currently available
+  // Filter items to only those enabled for the selected meal filter and currently available
   const mealItems = useMemo(() => {
     return items.filter((i) => {
-      const isMealSlotMatch = isItemInCurrentISTMealSlot(i, currentMeal.slug);
-      return isMealSlotMatch && i.is_available;
+      const isMealMatch = isItemInMealSlot(i, activeMealFilter);
+      return isMealMatch && i.is_available;
     });
-  }, [items, currentMeal]);
+  }, [items, activeMealFilter]);
 
   const query = search.trim().toLowerCase();
 
@@ -110,9 +107,18 @@ export default function Menu() {
     });
   }, [mealItems, query, language]);
 
-  const popularItems = useMemo(() => mealItems.filter((i) => i.is_popular && i.is_available), [mealItems]);
-  const chefItems = useMemo(() => mealItems.filter((i) => i.is_chef_recommended && i.is_available), [mealItems]);
-  const newItems = useMemo(() => mealItems.filter((i) => i.is_new && i.is_available), [mealItems]);
+  // Items strictly for the current real-time IST meal slot (used for live featured sections)
+  const currentISTItems = useMemo(() => {
+    return items.filter((i) => {
+      const isCurrentISTMatch = isItemInMealSlot(i, currentMeal.slug);
+      return isCurrentISTMatch && i.is_available;
+    });
+  }, [items, currentMeal]);
+
+  // Featured rows (Chef Recommended, Most Popular, Newly Added) strictly based on current IST time slot
+  const chefItems = useMemo(() => currentISTItems.filter((i) => i.is_chef_recommended), [currentISTItems]);
+  const popularItems = useMemo(() => currentISTItems.filter((i) => i.is_popular), [currentISTItems]);
+  const newItems = useMemo(() => currentISTItems.filter((i) => i.is_new), [currentISTItems]);
 
   const isSearching = query.length > 0;
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -121,13 +127,48 @@ export default function Menu() {
     <div className="tamil-menu-bg min-h-screen bg-[#FAF6EC] text-[#2B2013] pb-24 sm:pb-10" ref={topRef}>
       <Header settings={settings} />
 
-      <div className="sticky top-0 z-30 -mt-1 bg-[#FAF6EC]/90 backdrop-blur-xl border-b border-[#B8860B]/20">
-        <div className="max-w-5xl mx-auto px-4 py-3">
+      <div className="sticky top-0 z-30 -mt-1 bg-[#FAF6EC]/95 backdrop-blur-xl border-b border-[#B8860B]/20 shadow-xs">
+        <div className="max-w-5xl mx-auto px-4 pt-3 pb-2.5 space-y-2.5">
           <div className="flex items-center gap-2">
             <div className="flex-1 min-w-0">
               <SearchBar value={search} onChange={setSearch} inputRef={searchRef} />
             </div>
             <LanguageToggle />
+          </div>
+
+          {/* Meal Filter Tabs: All, Breakfast, Lunch, Snacks, Dinner */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+            {MEAL_TABS.map((tab) => {
+              const isSelected = activeMealFilter === tab.id;
+              const isCurrentIST = currentMeal.slug === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveMealFilter(tab.id)}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold shrink-0 transition-all cursor-pointer ${
+                    isSelected
+                      ? "bg-gradient-to-r from-[#A6291A] via-[#8B0000] to-[#700000] text-white shadow-md ring-2 ring-[#B8860B]/50 scale-[1.03]"
+                      : "bg-[#FFFDF8] border border-[#B8860B]/30 text-[#4A3825] hover:border-[#A6291A]/50 hover:text-[#8B0000] shadow-xs"
+                  }`}
+                >
+                  <span className="text-sm">{tab.icon}</span>
+                  <span className="tracking-wide">{language === "ta" ? tab.labelTa : tab.labelEn}</span>
+                  {isCurrentIST && (
+                    <span
+                      title="Currently Serving Live (IST)"
+                      className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${
+                        isSelected
+                          ? "bg-emerald-400/30 text-emerald-100 border border-emerald-300/40"
+                          : "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                      }`}
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      {language === "ta" ? "நேரலை" : "Live"}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -168,8 +209,34 @@ export default function Menu() {
               onItemClick={setSelectedItem}
             />
 
-            {/* Complete Menu for the current active meal */}
+            {/* Active Meal Section Header */}
             <section className="mt-10">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#B8860B]/25 pb-3 mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FAF6EC] border border-[#B8860B]/30 text-lg shadow-xs">
+                    {MEAL_TABS.find((t) => t.id === activeMealFilter)?.icon || "🍽️"}
+                  </div>
+                  <div>
+                    <h2 className="font-display text-lg sm:text-xl font-bold text-[#8B0000] leading-tight">
+                      {language === "ta"
+                        ? `${MEAL_TABS.find((t) => t.id === activeMealFilter)?.labelTa || ""} மெனு`
+                        : `${MEAL_TABS.find((t) => t.id === activeMealFilter)?.labelEn || ""} Menu`}
+                    </h2>
+                    <p className="text-[11px] text-[#8B6914] font-semibold">
+                      {currentMeal.slug === activeMealFilter ? (
+                        <span className="text-emerald-700 font-bold">● {language === "ta" ? "இப்போது பரிமாறப்படுகிறது (நேரலை)" : "Serving Right Now (IST Live)"}</span>
+                      ) : (
+                        <span>{language === "ta" ? "முழு உணவு பட்டியல்" : "Browse available items"}</span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                <span className="text-xs font-extrabold text-[#8B0000] bg-[#FFF8EA] px-3 py-1 rounded-full border border-[#B8860B]/35 shadow-xs">
+                  {mealItems.length} {language === "ta" ? "உணவுகள்" : "Dishes"}
+                </span>
+              </div>
+
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                 {mealItems.map((item, i) => (
                   <ItemCard key={item.id} item={item} index={i} onClick={setSelectedItem} />
