@@ -111,12 +111,25 @@ configuration is needed locally.
 - Customer menu: **http://localhost:5173/**
 - Admin dashboard: **http://localhost:5173/admin/login**
 
-### 3. Production Build
+### 3. Production Build & Process Management (PM2)
 
 ```bash
+# Frontend build
 cd frontend && npm run build   # outputs static site to frontend/dist
-cd backend  && npm start       # run the API with a process manager (pm2, systemd, etc.)
+
+# Backend with PM2 (Auto-restart on crash & server reboot)
+cd backend
+npm install -g pm2             # Install PM2 globally on server
+pm2 start ecosystem.config.cjs # Starts API with auto-restart on crash (1s delay)
+pm2 save                       # Saves process list for server reboots
+pm2 startup                    # Generates systemd startup script so it starts on boot
 ```
+
+Common PM2 commands:
+- `pm2 status` — Check server status and memory usage
+- `pm2 logs amutha-surabi-backend` — View live backend logs
+- `pm2 restart amutha-surabi-backend` — Restart backend
+- `pm2 stop amutha-surabi-backend` — Stop backend
 
 Serve `frontend/dist` behind a static host or reverse proxy (Nginx, Vercel,
 Netlify, etc.) and point it at the deployed backend's `/api` and `/uploads`
