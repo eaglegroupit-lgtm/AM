@@ -2,6 +2,7 @@ import { Router } from "express";
 import { query, transaction } from "../db/db.js";
 import { requireAuth } from "../middleware/auth.js";
 import { getCurrentMealTime } from "../utils/istTime.js";
+import { getCached, setCached, invalidateCache } from "../utils/cache.js";
 
 const router = Router();
 
@@ -20,16 +21,34 @@ router.get("/current-meal", (req, res) => {
 router.get("/", async (req, res, next) => {
   try {
     const currentMeal = getCurrentMealTime();
+    const cacheKey = "categories_all";
+
+    const cached = getCached(cacheKey);
+    if (cached) {
+      const enriched = cached.map((c) => ({
+        ...c,
+        is_current_meal: Boolean(c.slug === currentMeal.slug || c.name.toLowerCase().includes(currentMeal.slug)),
+      }));
+      res.setHeader("X-Cache", "HIT");
+      res.setHeader("X-Current-Meal", currentMeal.slug);
+      res.setHeader("X-IST-Time", currentMeal.time);
+      return res.json(enriched);
+    }
+
     const { rows } = await query(
       `SELECT c.*,
         (SELECT COUNT(*)::int FROM items i WHERE i.category_id = c.id) AS item_count
        FROM categories c
        ORDER BY c.sort_order ASC, c.id ASC`
     );
+
+    setCached(cacheKey, rows, 300);
+
     const enriched = rows.map((c) => ({
       ...c,
       is_current_meal: Boolean(c.slug === currentMeal.slug || c.name.toLowerCase().includes(currentMeal.slug)),
     }));
+    res.setHeader("X-Cache", "MISS");
     res.setHeader("X-Current-Meal", currentMeal.slug);
     res.setHeader("X-IST-Time", currentMeal.time);
     res.json(enriched);
@@ -52,6 +71,7 @@ router.post("/", requireAuth, async (req, res, next) => {
       "INSERT INTO categories (name, slug, icon, sort_order) VALUES ($1, $2, $3, $4) RETURNING *",
       [name.trim(), slug, icon || "", maxOrder + 1]
     );
+    invalidateCache();
     res.status(201).json(rows[0]);
   } catch (error) {
     next(error);
@@ -73,6 +93,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
       "UPDATE categories SET name = $1, slug = $2, icon = $3 WHERE id = $4 RETURNING *",
       [newName, newSlug, icon ?? category.icon, req.params.id]
     );
+    invalidateCache();
     res.json(rows[0]);
   } catch (error) {
     next(error);
@@ -92,6 +113,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     }
 
     await query("DELETE FROM categories WHERE id = $1", [req.params.id]);
+    invalidateCache();
     res.json({ success: true });
   } catch (error) {
     next(error);
@@ -109,6 +131,7 @@ router.post("/reorder", requireAuth, async (req, res, next) => {
       }
     });
 
+    invalidateCache();
     res.json({ success: true });
   } catch (error) {
     next(error);

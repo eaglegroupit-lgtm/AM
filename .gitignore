@@ -9,3 +9,5 @@ backend/.env
 .claude/
 frontend/menu*.png
 .env
+
+deploy.tar.gz

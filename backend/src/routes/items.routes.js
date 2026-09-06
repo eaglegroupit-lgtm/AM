@@ -14,8 +14,13 @@ const router = Router();
 const toBool = (v) => Boolean(v === true || v === "true" || v === 1 || v === "1");
 
 function serializeItem(item) {
+  let imageUrl = item.image || "";
+  if (imageUrl.startsWith("data:")) {
+    imageUrl = `/api/items/${item.id}/image`;
+  }
   return {
     ...item,
+    image: imageUrl,
     price: Number(item.price),
     is_available: !!item.is_available,
     is_popular: !!item.is_popular,
@@ -29,11 +34,21 @@ function serializeItem(item) {
 }
 
 import { getCurrentMealTime } from "../utils/istTime.js";
+import { getCached, setCached, invalidateCache } from "../utils/cache.js";
 
 router.get("/", async (req, res, next) => {
   try {
     const currentMeal = getCurrentMealTime();
     const filterCurrent = req.query.meal === "current" || req.query.current_time === "true";
+    const cacheKey = `items_${filterCurrent ? currentMeal.slug : "all"}`;
+
+    const cached = getCached(cacheKey);
+    if (cached) {
+      res.setHeader("X-Cache", "HIT");
+      res.setHeader("X-Current-Meal", currentMeal.slug);
+      res.setHeader("X-IST-Time", currentMeal.time);
+      return res.json(cached);
+    }
 
     let sql = `
       SELECT i.*, c.name AS category_name, c.slug AS category_slug
@@ -55,9 +70,31 @@ router.get("/", async (req, res, next) => {
       is_current_meal: Boolean(r.category_slug === currentMeal.slug || r.category_name?.toLowerCase().includes(currentMeal.slug)),
     }));
 
+    setCached(cacheKey, enriched, 300);
+
+    res.setHeader("X-Cache", "MISS");
     res.setHeader("X-Current-Meal", currentMeal.slug);
     res.setHeader("X-IST-Time", currentMeal.time);
     res.json(enriched);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id/image", async (req, res, next) => {
+  try {
+    const item = (await query("SELECT image FROM items WHERE id = $1", [req.params.id])).rows[0];
+    if (!item || !item.image) return res.status(404).send("Not found");
+
+    if (item.image.startsWith("data:")) {
+      const parts = item.image.split(",");
+      const mime = parts[0].match(/:(.*?);/)?.[1] || "image/jpeg";
+      const buffer = Buffer.from(parts[1], "base64");
+      res.setHeader("Content-Type", mime);
+      res.setHeader("Cache-Control", "public, max-age=604800, immutable");
+      return res.send(buffer);
+    }
+    return res.redirect(item.image);
   } catch (error) {
     next(error);
   }
@@ -131,6 +168,7 @@ router.post("/", requireAuth, upload.single("image"), async (req, res, next) => 
       ]
     );
 
+    invalidateCache("items");
     res.status(201).json(serializeItem(rows[0]));
   } catch (error) {
     next(error);
@@ -193,6 +231,7 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res, next) =
       ]
     );
 
+    invalidateCache("items");
     res.json(serializeItem(rows[0]));
   } catch (error) {
     next(error);
@@ -217,6 +256,7 @@ router.patch("/:id/meals", requireAuth, async (req, res, next) => {
         req.params.id,
       ]
     );
+    invalidateCache("items");
     res.json(serializeItem(rows[0]));
   } catch (error) {
     next(error);
@@ -230,6 +270,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
 
     if (item.image) fs.unlink(path.join(uploadsDir, path.basename(item.image)), () => {});
     await query("DELETE FROM items WHERE id = $1", [req.params.id]);
+    invalidateCache("items");
     res.json({ success: true });
   } catch (error) {
     next(error);
@@ -244,6 +285,7 @@ router.patch("/:id/availability", requireAuth, async (req, res, next) => {
       [toBool(is_available), req.params.id]
     );
     if (!rows[0]) return res.status(404).json({ error: "Item not found" });
+    invalidateCache("items");
     res.json(serializeItem(rows[0]));
   } catch (error) {
     next(error);
@@ -261,6 +303,7 @@ router.post("/bulk-availability", requireAuth, async (req, res, next) => {
       toBool(is_available),
       ids,
     ]);
+    invalidateCache("items");
     res.json({ success: true, updated: ids.length });
   } catch (error) {
     next(error);
@@ -283,6 +326,7 @@ router.post("/move-category", requireAuth, async (req, res, next) => {
       }
     });
 
+    invalidateCache("items");
     res.json({ success: true, moved: ids.length });
   } catch (error) {
     next(error);

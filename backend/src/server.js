@@ -20,18 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")));
 
-// Auto-initialize DB schema & default seed on API requests without blocking top-level module load
-app.use("/api", async (req, res, next) => {
-  if (req.path === "/health" || req.path === "/seed") {
-    return next();
-  }
-  try {
-    await ensureDbInitialized();
-    next();
-  } catch (err) {
-    console.error("Database initialization failed:", err.message);
-    return res.status(500).json({ error: `Database Connection/Initialization Error: ${err.message}` });
-  }
+// Non-blocking initialization on server startup
+ensureDbInitialized().catch((err) => {
+  console.error("Database initialization failed:", err.message);
 });
 
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));

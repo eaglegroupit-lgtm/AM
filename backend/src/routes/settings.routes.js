@@ -9,11 +9,17 @@ import { upload } from "../middleware/upload.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const uploadsDir = path.resolve(__dirname, "../../uploads");
 
+import { getCached, setCached, invalidateCache } from "../utils/cache.js";
+
 const router = Router();
 
 router.get("/", async (req, res, next) => {
   try {
+    const cached = getCached("settings");
+    if (cached) return res.json(cached);
+
     const settings = (await query("SELECT * FROM settings WHERE id = 1")).rows[0];
+    setCached("settings", settings, 300);
     res.json(settings);
   } catch (error) {
     next(error);
@@ -80,6 +86,7 @@ router.put(
         ]
       );
 
+      invalidateCache("settings");
       res.json(rows[0]);
     } catch (error) {
       next(error);
