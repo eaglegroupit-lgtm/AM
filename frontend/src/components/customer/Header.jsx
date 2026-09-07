@@ -3,8 +3,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { t, branchAddresses } from "../../lib/translations";
 import LanguageToggle from "./LanguageToggle";
 
-import { Link } from "react-router-dom";
-import { LuShieldCheck, LuMapPin } from "react-icons/lu";
+import { LuMapPin } from "react-icons/lu";
 
 export default function Header({ settings, currentMeal }) {
   const { language } = useLanguage();
@@ -23,16 +22,6 @@ export default function Header({ settings, currentMeal }) {
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/80 to-ink" />
-
-      <div className="relative z-20 flex items-center justify-between px-4 pt-4">
-        <Link
-          to="/admin"
-          className="flex items-center gap-1.5 rounded-full border border-[#B8860B]/35 bg-[#FFFDF8]/90 backdrop-blur-md px-3 py-1.5 text-xs font-bold text-[#8B6914] hover:text-[#8B0000] hover:border-[#A6291A] transition-all shadow-sm"
-        >
-          <LuShieldCheck className="text-[#A6291A]" size={14} />
-          <span>Admin</span>
-        </Link>
-      </div>
 
       <div className="relative z-10 px-4 pt-3 pb-8 text-center max-w-3xl mx-auto">
         <motion.div
