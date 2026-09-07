@@ -14,8 +14,8 @@ const router = Router();
 const toBool = (v) => Boolean(v === true || v === "true" || v === 1 || v === "1");
 
 function serializeItem(item) {
-  let imageUrl = item.image || "";
-  if (imageUrl.startsWith("data:")) {
+  let imageUrl = "";
+  if (item.has_image || (item.image && item.image.length > 0)) {
     imageUrl = `/api/items/${item.id}/image`;
   }
   return {
@@ -51,7 +51,11 @@ router.get("/", async (req, res, next) => {
     }
 
     let sql = `
-      SELECT i.*, c.name AS category_name, c.slug AS category_slug
+      SELECT i.id, i.category_id, i.name, i.description, i.price, i.is_available,
+             i.is_popular, i.is_chef_recommended, i.is_new, i.sort_order,
+             i.is_breakfast, i.is_lunch, i.is_snacks, i.is_dinner,
+             (CASE WHEN i.image != '' AND i.image IS NOT NULL THEN 1 ELSE 0 END) AS has_image,
+             c.name AS category_name, c.slug AS category_slug
       FROM items i
       JOIN categories c ON c.id = i.category_id
     `;
@@ -70,7 +74,7 @@ router.get("/", async (req, res, next) => {
       is_current_meal: Boolean(r.category_slug === currentMeal.slug || r.category_name?.toLowerCase().includes(currentMeal.slug)),
     }));
 
-    setCached(cacheKey, enriched, 300);
+    setCached(cacheKey, enriched, 86400); // Cache for 24h (invalidates on edit)
 
     res.setHeader("X-Cache", "MISS");
     res.setHeader("X-Current-Meal", currentMeal.slug);

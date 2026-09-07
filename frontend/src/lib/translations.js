@@ -6,21 +6,21 @@ export const branchAddresses = {
   en: [
     {
       title: "Branch 1",
-      address: "Edyarpalayam, Opp. Avila Convent, Covai - 25",
+      address: "Thadagam, 8, Edyarpalayam - Koundampalayam Road, Coimbatore- 641025",
     },
     {
       title: "Branch 2",
-      address: "Mullai Nagar, Coimbatore",
+      address: "Thadagam Road, Opp. Avila Convent, Venkata Puram, Coimbatore - 641025",
     },
   ],
   ta: [
     {
       title: "கிளை 1",
-      address: "எடையார்பாளையம், அவிலா கான்வென்ட் எதிரில், கோவை - 25",
+      address: "தடாகம், 8, இடையர்பாளையம் - கவுண்டம்பாளையம் ரோடு, கோயம்புத்தூர் - 641025",
     },
     {
       title: "கிளை 2",
-      address: "முல்லை நகர், கோயம்புத்தூர்",
+      address: "தடாகம் ரோடு, அவிலா கான்வென்ட் எதிரில், வெங்கடாபுரம், கோயம்புத்தூர் - 641025",
     },
   ],
 };
