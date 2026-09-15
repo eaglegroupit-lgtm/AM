@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { GiChefToque, GiStarFormation } from "react-icons/gi";
-import { HiSparkles } from "react-icons/hi2";
+import { motion, AnimatePresence } from "framer-motion";
+import { GiChefToque, GiStarFormation, GiScrollQuill } from "react-icons/gi";
+import { FiZoomIn } from "react-icons/fi";
 import { api } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
 import { t, translateItemName, translateItemDescription, branchAddresses } from "../lib/translations";
@@ -15,6 +15,8 @@ import SkeletonCard from "../components/customer/SkeletonCard";
 import BottomNav from "../components/customer/BottomNav";
 import InfoSheet from "../components/customer/InfoSheet";
 import ItemDetailModal from "../components/customer/ItemDetailModal";
+import MenuCardModal from "../components/customer/MenuCardModal";
+import MenuCardBanner from "../components/customer/MenuCardBanner";
 
 const MEAL_TABS = [
   { id: "all", icon: "🍽️", labelEn: "All", labelTa: "அனைத்தும்" },
@@ -37,6 +39,10 @@ export default function Menu() {
   const [activeMealFilter, setActiveMealFilter] = useState(() => getCurrentMealTime().slug);
   const [infoOpen, setInfoOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  // Printed menu card modal state
+  const [menuCardOpen, setMenuCardOpen] = useState(false);
+  const [menuCardLang, setMenuCardLang] = useState("ta");
 
   const searchRef = useRef(null);
   const topRef = useRef(null);
@@ -115,13 +121,17 @@ export default function Menu() {
     });
   }, [items, currentMeal]);
 
-  // Featured rows (Chef Recommended, Most Popular, Newly Added) strictly based on current IST time slot
+  // Featured rows (Chef Recommended & Most Popular) strictly based on current IST time slot
   const chefItems = useMemo(() => currentISTItems.filter((i) => i.is_chef_recommended), [currentISTItems]);
   const popularItems = useMemo(() => currentISTItems.filter((i) => i.is_popular), [currentISTItems]);
-  const newItems = useMemo(() => currentISTItems.filter((i) => i.is_new), [currentISTItems]);
 
   const isSearching = query.length > 0;
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const handleOpenCard = (lang = "ta") => {
+    setMenuCardLang(lang || (language === "ta" ? "ta" : "en"));
+    setMenuCardOpen(true);
+  };
 
   return (
     <div className="tamil-menu-bg min-h-screen bg-[#FAF6EC] text-[#2B2013] pb-24 sm:pb-10" ref={topRef}>
@@ -190,22 +200,22 @@ export default function Menu() {
 
         {!loading && !error && !isSearching && (
           <>
+            {/* Creative Physical Menu Card Banner Preview */}
+            <MenuCardBanner onOpenCard={handleOpenCard} />
+
+            {/* Today's Specials & Chef Recommended */}
             <FeaturedRow
               title={t("todaysSpecials", language)}
               icon={<GiChefToque className="text-gold-light" size={22} />}
               items={chefItems}
               onItemClick={setSelectedItem}
             />
+
+            {/* Most Popular */}
             <FeaturedRow
               title={t("mostPopular", language)}
               icon={<GiStarFormation className="text-gold-light" size={22} />}
               items={popularItems}
-              onItemClick={setSelectedItem}
-            />
-            <FeaturedRow
-              title={t("newlyAdded", language)}
-              icon={<HiSparkles className="text-gold-light" size={22} />}
-              items={newItems}
               onItemClick={setSelectedItem}
             />
 
@@ -293,6 +303,25 @@ export default function Menu() {
         </motion.footer>
       </main>
 
+      {/* Floating Action Button for Original Printed Menu Card */}
+      <div className="fixed right-4 bottom-20 sm:bottom-6 z-40">
+        <motion.button
+          whileHover={{ scale: 1.06, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => handleOpenCard(language === "ta" ? "ta" : "en")}
+          className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-[#A6291A] via-[#8B0000] to-[#700000] text-white shadow-2xl border-2 border-[#EEDB91]/80 cursor-pointer backdrop-blur-md group ring-4 ring-[#B8860B]/20"
+          title={t("viewOriginalMenu", language)}
+        >
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-[#EEDB91] group-hover:rotate-12 transition-transform">
+            <GiScrollQuill size={16} />
+          </div>
+          <span className="text-xs font-black tracking-wide pr-1">
+            {language === "ta" ? "அசல் மெனு அட்டை" : "Printed Menu"}
+          </span>
+          <FiZoomIn size={14} className="text-[#EEDB91] group-hover:scale-125 transition-transform" />
+        </motion.button>
+      </div>
+
       <BottomNav
         onHome={() => {
           setSearch("");
@@ -307,6 +336,13 @@ export default function Menu() {
       <InfoSheet open={infoOpen} onClose={() => setInfoOpen(false)} settings={settings} />
 
       <ItemDetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+
+      {/* Original Printed Menu Card Zoom Modal */}
+      <MenuCardModal
+        isOpen={menuCardOpen}
+        onClose={() => setMenuCardOpen(false)}
+        initialLang={menuCardLang}
+      />
     </div>
   );
 }
