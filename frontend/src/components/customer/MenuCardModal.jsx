@@ -14,8 +14,30 @@ import { GiScrollQuill } from "react-icons/gi";
 import { useLanguage } from "../../context/LanguageContext";
 import { t } from "../../lib/translations";
 
-export default function MenuCardModal({ isOpen, onClose, initialLang = "ta" }) {
+const CARD_IMAGES = {
+  breakfast: {
+    titleEn: "Sri Amutha Surabhi - Morning Breakfast",
+    titleTa: "ஸ்ரீ அமுத சுரபி - காலை உணவு மெனு",
+    en: "/images/menu-cards/breakfast-en.jpg",
+    ta: "/images/menu-cards/breakfast-ta.jpg",
+  },
+  lunch: {
+    titleEn: "Sri Amutha Surabhi - Authentic Lunch",
+    titleTa: "ஸ்ரீ அமுத சுரபி - மதிய உணவு மெனு",
+    en: "/images/menu-cards/lunch-en.jpg",
+    ta: "/images/menu-cards/lunch-ta.jpg",
+  },
+  dinner: {
+    titleEn: "Sri Amutha Surabhi - Night Tiffin Special",
+    titleTa: "ஸ்ரீ அமுத சுரபி - இரவு நேர டிபன்",
+    en: "/images/menu-cards/dinner-en.jpg",
+    ta: "/images/menu-cards/dinner-ta.jpg",
+  },
+};
+
+export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", initialSession = "lunch" }) {
   const { language } = useLanguage();
+  const [activeSession, setActiveSession] = useState(initialSession || "lunch");
   const [activeCardLang, setActiveCardLang] = useState(initialLang || (language === "ta" ? "ta" : "en"));
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -26,13 +48,14 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta" }) {
 
   const containerRef = useRef(null);
 
-  // Sync initial language when modal opens
+  // Sync initial state when modal opens
   useEffect(() => {
     if (isOpen) {
+      setActiveSession(initialSession || "lunch");
       setActiveCardLang(initialLang || (language === "ta" ? "ta" : "en"));
       resetTransform();
     }
-  }, [isOpen, initialLang, language]);
+  }, [isOpen, initialLang, initialSession, language]);
 
   // Handle ESC key to close
   useEffect(() => {
@@ -138,10 +161,9 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta" }) {
     setIsDragging(false);
   };
 
-  const currentImageSrc =
-    activeCardLang === "ta"
-      ? "/images/menu-cards/menu-ta.jpg"
-      : "/images/menu-cards/menu-en.jpg";
+  const sessionConfig = CARD_IMAGES[activeSession] || CARD_IMAGES.lunch;
+  const currentImageSrc = sessionConfig[activeCardLang] || sessionConfig.ta;
+  const currentTitle = activeCardLang === "ta" ? sessionConfig.titleTa : sessionConfig.titleEn;
 
   if (!isOpen) return null;
 
@@ -156,24 +178,48 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta" }) {
           if (e.target === e.currentTarget) onClose();
         }}
       >
-        {/* Top Bar: Title, Language Switcher, Close Button */}
-        <div className="w-full max-w-5xl flex items-center justify-between gap-2 z-10 bg-black/60 backdrop-blur-md px-3 py-2.5 rounded-2xl border border-[#B8860B]/30 shadow-xl">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#A6291A] to-[#600000] text-[#EEDB91] shadow-md border border-[#B8860B]/40">
+        {/* Top Bar: Title, Session Selector, Language Switcher, Close Button */}
+        <div className="w-full max-w-5xl flex flex-wrap items-center justify-between gap-2.5 z-10 bg-black/70 backdrop-blur-md px-3 py-2.5 rounded-2xl border border-[#B8860B]/30 shadow-xl">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#A6291A] to-[#600000] text-[#EEDB91] shadow-md border border-[#B8860B]/40">
               <GiScrollQuill size={20} />
             </div>
-            <div>
-              <h3 className="font-display font-bold text-sm sm:text-base text-[#FDF8EE] leading-tight">
-                {activeCardLang === "ta" ? "ஸ்ரீ அமுத சுரபி - இரவு நேர டிபன்" : "Sri Amutha Surabhi - Night Tiffin"}
+            <div className="min-w-0">
+              <h3 className="font-display font-bold text-sm sm:text-base text-[#FDF8EE] leading-tight truncate">
+                {currentTitle}
               </h3>
-              <p className="text-[11px] text-[#EEDB91]/80 font-medium">
+              <p className="text-[11px] text-[#EEDB91]/80 font-medium truncate">
                 {t("originalMenuCard", language)} • {t("dragToPan", language)}
               </p>
             </div>
           </div>
 
-          {/* Language Toggle & Close */}
-          <div className="flex items-center gap-2">
+          {/* Controls: Session Buttons + Language Toggle + Close */}
+          <div className="flex flex-wrap items-center gap-2 ml-auto">
+            {/* Session Switcher Pills */}
+            <div className="flex items-center bg-[#1A120E] p-1 rounded-xl border border-[#B8860B]/30 shadow-inner">
+              {[
+                { id: "breakfast", labelEn: "Breakfast", labelTa: "காலை", icon: "🌅" },
+                { id: "lunch", labelEn: "Lunch", labelTa: "மதிய உணவு", icon: "☀️" },
+                { id: "dinner", labelEn: "Dinner", labelTa: "இரவு டிபன்", icon: "🌙" },
+              ].map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => {
+                    setActiveSession(s.id);
+                    resetTransform();
+                  }}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all cursor-pointer ${
+                    activeSession === s.id
+                      ? "bg-gradient-to-r from-[#A6291A] to-[#8B0000] text-white shadow-md ring-1 ring-[#EEDB91]/60"
+                      : "text-[#EEDB91]/70 hover:text-white"
+                  }`}
+                >
+                  <span>{s.icon} {language === "ta" ? s.labelTa : s.labelEn}</span>
+                </button>
+              ))}
+            </div>
+
             {/* Card Language Selector */}
             <div className="flex items-center bg-[#241A15] p-1 rounded-xl border border-[#B8860B]/40 shadow-inner">
               <button

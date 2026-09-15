@@ -43,6 +43,7 @@ export default function Menu() {
   // Printed menu card modal state
   const [menuCardOpen, setMenuCardOpen] = useState(false);
   const [menuCardLang, setMenuCardLang] = useState("ta");
+  const [menuCardSession, setMenuCardSession] = useState("lunch");
 
   const searchRef = useRef(null);
   const topRef = useRef(null);
@@ -128,8 +129,13 @@ export default function Menu() {
   const isSearching = query.length > 0;
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
-  const handleOpenCard = (lang = "ta") => {
+  const handleOpenCard = (lang = "ta", session = null) => {
     setMenuCardLang(lang || (language === "ta" ? "ta" : "en"));
+    if (session) {
+      setMenuCardSession(session);
+    } else if (activeMealFilter === "breakfast" || activeMealFilter === "lunch" || activeMealFilter === "dinner") {
+      setMenuCardSession(activeMealFilter);
+    }
     setMenuCardOpen(true);
   };
 
@@ -201,7 +207,7 @@ export default function Menu() {
         {!loading && !error && !isSearching && (
           <>
             {/* Creative Physical Menu Card Banner Preview */}
-            <MenuCardBanner onOpenCard={handleOpenCard} />
+            <MenuCardBanner activeMealFilter={activeMealFilter} onOpenCard={handleOpenCard} />
 
             {/* Today's Specials & Chef Recommended */}
             <FeaturedRow
@@ -342,6 +348,7 @@ export default function Menu() {
         isOpen={menuCardOpen}
         onClose={() => setMenuCardOpen(false)}
         initialLang={menuCardLang}
+        initialSession={menuCardSession}
       />
     </div>
   );
