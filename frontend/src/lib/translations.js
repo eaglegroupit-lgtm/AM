@@ -157,12 +157,31 @@ export const itemTranslations = {
   "Black Currant": { name: "பிளாக் கரண்ட்", description: "காரமான பிளாக் கரண்ட் ஐஸ்கிரீம்" },
 };
 
+export const dayTranslations = {
+  monday: { en: "Monday", ta: "திங்கள்", shortTa: "திங்கள்" },
+  tuesday: { en: "Tuesday", ta: "செவ்வாய்", shortTa: "செவ்வாய்" },
+  wednesday: { en: "Wednesday", ta: "புதன்", shortTa: "புதன்" },
+  thursday: { en: "Thursday", ta: "வியாழன்", shortTa: "வியாழன்" },
+  friday: { en: "Friday", ta: "வெள்ளி", shortTa: "வெள்ளி" },
+  saturday: { en: "Saturday", ta: "சனி", shortTa: "சனி" },
+  sunday: { en: "Sunday", ta: "ஞாயிறு", shortTa: "ஞாயிறு" },
+};
+
+export const mealTranslations = {
+  breakfast: { en: "Breakfast", ta: "காலை உணவு", icon: "🌅" },
+  lunch: { en: "Lunch", ta: "மதிய உணவு", icon: "☀️" },
+  "evening-snacks": { en: "Evening Snacks", ta: "மாலை சிற்றுண்டி", icon: "☕" },
+  dinner: { en: "Night Tiffin / Dinner", ta: "இரவு உணவு", icon: "🌙" },
+};
+
 export const uiText = {
   en: {
     welcomeTo: "Welcome to",
     searchPlaceholder: "Search dishes, e.g. Paneer, Dosa, Biryani...",
     all: "All",
     todaysSpecials: "Today's Specials & Chef Recommended",
+    dailySpecials: "Daily Specials",
+    specialsForDay: (day) => `${day}'s Special Dishes`,
     mostPopular: "Most Popular",
     newlyAdded: "Newly Added",
     resultsFor: (q) => `Results for "${q}"`,
@@ -172,6 +191,7 @@ export const uiText = {
     tryDifferent: "Try a different search term or category.",
     popular: "Popular",
     chefsPick: "Chef's Pick",
+    specialBadge: "Special",
     newBadge: "New",
     available: "Available",
     notAvailable: "Not Available",
@@ -208,6 +228,8 @@ export const uiText = {
     searchPlaceholder: "உணவைத் தேடுங்கள் - பன்னீர், தோசை, பிரியாணி...",
     all: "அனைத்தும்",
     todaysSpecials: "இன்றைய சிறப்புகள் & சமையல்காரர் பரிந்துரை",
+    dailySpecials: "தினசரி சிறப்புகள்",
+    specialsForDay: (day) => `${day} சிறப்பு உணவுகள்`,
     mostPopular: "மிகவும் பிரபலமானவை",
     newlyAdded: "புதிதாக சேர்க்கப்பட்டவை",
     resultsFor: (q) => `"${q}" க்கான முடிவுகள்`,
@@ -217,6 +239,7 @@ export const uiText = {
     tryDifferent: "வேறு தேடல் சொல் அல்லது வகையை முயற்சிக்கவும்.",
     popular: "பிரபலம்",
     chefsPick: "சமையல்காரர் தேர்வு",
+    specialBadge: "சிறப்பு உணவு",
     newBadge: "புதிது",
     available: "கிடைக்கிறது",
     notAvailable: "கிடைக்கவில்லை",

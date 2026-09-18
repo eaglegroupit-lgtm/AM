@@ -10,6 +10,7 @@ import categoriesRoutes from "./routes/categories.routes.js";
 import itemsRoutes from "./routes/items.routes.js";
 import settingsRoutes from "./routes/settings.routes.js";
 import statsRoutes from "./routes/stats.routes.js";
+import specialsRoutes from "./routes/specials.routes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -52,6 +53,7 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/items", itemsRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/stats", statsRoutes);
+app.use("/api/specials", specialsRoutes);
 
 // Generic error handler
 app.use((err, req, res, next) => {

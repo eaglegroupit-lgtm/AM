@@ -106,6 +106,16 @@ export async function initDb() {
     ALTER TABLE items ADD COLUMN IF NOT EXISTS is_lunch BOOLEAN NOT NULL DEFAULT true;
     ALTER TABLE items ADD COLUMN IF NOT EXISTS is_snacks BOOLEAN NOT NULL DEFAULT true;
     ALTER TABLE items ADD COLUMN IF NOT EXISTS is_dinner BOOLEAN NOT NULL DEFAULT true;
+
+    CREATE TABLE IF NOT EXISTS daily_specials (
+      id SERIAL PRIMARY KEY,
+      day_of_week TEXT NOT NULL,
+      meal_slug TEXT NOT NULL,
+      item_id INTEGER NOT NULL REFERENCES items(id) ON DELETE CASCADE,
+      sort_order INTEGER NOT NULL DEFAULT 0,
+      created_at TIMESTAMPTZ DEFAULT now(),
+      UNIQUE(day_of_week, meal_slug, item_id)
+    );
   `);
 }
 

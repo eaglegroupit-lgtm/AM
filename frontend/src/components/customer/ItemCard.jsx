@@ -48,6 +48,11 @@ export default function ItemCard({ item, index = 0, onClick }) {
 
         {/* Badges Top Left */}
         <div className="absolute top-2.5 left-2.5 z-10 flex flex-wrap gap-1.5 max-w-[85%]">
+          {(item.is_special || item.is_auto_special || item.special_id) && (
+            <span className="flex items-center gap-1 rounded-full bg-gradient-to-r from-[#8B0000] via-[#A6291A] to-[#D4AF37] px-2.5 py-0.5 text-[10px] font-black text-white shadow-md border border-[#D4AF37]/50">
+              <HiSparkles className="text-amber-200" /> {t("specialBadge", language)}
+            </span>
+          )}
           {item.is_popular && (
             <span className="flex items-center gap-1 rounded-full bg-[#FFFDF8]/90 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-black text-emerald-800 border border-emerald-400 shadow-md">
               <LuLeaf className="text-emerald-600" /> {t("popular", language)}

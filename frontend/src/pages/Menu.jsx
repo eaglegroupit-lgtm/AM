@@ -4,7 +4,7 @@ import { GiChefToque, GiStarFormation, GiScrollQuill } from "react-icons/gi";
 import { FiZoomIn } from "react-icons/fi";
 import { api } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
-import { t, translateItemName, translateItemDescription, branchAddresses } from "../lib/translations";
+import { t, translateItemName, translateItemDescription, branchAddresses, dayTranslations } from "../lib/translations";
 import { getCurrentMealTime } from "../lib/mealTime";
 import Header from "../components/customer/Header";
 import SearchBar from "../components/customer/SearchBar";
@@ -31,6 +31,7 @@ export default function Menu() {
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [settings, setSettings] = useState(null);
+  const [specialsData, setSpecialsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -59,15 +60,17 @@ export default function Menu() {
     let cancelled = false;
     (async () => {
       try {
-        const [cats, its, settingsData] = await Promise.all([
+        const [cats, its, settingsData, specialsRes] = await Promise.all([
           api.getCategories(),
           api.getItems(),
           api.getSettings(),
+          api.getSpecials().catch(() => null),
         ]);
         if (cancelled) return;
         setCategories(cats);
         setItems(its);
         setSettings(settingsData);
+        setSpecialsData(specialsRes);
       } catch (e) {
         if (!cancelled) setError(e.message);
       } finally {
@@ -120,6 +123,29 @@ export default function Menu() {
       return isCurrentISTMatch && i.is_available;
     });
   }, [items, currentMeal]);
+
+  // Daily Specials for today (Admin custom overrides or automatic rotation)
+  const currentDaySlug = specialsData?.currentDay || "monday";
+  const dayNameEn = dayTranslations[currentDaySlug]?.en || "Today";
+  const dayNameTa = dayTranslations[currentDaySlug]?.ta || "இன்று";
+
+  const dailySpecialItems = useMemo(() => {
+    if (!specialsData?.todaySpecials) return [];
+    const targetMeal = activeMealFilter !== "all" ? activeMealFilter : currentMeal.slug;
+    const list = specialsData.todaySpecials[targetMeal] || [];
+    if (list.length === 0 && activeMealFilter === "all") {
+      const allToday = [];
+      Object.values(specialsData.todaySpecials).forEach((arr) => {
+        if (Array.isArray(arr)) {
+          arr.forEach((it) => {
+            if (!allToday.some((x) => x.id === it.id)) allToday.push(it);
+          });
+        }
+      });
+      return allToday.map((it) => ({ ...it, is_special: true }));
+    }
+    return list.map((it) => ({ ...it, is_special: true }));
+  }, [specialsData, activeMealFilter, currentMeal]);
 
   // Featured rows (Chef Recommended & Most Popular) strictly based on current IST time slot
   const chefItems = useMemo(() => currentISTItems.filter((i) => i.is_chef_recommended), [currentISTItems]);
@@ -208,7 +234,21 @@ export default function Menu() {
               activeSession={activeMealFilter !== "all" ? activeMealFilter : currentMeal.slug}
             />
 
-            {/* Today's Specials & Chef Recommended */}
+            {/* Daily Specials for the day */}
+            {dailySpecialItems.length > 0 && (
+              <FeaturedRow
+                title={
+                  language === "ta"
+                    ? `🌟 ${dayNameTa} சிறப்பு உணவுகள்`
+                    : `🌟 ${dayNameEn}'s Special Dishes`
+                }
+                icon={<GiStarFormation className="text-[#D4AF37]" size={22} />}
+                items={dailySpecialItems}
+                onItemClick={setSelectedItem}
+              />
+            )}
+
+            {/* Chef Recommended */}
             <FeaturedRow
               title={t("todaysSpecials", language)}
               icon={<GiChefToque className="text-gold-light" size={22} />}

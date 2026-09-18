@@ -73,6 +73,14 @@ export const api = {
 
   // Admin: stats
   getStats: () => request("/stats", { auth: true }),
+
+  // Specials (Day-of-Week & Meal Specials)
+  getSpecials: () => request("/specials"),
+  updateSpecials: (payload) => request("/specials", { method: "POST", auth: true, body: payload }),
+  resetSpecials: (params) => {
+    const q = params ? `?${new URLSearchParams(params).toString()}` : "";
+    return request(`/specials${q}`, { method: "DELETE", auth: true });
+  },
 };
 
 export function setToken(token) {

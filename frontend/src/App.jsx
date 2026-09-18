@@ -6,6 +6,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import MenuManagement from "./pages/admin/MenuManagement";
 import CategoryManagement from "./pages/admin/CategoryManagement";
 import QRManagement from "./pages/admin/QRManagement";
+import DailySpecialsManagement from "./pages/admin/DailySpecialsManagement";
 import Settings from "./pages/admin/Settings";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
@@ -25,6 +26,7 @@ export default function App() {
       >
         <Route index element={<Dashboard />} />
         <Route path="items" element={<MenuManagement />} />
+        <Route path="specials" element={<DailySpecialsManagement />} />
         <Route path="categories" element={<CategoryManagement />} />
         <Route path="qr" element={<QRManagement />} />
         <Route path="settings" element={<Settings />} />

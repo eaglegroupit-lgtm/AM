@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   LuLayoutDashboard,
   LuUtensilsCrossed,
+  LuSparkles,
   LuFolderTree,
   LuQrCode,
   LuSettings,
@@ -17,6 +18,7 @@ import { useAuth } from "../../context/AuthContext";
 const NAV_ITEMS = [
   { to: "/admin", label: "Dashboard", icon: LuLayoutDashboard, end: true },
   { to: "/admin/items", label: "Menu Items", icon: LuUtensilsCrossed },
+  { to: "/admin/specials", label: "Daily Specials", icon: LuSparkles },
   { to: "/admin/categories", label: "Categories", icon: LuFolderTree },
   { to: "/admin/settings", label: "Settings", icon: LuSettings },
 ];
