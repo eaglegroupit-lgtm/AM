@@ -43,7 +43,6 @@ export default function Menu() {
   // Printed menu card modal state
   const [menuCardOpen, setMenuCardOpen] = useState(false);
   const [menuCardLang, setMenuCardLang] = useState("ta");
-  const [menuCardSession, setMenuCardSession] = useState("lunch");
 
   const searchRef = useRef(null);
   const topRef = useRef(null);
@@ -129,13 +128,12 @@ export default function Menu() {
   const isSearching = query.length > 0;
   const scrollTo = (ref) => ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
 
+  const [menuCardSession, setMenuCardSession] = useState("dinner");
+
   const handleOpenCard = (lang = "ta", session = null) => {
     setMenuCardLang(lang || (language === "ta" ? "ta" : "en"));
-    if (session) {
-      setMenuCardSession(session);
-    } else if (activeMealFilter === "breakfast" || activeMealFilter === "lunch" || activeMealFilter === "dinner") {
-      setMenuCardSession(activeMealFilter);
-    }
+    const targetSession = session || (activeMealFilter !== "all" ? activeMealFilter : currentMeal.slug) || "dinner";
+    setMenuCardSession(targetSession);
     setMenuCardOpen(true);
   };
 
@@ -161,22 +159,20 @@ export default function Menu() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveMealFilter(tab.id)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold shrink-0 transition-all cursor-pointer ${
-                    isSelected
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold shrink-0 transition-all cursor-pointer ${isSelected
                       ? "bg-gradient-to-r from-[#A6291A] via-[#8B0000] to-[#700000] text-white shadow-md ring-2 ring-[#B8860B]/50 scale-[1.03]"
                       : "bg-[#FFFDF8] border border-[#B8860B]/30 text-[#4A3825] hover:border-[#A6291A]/50 hover:text-[#8B0000] shadow-xs"
-                  }`}
+                    }`}
                 >
                   <span className="text-sm">{tab.icon}</span>
                   <span className="tracking-wide">{language === "ta" ? tab.labelTa : tab.labelEn}</span>
                   {isCurrentIST && (
                     <span
                       title="Currently Serving Live (IST)"
-                      className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${
-                        isSelected
+                      className={`inline-flex items-center gap-1 text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${isSelected
                           ? "bg-emerald-400/30 text-emerald-100 border border-emerald-300/40"
                           : "bg-emerald-100 text-emerald-800 border border-emerald-300"
-                      }`}
+                        }`}
                     >
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       {language === "ta" ? "நேரலை" : "Live"}
@@ -207,7 +203,10 @@ export default function Menu() {
         {!loading && !error && !isSearching && (
           <>
             {/* Creative Physical Menu Card Banner Preview */}
-            <MenuCardBanner activeMealFilter={activeMealFilter} onOpenCard={handleOpenCard} />
+            <MenuCardBanner
+              onOpenCard={handleOpenCard}
+              activeSession={activeMealFilter !== "all" ? activeMealFilter : currentMeal.slug}
+            />
 
             {/* Today's Specials & Chef Recommended */}
             <FeaturedRow

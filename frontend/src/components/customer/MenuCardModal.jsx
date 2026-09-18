@@ -1,12 +1,10 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FiZoomIn,
   FiZoomOut,
   FiRotateCw,
   FiX,
-  FiMaximize2,
-  FiMinimize2,
   FiRefreshCw,
   FiGlobe,
 } from "react-icons/fi";
@@ -14,45 +12,32 @@ import { GiScrollQuill } from "react-icons/gi";
 import { useLanguage } from "../../context/LanguageContext";
 import { t } from "../../lib/translations";
 
-const CARD_IMAGES = {
-  breakfast: {
-    titleEn: "Sri Amutha Surabhi - Morning Breakfast",
-    titleTa: "ஸ்ரீ அமுத சுரபி - காலை உணவு மெனு",
-    en: "/images/menu-cards/breakfast-en.jpg",
-    ta: "/images/menu-cards/breakfast-ta.jpg",
-  },
-  lunch: {
-    titleEn: "Sri Amutha Surabhi - Authentic Lunch",
-    titleTa: "ஸ்ரீ அமுத சுரபி - மதிய உணவு மெனு",
-    en: "/images/menu-cards/lunch-en.jpg",
-    ta: "/images/menu-cards/lunch-ta.jpg",
-  },
-  dinner: {
-    titleEn: "Sri Amutha Surabhi - Night Tiffin Special",
-    titleTa: "ஸ்ரீ அமுத சுரபி - இரவு நேர டிபன்",
-    en: "/images/menu-cards/dinner-en.jpg",
-    ta: "/images/menu-cards/dinner-ta.jpg",
-  },
-};
+const SESSIONS = [
+  { id: "breakfast", labelEn: "Breakfast", labelTa: "காலை உணவு", imgTa: "/images/menu-cards/breakfast-ta.jpg", imgEn: "/images/menu-cards/breakfast-en.jpg" },
+  { id: "lunch", labelEn: "Lunch", labelTa: "மதிய உணவு", imgTa: "/images/menu-cards/lunch-ta.jpg", imgEn: "/images/menu-cards/lunch-en.jpg" },
+  { id: "evening-snacks", labelEn: "Snacks", labelTa: "மாலை பலகாரங்கள்", imgTa: "/images/menu-cards/snacks-ta.jpg", imgEn: "/images/menu-cards/snacks-en.jpg" },
+  { id: "dinner", labelEn: "Dinner", labelTa: "இரவு டிபன்", imgTa: "/images/menu-cards/dinner-ta.jpg", imgEn: "/images/menu-cards/dinner-en.jpg" },
+];
 
-export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", initialSession = "lunch" }) {
+export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", initialSession = "dinner" }) {
   const { language } = useLanguage();
-  const [activeSession, setActiveSession] = useState(initialSession || "lunch");
   const [activeCardLang, setActiveCardLang] = useState(initialLang || (language === "ta" ? "ta" : "en"));
+  const [activeSession, setActiveSession] = useState(initialSession || "dinner");
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const containerRef = useRef(null);
 
-  // Sync initial state when modal opens
+  // Sync initial language and session when modal opens
   useEffect(() => {
     if (isOpen) {
-      setActiveSession(initialSession || "lunch");
       setActiveCardLang(initialLang || (language === "ta" ? "ta" : "en"));
+      if (initialSession && SESSIONS.some((s) => s.id === initialSession)) {
+        setActiveSession(initialSession);
+      }
       resetTransform();
     }
   }, [isOpen, initialLang, initialSession, language]);
@@ -119,7 +104,7 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
     }
   };
 
-  // Mouse / Touch Drag handling
+  // Mouse Drag handling
   const handleMouseDown = (e) => {
     if (scale <= 1 && rotation === 0) return;
     setIsDragging(true);
@@ -161,9 +146,8 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
     setIsDragging(false);
   };
 
-  const sessionConfig = CARD_IMAGES[activeSession] || CARD_IMAGES.lunch;
-  const currentImageSrc = sessionConfig[activeCardLang] || sessionConfig.ta;
-  const currentTitle = activeCardLang === "ta" ? sessionConfig.titleTa : sessionConfig.titleEn;
+  const currentSessObj = SESSIONS.find((s) => s.id === activeSession) || SESSIONS[3];
+  const currentImageSrc = activeCardLang === "ta" ? currentSessObj.imgTa : currentSessObj.imgEn;
 
   if (!isOpen) return null;
 
@@ -178,48 +162,44 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
           if (e.target === e.currentTarget) onClose();
         }}
       >
-        {/* Top Bar: Title, Session Selector, Language Switcher, Close Button */}
-        <div className="w-full max-w-5xl flex flex-wrap items-center justify-between gap-2.5 z-10 bg-black/70 backdrop-blur-md px-3 py-2.5 rounded-2xl border border-[#B8860B]/30 shadow-xl">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#A6291A] to-[#600000] text-[#EEDB91] shadow-md border border-[#B8860B]/40">
-              <GiScrollQuill size={20} />
+        {/* Top Bar: Title, Session Tabs, Language Switcher, Close Button */}
+        <div className="w-full max-w-5xl flex flex-wrap items-center justify-between gap-2 z-10 bg-black/70 backdrop-blur-md px-3 py-2 rounded-2xl border border-[#B8860B]/30 shadow-xl">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#A6291A] to-[#600000] text-[#EEDB91] shadow-md border border-[#B8860B]/40 shrink-0">
+              <GiScrollQuill size={18} />
             </div>
-            <div className="min-w-0">
-              <h3 className="font-display font-bold text-sm sm:text-base text-[#FDF8EE] leading-tight truncate">
-                {currentTitle}
+            <div>
+              <h3 className="font-display font-bold text-xs sm:text-sm md:text-base text-[#FDF8EE] leading-tight">
+                {activeCardLang === "ta" ? `ஸ்ரீ அமுத சுரபி - ${currentSessObj.labelTa}` : `Sri Amutha Surabhi - ${currentSessObj.labelEn}`}
               </h3>
-              <p className="text-[11px] text-[#EEDB91]/80 font-medium truncate">
+              <p className="text-[10px] sm:text-[11px] text-[#EEDB91]/80 font-medium">
                 {t("originalMenuCard", language)} • {t("dragToPan", language)}
               </p>
             </div>
           </div>
 
-          {/* Controls: Session Buttons + Language Toggle + Close */}
-          <div className="flex flex-wrap items-center gap-2 ml-auto">
-            {/* Session Switcher Pills */}
-            <div className="flex items-center bg-[#1A120E] p-1 rounded-xl border border-[#B8860B]/30 shadow-inner">
-              {[
-                { id: "breakfast", labelEn: "Breakfast", labelTa: "காலை", icon: "🌅" },
-                { id: "lunch", labelEn: "Lunch", labelTa: "மதிய உணவு", icon: "☀️" },
-                { id: "dinner", labelEn: "Dinner", labelTa: "இரவு டிபன்", icon: "🌙" },
-              ].map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => {
-                    setActiveSession(s.id);
-                    resetTransform();
-                  }}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all cursor-pointer ${
-                    activeSession === s.id
-                      ? "bg-gradient-to-r from-[#A6291A] to-[#8B0000] text-white shadow-md ring-1 ring-[#EEDB91]/60"
-                      : "text-[#EEDB91]/70 hover:text-white"
-                  }`}
-                >
-                  <span>{s.icon} {language === "ta" ? s.labelTa : s.labelEn}</span>
-                </button>
-              ))}
-            </div>
+          {/* Session Switcher Pills */}
+          <div className="flex items-center gap-1 bg-[#1A110D] p-1 rounded-xl border border-[#B8860B]/30 overflow-x-auto no-scrollbar">
+            {SESSIONS.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => {
+                  setActiveSession(s.id);
+                  resetTransform();
+                }}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer whitespace-nowrap ${
+                  activeSession === s.id
+                    ? "bg-[#EEDB91] text-[#4A1610] shadow-md font-black"
+                    : "text-[#E6D4BA]/80 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                {activeCardLang === "ta" ? s.labelTa : s.labelEn}
+              </button>
+            ))}
+          </div>
 
+          {/* Language Toggle & Close */}
+          <div className="flex items-center gap-1.5 shrink-0">
             {/* Card Language Selector */}
             <div className="flex items-center bg-[#241A15] p-1 rounded-xl border border-[#B8860B]/40 shadow-inner">
               <button
@@ -227,7 +207,7 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
                   setActiveCardLang("ta");
                   resetTransform();
                 }}
-                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-2.5 py-0.8 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   activeCardLang === "ta"
                     ? "bg-gradient-to-r from-[#A6291A] to-[#8B0000] text-white shadow-md"
                     : "text-[#EEDB91]/70 hover:text-[#EEDB91]"
@@ -240,7 +220,7 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
                   setActiveCardLang("en");
                   resetTransform();
                 }}
-                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-2.5 py-0.8 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   activeCardLang === "en"
                     ? "bg-gradient-to-r from-[#A6291A] to-[#8B0000] text-white shadow-md"
                     : "text-[#EEDB91]/70 hover:text-[#EEDB91]"
@@ -253,10 +233,10 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer border border-white/20 hover:scale-105"
+              className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer border border-white/20 hover:scale-105"
               aria-label="Close"
             >
-              <FiX size={20} />
+              <FiX size={18} />
             </button>
           </div>
         </div>
@@ -277,7 +257,7 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
             scale > 1 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : "cursor-zoom-in"
           }`}
         >
-          {/* Subtle Watermark/Pattern */}
+          {/* Subtle Watermark */}
           <div className="absolute inset-0 pointer-events-none opacity-5 flex items-center justify-center">
             <span className="font-display text-8xl font-black text-[#B8860B]">AMUTHA SURABHI</span>
           </div>
@@ -294,7 +274,7 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
           >
             <img
               src={currentImageSrc}
-              alt={activeCardLang === "ta" ? "இரவு நேர டிபன் மெனு" : "Night Tiffin Menu Card"}
+              alt={activeCardLang === "ta" ? `${currentSessObj.labelTa} மெனு` : `${currentSessObj.labelEn} Menu Card`}
               className="max-h-[75vh] sm:max-h-[80vh] w-auto max-w-full rounded-xl shadow-2xl object-contain pointer-events-none border-2 border-[#B8860B]/40"
               draggable={false}
             />
@@ -309,24 +289,24 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
         </div>
 
         {/* Floating Controls Bar at Bottom */}
-        <div className="z-10 flex items-center gap-2 bg-black/80 backdrop-blur-xl px-4 py-2.5 rounded-2xl border border-[#B8860B]/40 shadow-2xl">
+        <div className="z-10 flex items-center gap-2 bg-black/80 backdrop-blur-xl px-4 py-2 rounded-2xl border border-[#B8860B]/40 shadow-2xl">
           {/* Zoom Out */}
           <button
             onClick={handleZoomOut}
             disabled={scale <= 1}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-[#FDF8EE] disabled:opacity-40 disabled:hover:bg-white/10 transition-all cursor-pointer border border-white/10 active:scale-95"
+            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-[#FDF8EE] disabled:opacity-40 disabled:hover:bg-white/10 transition-all cursor-pointer border border-white/10 active:scale-95"
             title={t("zoomOut", language)}
           >
-            <FiZoomOut size={18} />
+            <FiZoomOut size={17} />
           </button>
 
           {/* Zoom Level / Reset */}
           <button
             onClick={resetTransform}
-            className="px-3 h-10 flex items-center gap-1.5 rounded-xl bg-[#241A15] hover:bg-[#34261F] text-[#EEDB91] text-xs font-bold transition-all cursor-pointer border border-[#B8860B]/40 active:scale-95"
+            className="px-3 h-9 sm:h-10 flex items-center gap-1.5 rounded-xl bg-[#241A15] hover:bg-[#34261F] text-[#EEDB91] text-xs font-bold transition-all cursor-pointer border border-[#B8860B]/40 active:scale-95"
             title={t("resetZoom", language)}
           >
-            <FiRefreshCw size={14} className={scale !== 1 || rotation !== 0 ? "text-amber-400" : ""} />
+            <FiRefreshCw size={13} className={scale !== 1 || rotation !== 0 ? "text-amber-400" : ""} />
             <span>{Math.round(scale * 100)}%</span>
           </button>
 
@@ -334,10 +314,10 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
           <button
             onClick={handleZoomIn}
             disabled={scale >= 4}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#A6291A] hover:bg-[#BD3222] text-white disabled:opacity-40 transition-all cursor-pointer shadow-md border border-[#B8860B]/30 active:scale-95"
+            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-[#A6291A] hover:bg-[#BD3222] text-white disabled:opacity-40 transition-all cursor-pointer shadow-md border border-[#B8860B]/30 active:scale-95"
             title={t("zoomIn", language)}
           >
-            <FiZoomIn size={18} />
+            <FiZoomIn size={17} />
           </button>
 
           <div className="h-6 w-px bg-white/20 mx-1" />
@@ -345,10 +325,10 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
           {/* Rotate */}
           <button
             onClick={handleRotate}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-[#FDF8EE] transition-all cursor-pointer border border-white/10 active:scale-95"
+            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-[#FDF8EE] transition-all cursor-pointer border border-white/10 active:scale-95"
             title="Rotate 90°"
           >
-            <FiRotateCw size={18} />
+            <FiRotateCw size={17} />
           </button>
 
           {/* Quick Language Toggle */}
@@ -357,7 +337,7 @@ export default function MenuCardModal({ isOpen, onClose, initialLang = "ta", ini
               setActiveCardLang((prev) => (prev === "ta" ? "en" : "ta"));
               resetTransform();
             }}
-            className="flex h-10 items-center gap-1.5 px-3 rounded-xl bg-gradient-to-r from-[#A6291A]/80 to-[#8B0000]/80 hover:from-[#A6291A] hover:to-[#8B0000] text-white text-xs font-bold transition-all cursor-pointer border border-[#B8860B]/40 active:scale-95"
+            className="flex h-9 sm:h-10 items-center gap-1.5 px-3 rounded-xl bg-gradient-to-r from-[#A6291A]/80 to-[#8B0000]/80 hover:from-[#A6291A] hover:to-[#8B0000] text-white text-xs font-bold transition-all cursor-pointer border border-[#B8860B]/40 active:scale-95"
             title={t("switchLanguageCard", language)}
           >
             <FiGlobe size={14} className="text-[#EEDB91]" />
