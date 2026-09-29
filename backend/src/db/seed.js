@@ -235,8 +235,8 @@ function run() {
     db.prepare(`
       INSERT INTO settings (id, restaurant_name, tagline, address, phone, opening_hours, menu_url)
       VALUES (1, 'Amutha Surabi Restaurant', 'Experience Authentic Taste',
-        '8A, Thadagam Main Road, Edayar Palayam Junction, Coimbatore - 25',
-        '', '7:30 AM - 10:30 PM', 'http://localhost:5173')
+        '8-A, Thadagam Road, Edayarpalayam Junction, Coimbatore - 641025',
+        '+91 73056 57222, 0422-2457629', '7:30 AM - 10:30 PM', 'http://localhost:5173')
     `).run();
     console.log("Inserted default settings.");
   }

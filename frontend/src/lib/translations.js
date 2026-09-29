@@ -6,21 +6,29 @@ export const branchAddresses = {
   en: [
     {
       title: "Branch 1",
-      address: "Thadagam, 8, Edyarpalayam - Koundampalayam Road, Coimbatore- 641025",
+      area: "Edayarpalayam Junction",
+      address: "8-A, Thadagam Road, Edayarpalayam Junction, Coimbatore - 641025",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Amutha+Surabi+Restaurant+8-A+Thadagam+Road+Edayarpalayam+Junction+Coimbatore+641025",
     },
     {
       title: "Branch 2",
-      address: "Thadagam Road, Opp. Avila Convent, Venkata Puram, Coimbatore - 641025",
+      area: "Opp. Avila Convent",
+      address: "281, Thadagam Road, Opp. Avila Convent, Venkata Puram, Coimbatore - 641025",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Amutha+Surabi+Restaurant+281+Thadagam+Road+Opp+Avila+Convent+Venkata+Puram+Coimbatore+641025",
     },
   ],
   ta: [
     {
       title: "கிளை 1",
-      address: "தடாகம், 8, இடையர்பாளையம் - கவுண்டம்பாளையம் ரோடு, கோயம்புத்தூர் - 641025",
+      area: "இடையர்பாளையம் சந்திப்பு",
+      address: "8-A, தடாகம் ரோடு, இடையர்பாளையம் சந்திப்பு, கோயம்புத்தூர் - 641025",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Amutha+Surabi+Restaurant+8-A+Thadagam+Road+Edayarpalayam+Junction+Coimbatore+641025",
     },
     {
       title: "கிளை 2",
-      address: "தடாகம் ரோடு, அவிலா கான்வென்ட் எதிரில், வெங்கடாபுரம், கோயம்புத்தூர் - 641025",
+      area: "அவிலா கான்வென்ட் எதிரில்",
+      address: "281, தடாகம் ரோடு, அவிலா கான்வென்ட் எதிரில், வெங்கடாபுரம், கோயம்புத்தூர் - 641025",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Amutha+Surabi+Restaurant+281+Thadagam+Road+Opp+Avila+Convent+Venkata+Puram+Coimbatore+641025",
     },
   ],
 };

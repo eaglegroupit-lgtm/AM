@@ -36,15 +36,30 @@ export default function InfoSheet({ open, onClose, settings }) {
               </button>
             </div>
 
-            <div className="space-y-3 text-sm text-cream/80">
+            <div className="space-y-3.5 text-sm text-cream/80">
               {branches.map((b, idx) => (
-                <div key={idx} className="flex items-start gap-3">
+                <div key={idx} className="flex items-start gap-3 p-2.5 rounded-xl bg-surface-2/40 border border-[#B8860B]/20">
                   <LuMapPin className="mt-0.5 text-[#A6291A] shrink-0" size={18} />
-                  <div>
-                    <span className="block text-[11px] font-bold tracking-wider text-[#8B6914] uppercase">
-                      {b.title}
-                    </span>
-                    <span className="text-xs text-[#2B2013]">{b.address}</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="block text-[11px] font-bold tracking-wider text-[#8B6914] uppercase">
+                        {b.title}
+                      </span>
+                      {b.area && (
+                        <span className="text-[10px] text-cream/60">({b.area})</span>
+                      )}
+                    </div>
+                    <span className="text-xs text-[#2B2013] block leading-snug">{b.address}</span>
+                    {b.mapsUrl && (
+                      <a
+                        href={b.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block mt-1 text-[11px] font-bold text-[#A6291A] hover:underline"
+                      >
+                        {language === "ta" ? "வரைபடத்தில் திறக்க" : "Open in Google Maps"} →
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}

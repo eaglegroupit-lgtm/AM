@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { GiChefToque, GiStarFormation, GiScrollQuill } from "react-icons/gi";
+import { GiStarFormation, GiScrollQuill } from "react-icons/gi";
 import { FiZoomIn } from "react-icons/fi";
 import { api } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
-import { t, translateItemName, translateItemDescription, branchAddresses, dayTranslations } from "../lib/translations";
+import { t, translateItemName, translateItemDescription, branchAddresses } from "../lib/translations";
 import { getCurrentMealTime } from "../lib/mealTime";
 import Header from "../components/customer/Header";
 import SearchBar from "../components/customer/SearchBar";
@@ -17,6 +17,7 @@ import InfoSheet from "../components/customer/InfoSheet";
 import ItemDetailModal from "../components/customer/ItemDetailModal";
 import MenuCardModal from "../components/customer/MenuCardModal";
 import MenuCardBanner from "../components/customer/MenuCardBanner";
+import { searchMenuItems } from "../lib/search";
 
 const MEAL_TABS = [
   { id: "all", icon: "🍽️", labelEn: "All", labelTa: "அனைத்தும்" },
@@ -100,21 +101,12 @@ export default function Menu() {
     });
   }, [items, activeMealFilter]);
 
-  const query = search.trim().toLowerCase();
+  const query = search.trim();
 
   const filteredItems = useMemo(() => {
     if (!query) return mealItems;
-    return mealItems.filter((i) => {
-      const translatedName = translateItemName(i.name, language).toLowerCase();
-      const translatedDesc = translateItemDescription(i.name, i.description || "", language).toLowerCase();
-      return (
-        i.name.toLowerCase().includes(query) ||
-        (i.description || "").toLowerCase().includes(query) ||
-        translatedName.includes(query) ||
-        translatedDesc.includes(query)
-      );
-    });
-  }, [mealItems, query, language]);
+    return searchMenuItems(items, query, language, categories);
+  }, [items, query, language, categories, mealItems]);
 
   // Items strictly for the current real-time IST meal slot (used for live featured sections)
   const currentISTItems = useMemo(() => {
@@ -124,31 +116,7 @@ export default function Menu() {
     });
   }, [items, currentMeal]);
 
-  // Daily Specials for today (Admin custom overrides or automatic rotation)
-  const currentDaySlug = specialsData?.currentDay || "monday";
-  const dayNameEn = dayTranslations[currentDaySlug]?.en || "Today";
-  const dayNameTa = dayTranslations[currentDaySlug]?.ta || "இன்று";
-
-  const dailySpecialItems = useMemo(() => {
-    if (!specialsData?.todaySpecials) return [];
-    const targetMeal = activeMealFilter !== "all" ? activeMealFilter : currentMeal.slug;
-    const list = specialsData.todaySpecials[targetMeal] || [];
-    if (list.length === 0 && activeMealFilter === "all") {
-      const allToday = [];
-      Object.values(specialsData.todaySpecials).forEach((arr) => {
-        if (Array.isArray(arr)) {
-          arr.forEach((it) => {
-            if (!allToday.some((x) => x.id === it.id)) allToday.push(it);
-          });
-        }
-      });
-      return allToday.map((it) => ({ ...it, is_special: true }));
-    }
-    return list.map((it) => ({ ...it, is_special: true }));
-  }, [specialsData, activeMealFilter, currentMeal]);
-
-  // Featured rows (Chef Recommended & Most Popular) strictly based on current IST time slot
-  const chefItems = useMemo(() => currentISTItems.filter((i) => i.is_chef_recommended), [currentISTItems]);
+  // Featured row (Most Popular) strictly based on current IST time slot
   const popularItems = useMemo(() => currentISTItems.filter((i) => i.is_popular), [currentISTItems]);
 
   const isSearching = query.length > 0;
@@ -234,38 +202,18 @@ export default function Menu() {
               activeSession={activeMealFilter !== "all" ? activeMealFilter : currentMeal.slug}
             />
 
-            {/* Daily Specials for the day */}
-            {dailySpecialItems.length > 0 && (
+            {/* Most Popular */}
+            {popularItems.length > 0 && (
               <FeaturedRow
-                title={
-                  language === "ta"
-                    ? `🌟 ${dayNameTa} சிறப்பு உணவுகள்`
-                    : `🌟 ${dayNameEn}'s Special Dishes`
-                }
-                icon={<GiStarFormation className="text-[#D4AF37]" size={22} />}
-                items={dailySpecialItems}
+                title={t("mostPopular", language)}
+                icon={<GiStarFormation className="text-gold-light" size={22} />}
+                items={popularItems}
                 onItemClick={setSelectedItem}
               />
             )}
 
-            {/* Chef Recommended */}
-            <FeaturedRow
-              title={t("todaysSpecials", language)}
-              icon={<GiChefToque className="text-gold-light" size={22} />}
-              items={chefItems}
-              onItemClick={setSelectedItem}
-            />
-
-            {/* Most Popular */}
-            <FeaturedRow
-              title={t("mostPopular", language)}
-              icon={<GiStarFormation className="text-gold-light" size={22} />}
-              items={popularItems}
-              onItemClick={setSelectedItem}
-            />
-
             {/* Active Meal Section Header */}
-            <section className="mt-10">
+            <section className="mt-8">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#B8860B]/25 pb-3 mb-5">
                 <div className="flex items-center gap-2.5">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FAF6EC] border border-[#B8860B]/30 text-lg shadow-xs">
@@ -302,19 +250,38 @@ export default function Menu() {
         )}
 
         {!loading && !error && isSearching && (
-          <section className="mt-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-xl font-semibold text-cream">
-                {t("resultsFor", language, search)}
-              </h2>
-              <span className="text-xs text-cream/40">
-                {filteredItems.length} {t("found", language)}
-              </span>
+          <section className="mt-6">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-4 p-3 rounded-2xl bg-surface/80 border border-[#B8860B]/25 shadow-xs">
+              <div>
+                <h2 className="font-display text-lg sm:text-xl font-bold text-[#8B0000]">
+                  {t("resultsFor", language, search)}
+                </h2>
+                <p className="text-xs text-[#8B6914] font-semibold mt-0.5">
+                  {filteredItems.length} {t("found", language)} {language === "ta" ? "உணவுகள்" : "dishes found across menu"}
+                </p>
+              </div>
+              <button
+                onClick={() => setSearch("")}
+                className="text-xs font-bold text-[#A6291A] hover:text-[#7A150A] px-3 py-1.5 rounded-full bg-[#FAF0D7] border border-[#B8860B]/40 transition-colors shadow-2xs cursor-pointer"
+              >
+                {language === "ta" ? "தேடலை நீக்கு ✕" : "Clear Search ✕"}
+              </button>
             </div>
             {filteredItems.length === 0 ? (
-              <div className="text-center py-16 text-cream/50">
-                <p className="font-display text-lg">{t("noDishesFound", language)}</p>
-                <p className="text-sm mt-1">{t("tryDifferent", language)}</p>
+              <div className="text-center py-12 px-4 rounded-2xl border border-dashed border-[#B8860B]/35 bg-surface/50 max-w-lg mx-auto">
+                <p className="font-display text-lg font-bold text-[#8B0000]">{t("noDishesFound", language)}</p>
+                <p className="text-xs sm:text-sm mt-1 text-[#4A3825]">{t("tryDifferent", language)}</p>
+                <div className="mt-4 flex flex-wrap justify-center gap-1.5">
+                  {["Dosa", "Idly", "Poori", "Parotta", "Meals", "Coffee", "Biryani"].map((term) => (
+                    <button
+                      key={term}
+                      onClick={() => setSearch(term)}
+                      className="px-2.5 py-1 rounded-full bg-white border border-[#B8860B]/30 text-xs font-semibold text-[#8B6914] hover:border-[#A6291A] hover:text-[#A6291A] shadow-2xs cursor-pointer"
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -335,12 +302,20 @@ export default function Menu() {
           <p className="font-display gold-text text-lg font-semibold">
             {settings?.restaurant_name || "Amutha Surabi Restaurant"}
           </p>
-          <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-cream/70 max-w-xl mx-auto">
+          <div className="mt-4 flex flex-col sm:flex-row justify-center items-center gap-3 text-xs text-cream/75 max-w-2xl mx-auto">
             {(branchAddresses[language] || branchAddresses.en).map((b, idx) => (
-              <span key={idx} className="inline-flex items-center gap-1.5">
-                <span className="font-bold text-[#8B6914] uppercase text-[10px]">{b.title}:</span>
-                <span>{b.address}</span>
-              </span>
+              <a
+                key={idx}
+                href={b.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface/70 border border-[#B8860B]/25 hover:border-[#B8860B]/60 hover:bg-surface text-left transition-all shadow-2xs group"
+              >
+                <span className="font-bold text-[#8B1E13] uppercase text-[10px] bg-[#FAF0D7] px-1.5 py-0.5 rounded border border-[#B8860B]/30">
+                  {b.title}
+                </span>
+                <span className="group-hover:text-[#A6291A]">{b.address}</span>
+              </a>
             ))}
           </div>
           {settings?.opening_hours && <p className="text-xs text-cream/40 mt-2">{settings.opening_hours}</p>}
