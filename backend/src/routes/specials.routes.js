@@ -16,11 +16,26 @@ function getCurrentISTDay() {
   return DAYS_OF_WEEK[istDate.getUTCDay()];
 }
 
+// Return a lightweight image URL instead of the raw base64 data (which can be MBs per item)
+function withImageUrl(row) {
+  const { has_image, ...rest } = row;
+  return { ...rest, image: has_image ? `/api/items/${row.id}/image` : "" };
+}
+
+const HAS_IMAGE_SQL = "(CASE WHEN i.image != '' AND i.image IS NOT NULL THEN 1 ELSE 0 END) AS has_image";
+
 // GET /api/specials - public endpoint
 router.get("/", async (req, res, next) => {
   try {
     const currentDay = getCurrentISTDay();
     const currentMeal = getCurrentMealTime();
+
+    const cacheKey = `specials_${currentDay}_${currentMeal.slug}`;
+    const cached = getCached(cacheKey);
+    if (cached) {
+      res.setHeader("X-Cache", "HIT");
+      return res.json(cached);
+    }
 
     // Fetch all configured specials with item details
     const specialsResult = await query(`
@@ -34,7 +49,7 @@ router.get("/", async (req, res, next) => {
         i.name,
         i.description,
         i.price,
-        i.image,
+        ${HAS_IMAGE_SQL},
         i.is_available,
         i.is_popular,
         i.is_chef_recommended,
@@ -68,7 +83,7 @@ router.get("/", async (req, res, next) => {
       const day = (row.day_of_week || "").toLowerCase();
       const meal = row.meal_slug || "all";
       if (specialsByDay[day] && specialsByDay[day][meal]) {
-        specialsByDay[day][meal].push(row);
+        specialsByDay[day][meal].push(withImageUrl(row));
       }
     }
 
@@ -79,7 +94,10 @@ router.get("/", async (req, res, next) => {
     const mealSlots = ["breakfast", "lunch", "evening-snacks", "dinner"];
     const allItemsResult = await query(`
       SELECT
-        i.*,
+        i.id, i.category_id, i.name, i.description, i.price, i.is_available,
+        i.is_popular, i.is_chef_recommended, i.is_new, i.sort_order,
+        i.is_breakfast, i.is_lunch, i.is_snacks, i.is_dinner,
+        ${HAS_IMAGE_SQL},
         c.name AS category_name,
         c.slug AS category_slug
       FROM items i
@@ -111,7 +129,7 @@ router.get("/", async (req, res, next) => {
           for (let k = 0; k < 3 && k < pool.length; k++) {
             const idx = (dayIndex * 2 + k * step) % pool.length;
             if (!selected.some((item) => item.id === pool[idx].id)) {
-              selected.push({ ...pool[idx], is_auto_special: true });
+              selected.push({ ...withImageUrl(pool[idx]), is_auto_special: true });
             }
           }
         }
@@ -119,12 +137,16 @@ router.get("/", async (req, res, next) => {
       }
     }
 
-    res.json({
+    const payload = {
       currentDay,
       currentMeal: currentMeal.slug,
       specialsByDay,
       todaySpecials,
-    });
+    };
+    setCached(cacheKey, payload, 3600); // Keyed by day + meal; invalidated on specials/item edits
+
+    res.setHeader("X-Cache", "MISS");
+    res.json(payload);
   } catch (err) {
     next(err);
   }

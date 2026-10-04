@@ -173,6 +173,7 @@ router.post("/", requireAuth, upload.single("image"), async (req, res, next) => 
     );
 
     invalidateCache("items");
+    invalidateCache("specials");
     res.status(201).json(serializeItem(rows[0]));
   } catch (error) {
     next(error);
@@ -236,6 +237,7 @@ router.put("/:id", requireAuth, upload.single("image"), async (req, res, next) =
     );
 
     invalidateCache("items");
+    invalidateCache("specials");
     res.json(serializeItem(rows[0]));
   } catch (error) {
     next(error);
@@ -261,6 +263,7 @@ router.patch("/:id/meals", requireAuth, async (req, res, next) => {
       ]
     );
     invalidateCache("items");
+    invalidateCache("specials");
     res.json(serializeItem(rows[0]));
   } catch (error) {
     next(error);
@@ -275,6 +278,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     if (item.image) fs.unlink(path.join(uploadsDir, path.basename(item.image)), () => {});
     await query("DELETE FROM items WHERE id = $1", [req.params.id]);
     invalidateCache("items");
+    invalidateCache("specials");
     res.json({ success: true });
   } catch (error) {
     next(error);
@@ -290,6 +294,7 @@ router.patch("/:id/availability", requireAuth, async (req, res, next) => {
     );
     if (!rows[0]) return res.status(404).json({ error: "Item not found" });
     invalidateCache("items");
+    invalidateCache("specials");
     res.json(serializeItem(rows[0]));
   } catch (error) {
     next(error);
@@ -308,6 +313,7 @@ router.post("/bulk-availability", requireAuth, async (req, res, next) => {
       ids,
     ]);
     invalidateCache("items");
+    invalidateCache("specials");
     res.json({ success: true, updated: ids.length });
   } catch (error) {
     next(error);
@@ -331,6 +337,7 @@ router.post("/move-category", requireAuth, async (req, res, next) => {
     });
 
     invalidateCache("items");
+    invalidateCache("specials");
     res.json({ success: true, moved: ids.length });
   } catch (error) {
     next(error);

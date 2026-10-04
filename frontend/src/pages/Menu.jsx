@@ -32,7 +32,6 @@ export default function Menu() {
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [settings, setSettings] = useState(null);
-  const [specialsData, setSpecialsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -61,17 +60,15 @@ export default function Menu() {
     let cancelled = false;
     (async () => {
       try {
-        const [cats, its, settingsData, specialsRes] = await Promise.all([
+        const [cats, its, settingsData] = await Promise.all([
           api.getCategories(),
           api.getItems(),
           api.getSettings(),
-          api.getSpecials().catch(() => null),
         ]);
         if (cancelled) return;
         setCategories(cats);
         setItems(its);
         setSettings(settingsData);
-        setSpecialsData(specialsRes);
       } catch (e) {
         if (!cancelled) setError(e.message);
       } finally {
@@ -105,8 +102,8 @@ export default function Menu() {
 
   const filteredItems = useMemo(() => {
     if (!query) return mealItems;
-    return searchMenuItems(items, query, language, categories);
-  }, [items, query, language, categories, mealItems]);
+    return searchMenuItems(items, query, language);
+  }, [items, query, language, mealItems]);
 
   // Items strictly for the current real-time IST meal slot (used for live featured sections)
   const currentISTItems = useMemo(() => {
